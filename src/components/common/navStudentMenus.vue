@@ -64,7 +64,7 @@
 						this.$router.push('/student/Myproject');
 						break;	
 					case '4':
-						this.$router.push('/student/Myproject');
+						this.$router.push('/student/Myparticipation');
 						break;
 					case '5':
 						this.$router.push('/student/Mytest');

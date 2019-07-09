@@ -16,6 +16,7 @@ import MyStudentMajor from '@/components/Students/MyStudentMajor.vue'
 import MyStudentMymessage from '@/components/Students/Mymessage.vue'
 import MyStudentMyproject from '@/components/Students/Myproject.vue'
 import MyStudentMytest from '@/components/Students/Mytest.vue'
+import MyStudentMyparticipation from '@/components/Students/Myparticipation.vue'
 
 import Logined from '@/components/Students/Login.vue'
 
@@ -90,6 +91,11 @@ const routes = [
 				path: 'Mytest',
 				component: MyStudentMytest,
 				name: '学生我的考试'
+			},
+			{
+				path: 'Myparticipation',
+				component: MyStudentMyparticipation,
+				name: '学生我的参与'
 			}
 		]
 	},

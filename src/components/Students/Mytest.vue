@@ -22,7 +22,9 @@
                         <el-table-column prop="testName" label="考试名称" width="180"></el-table-column>
                         <el-table-column prop="testNumber" label="满分"></el-table-column>
                         <el-table-column prop="detail" label="详情"></el-table-column>
-                        <el-table-column prop="handle" label="操作"></el-table-column>
+                        <el-table-column prop="detail" label="操作">
+                              <i class="el-icon-view"></i><el-tag v-on:click="edit" size="medium">查看试卷</el-tag>                           
+                        </el-table-column>
                     </el-table>
 		        </el-collapse>
             </el-tab-pane>
@@ -37,7 +39,9 @@
                         <el-table-column prop="testName" label="考试名称" width="180"></el-table-column>
                         <el-table-column prop="testNumber" label="满分"></el-table-column>
                         <el-table-column prop="detail" label="详情"></el-table-column>
-                        <el-table-column prop="handle" label="操作"></el-table-column>
+                        <el-table-column prop="detail" label="操作">
+                              <i class="el-icon-view"></i><el-tag v-on:click="edit" size="medium">查看试卷</el-tag>                           
+                        </el-table-column>
                     </el-table>
 		        </el-collapse>
             </el-tab-pane>
@@ -52,7 +56,9 @@
                         <el-table-column prop="testName" label="考试名称" width="180"></el-table-column>
                         <el-table-column prop="testNumber" label="满分"></el-table-column>
                         <el-table-column prop="detail" label="详情"></el-table-column>
-                        <el-table-column prop="handle" label="操作"></el-table-column>
+                        <el-table-column prop="detail" label="操作">
+                              <i class="el-icon-view"></i><el-tag v-on:click="edit" size="medium">查看试卷</el-tag>                           
+                        </el-table-column>
                     </el-table>
 		        </el-collapse>
             </el-tab-pane>
@@ -67,7 +73,9 @@
                         <el-table-column prop="testName" label="考试名称" width="180"></el-table-column>
                         <el-table-column prop="testNumber" label="满分"></el-table-column>
                         <el-table-column prop="detail" label="详情"></el-table-column>
-                        <el-table-column prop="handle" label="操作"></el-table-column>
+                        <el-table-column prop="detail" label="操作">
+                              <i class="el-icon-view"></i><el-tag v-on:click="edit" size="medium">查看试卷</el-tag>                           
+                        </el-table-column>
                     </el-table>
 		        </el-collapse>
             </el-tab-pane>
