@@ -4,7 +4,7 @@
 			<el-header>
 				<nav-student-menus></nav-student-menus>
 			</el-header>
-			<el-main>
+			<el-main style="padding:0;">
 				<router-view></router-view><!--我的专业-->
 			</el-main>
 			<el-footer>
@@ -79,13 +79,7 @@
 		line-height: 200px;
 	}
 	
-	.el-main {
-		/*background-color: #E9EEF3;*/
-		padding: 0;
-		color: #333;
-		/*text-align: center;
-		line-height: 160px;*/
-	}
+	
 	
 	body>.el-container {
 		margin-bottom: 40px;

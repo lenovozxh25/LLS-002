@@ -49,4 +49,5 @@ ul{
   .el-tabs__nav{
         margin-left: 100px;
     }
+
 </style>
