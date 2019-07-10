@@ -24,8 +24,9 @@
 			<el-col :span="4">
 				<div class="grid-content bg-purple">
 					<ul>
-						<li v-on:click="mymessage" >
-							<span style="cursor:pointer;color:#A3A3A4;font-size:14px;">
+						<li>
+							<i v-on:click="mynews" class="el-icon-message-solid" style="cursor:pointer"></i>
+							<span  v-on:click="mymessage" style="cursor:pointer;color:#A3A3A4;font-size:14px;">
 								Student
 							</span>
 							<span style="cursor:pointer;color:#A3A3A4;font-size:14px;margin-left:15px">
@@ -73,6 +74,9 @@
 			},
 			mymessage(){
 				this.$router.push('/student/Mymessage');
+			},
+			mynews(){
+				this.$router.push('/student/Mynews');
 			}
 		}
 	}

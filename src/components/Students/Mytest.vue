@@ -80,36 +80,7 @@
 		        </el-collapse>
             </el-tab-pane>
         </el-tabs>
-		<!-- <el-collapse v-model="activeNames" >
-			 <p class="major" style="height:50px;line-height:50px;overflow:hidden">
-				 <span class="redSquare"></span>
-			     <span style="margin-top:20px;">课程章节</span>
-				 <span style="float:right"><el-button type="primary">查看我的作业列表</el-button></span>
-                 <span style="float:right"><el-button type="primary" class="z_p_test">开始考试</el-button></span>	 
-			 </p>
-			<el-collapse-item title="第一阶段" name="1">
-				<div>
-					<a href="#">WEB前端基础(HTML+CSS)</a>
-				</div>
-				<div>
-					<a href="#">操作系统应用(Linux)</a>
-				</div>
-				<div>
-					<a href="#">编程语言基础(PHP)</a>
-				</div>
-			</el-collapse-item>
-            <el-collapse-item title="第二阶段" name="2">
-				<div>
-					<a href="#">WEB前端基础(HTML+CSS)</a>
-				</div>
-				<div>
-					<a href="#">操作系统应用(Linux)</a>
-				</div>
-				<div>
-					<a href="#">编程语言基础(PHP)</a>
-				</div>
-			</el-collapse-item>
-		</el-collapse> -->
+		
 	</div>
 </template>
 
@@ -153,7 +124,10 @@
             },
             handleClick(tab, event) {
                 console.log(tab, event);
-            }
+			},
+			edit(){
+				console.log("1");
+			}
 		}
 	}
 </script>

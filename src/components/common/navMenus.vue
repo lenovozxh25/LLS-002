@@ -93,7 +93,7 @@
 						this.$router.push('/exam');
 						break;
 					case '4':
-						this.$router.push('/students');
+						this.$router.push('/teather/students');
 						break;
 					case '5':
 						this.$router.push('/myContribute');
