@@ -56,15 +56,10 @@
 </script>
 
 <style scoped>
-	 
+    @import url("//unpkg.com/element-ui@2.10.1/lib/theme-chalk/index.css");
 	
 	ul li{list-style: none;}
-	#myStuMajor .el-collapse-item .el-collapse-item__header {
-		background: skyblue;
-		padding-left: 50px;
-		color: white;
-		font-size: 23px;
-	}
+	
 	
 	#myStuMajor a {
 		color: #6c6868;
@@ -79,14 +74,7 @@
 		text-align: left;
 		/*line-height: 30px;*/
 	}
-	#myStuMajor .el-collapse{
-		width: 1100px;
-		margin: auto;
-	}
-	#myStuMajor .el-collapse-item__content {
-		padding-left: 50px;
-		padding-top: 20px;
-	}
+	
 	#myStuMajor .mahorTitle{
 		width: 100%;
 		height: 144px;

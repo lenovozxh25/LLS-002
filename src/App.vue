@@ -31,4 +31,22 @@ ul{
 	margin: 0;
 	padding: 0;
 }
+/* 各个页面可复用的样式 */
+#myStuMajor .el-collapse-item .el-collapse-item__header {
+		background: skyblue;
+		padding-left: 50px;
+		color: white;
+		font-size: 23px;
+	}
+  #myStuMajor .el-collapse{
+		width: 1100px;
+		margin: auto;
+	}
+	#myStuMajor .el-collapse-item__content {
+		padding-left: 50px;
+		padding-top: 20px;
+	}
+  .el-tabs__nav{
+        margin-left: 100px;
+    }
 </style>
