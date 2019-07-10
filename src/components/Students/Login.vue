@@ -42,7 +42,7 @@
 	};
 </script>
 
-<style>
+<style scoped>
 	.h-section {
 		width: 100%;
 		overflow: hidden;

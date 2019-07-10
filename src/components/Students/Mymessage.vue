@@ -173,7 +173,7 @@
 
 </script>
 
-<style>
+<style scoped>
 
    .z_top{
        width: 100%;

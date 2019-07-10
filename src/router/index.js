@@ -18,6 +18,8 @@ import MyStudentMyproject from '@/components/Students/Myproject.vue'
 import MyStudentMytest from '@/components/Students/Mytest.vue'
 import MyStudentMyparticipation from '@/components/Students/Myparticipation.vue'
 import MyStudentMynews from '@/components/Students/Mynews.vue'
+import MyStudentMygrowup from '@/components/Students/Mygrowup.vue'
+
 
 import Logined from '@/components/Students/Login.vue'
 
@@ -76,32 +78,37 @@ const routes = [
 		children: [{
 				path: 'MyStudentMajor',
 				component: MyStudentMajor,
-				name: '学生我的专业'
+				name: '学生我的专业',
 			},
 			{
 				path: 'Myproject',
 				component: MyStudentMyproject,
-				name: '学生我的课程'
+				name: '学生我的课程',
 			},
 			{
 				path: 'Mymessage',
 				component: MyStudentMymessage,
-				name: '学生我的信息'
+				name: '学生我的信息',
 			},
 			{
 				path: 'Mytest',
 				component: MyStudentMytest,
-				name: '学生我的考试'
+				name: '学生我的考试',
 			},
 			{
 				path: 'Myparticipation',
 				component: MyStudentMyparticipation,
-				name: '学生我的参与'
+				name: '学生我的参与',
 			},
 			{
 				path: 'Mynews',
 				component: MyStudentMynews,
-				name: '学生消息中心'
+				name: '学生消息中心',
+			},
+			{
+				path: 'Mygrowup',
+				component: MyStudentMygrowup,
+				name: '学生我的成长',
 			}
 		]
 	},

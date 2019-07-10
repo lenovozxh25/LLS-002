@@ -32,10 +32,7 @@
 </script>
 
 <style>
-	* {
-		margin: 0;
-		padding: 0;
-	}
+	
 	
 	a {
 		text-decoration: none;
@@ -43,7 +40,7 @@
 	.el-collapse{
 		min-height: 300px;
 	}
-	/*@import url("//unpkg.com/element-ui@2.9.1/lib/theme-chalk/index.css");*/
+	@import url("//unpkg.com/element-ui@2.9.1/lib/theme-chalk/index.css");
 	
 	.el-header,
 	.el-footer {

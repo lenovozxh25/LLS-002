@@ -1,5 +1,4 @@
 <template>
-	
 	<div id="myStuMajor">
 		<div class="mahorTitle">
 			<div>
@@ -56,11 +55,9 @@
 	}
 </script>
 
-<style>
-	*{
-		margin: 0;
-		padding: 0;
-	}
+<style scoped>
+	 
+	
 	ul li{list-style: none;}
 	#myStuMajor .el-collapse-item .el-collapse-item__header {
 		background: skyblue;
@@ -124,6 +121,8 @@
 	    color:rgba(64,64,64,1);
 	    margin-bottom: 10px;
 	}
+
+
 	.top{
 		margin: 30px 0;
 	}
