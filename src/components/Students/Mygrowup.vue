@@ -196,14 +196,21 @@
         width: 44px;
         height: 49px;
     }
+    #myStuMajor .mahorTitle .div2 .gup_d1>div>p{
+        margin: 0;
+        padding: 0;
+    }
     #myStuMajor .mahorTitle .div2 .gup_d1>div>p:first-child{
-            height: 17px;
+            height: 20px;
             line-height: 20px;
             color: #fff;
             font-size: 12px;
             padding-left: 4px;
+            text-align: center;
     }
     #myStuMajor .mahorTitle .div2 .gup_d1>div>p:last-child{
+            height: 20px;
+            line-height: 20px;
             text-align: center;
             color: #fff;
             font-size: 12px;

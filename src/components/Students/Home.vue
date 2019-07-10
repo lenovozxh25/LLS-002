@@ -7,7 +7,7 @@
 			<el-main style="padding:0;">
 				<router-view></router-view><!--我的专业-->
 			</el-main>
-			<el-footer>
+			<el-footer style="padding:0;">
 				<copy-right></copy-right>
 			</el-footer>
 		</el-container>
