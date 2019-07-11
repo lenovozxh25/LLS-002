@@ -28,6 +28,7 @@ import Logined from '@/components/Students/Login.vue'
 Vue.use(VueRouter)
 
 const routes = [
+	{path:'/',component:Logined},
 	{
 		path: "/teacher",
 		component: THome,
