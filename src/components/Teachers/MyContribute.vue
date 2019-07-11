@@ -6,10 +6,10 @@
 					我的贡献
 				</div>
 				<ul>
-					<li>多维度统计wangyan</li>
-					<li>全面分析111</li>
-					<li>综合了解自己行业竞争力张兴海</li>
-					<li>ttttttttt</li>
+					<li>多维度统计</li>
+					<li>全面分析</li>
+					<li>综合了解自己行业竞争力</li>
+					
 				</ul>
 			</div>
 		</div>
