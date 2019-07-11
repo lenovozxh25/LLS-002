@@ -298,7 +298,7 @@
    
     .el-form-item{
         width:50%;
-        margin: 30px 140px;
+        margin: 20px auto;
     }
     
   

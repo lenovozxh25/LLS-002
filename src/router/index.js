@@ -21,7 +21,7 @@ import MyStudentMynews from '@/components/Students/Mynews.vue'
 import MyStudentMygrowup from '@/components/Students/Mygrowup.vue'
 
 
-import Logined from '@/components/Students/Login.vue'
+import Logined from '@/components/common/Login.vue'
 
 
 
@@ -30,7 +30,7 @@ Vue.use(VueRouter)
 const routes = [
 	{path:'/',component:Logined},
 	{
-		path: "/teacher",
+		path: "/teather",
 		component: THome,
 		children: [{
 				path: 'exam',

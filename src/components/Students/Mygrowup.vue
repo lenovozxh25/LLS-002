@@ -1,6 +1,6 @@
 <template>
 	
-	<div id="myStuMajor" style="min-height:500px;">
+	<div id="myStuMajor">
 		<div class="mahorTitle">
             <!-- 学期定位 -->
             <div class="personage">
@@ -107,8 +107,13 @@
 
 <style scoped>
 	
-	/* ul li{list-style: none;} */
-
+	ul li{list-style: none;}
+	#myStuMajor .el-collapse-item .el-collapse-item__header {
+		background: skyblue;
+		padding-left: 50px;
+		color: white;
+		font-size: 23px;
+	}
 	
 	#myStuMajor a {
 		color: #6c6868;
@@ -119,7 +124,10 @@
 		color: skyblue;
 	}
 	
-	
+	#myStuMajor .el-main {
+		text-align: left;
+		/*line-height: 30px;*/
+	}
 	#myStuMajor .el-collapse{
 		width: 1100px;
 		margin: auto;
@@ -196,21 +204,14 @@
         width: 44px;
         height: 49px;
     }
-    #myStuMajor .mahorTitle .div2 .gup_d1>div>p{
-        margin: 0;
-        padding: 0;
-    }
     #myStuMajor .mahorTitle .div2 .gup_d1>div>p:first-child{
-            height: 20px;
+            height: 17px;
             line-height: 20px;
             color: #fff;
             font-size: 12px;
             padding-left: 4px;
-            text-align: center;
     }
     #myStuMajor .mahorTitle .div2 .gup_d1>div>p:last-child{
-            height: 20px;
-            line-height: 20px;
             text-align: center;
             color: #fff;
             font-size: 12px;
