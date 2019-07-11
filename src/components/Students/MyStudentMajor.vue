@@ -7,7 +7,7 @@
 				</div>
 				<ul>
 					<li>
-						共<span>5</span>个学期
+						共<span>{{a}}</span>个学期
 					</li>
 					<li>
 						<span>5</span>门课程
@@ -44,13 +44,17 @@
 		name: 'myStuMajor',
 		data() {
 			return {
-				activeNames: ['1', '2', '3', '4', '5']
+				activeNames: ['1', '2', '3', '4', '5'],
+				a:"123"
 			};
 		},
 		methods: {
 			handleChange(val) {
 				console.log(val);
 			}
+		},
+		created(){
+			this.a="zhangxinghia"
 		}
 	}
 </script>
