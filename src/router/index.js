@@ -30,7 +30,7 @@ Vue.use(VueRouter)
 const routes = [
 	{path:'/',component:Logined},
 	{
-		path: "/teather",
+		path: "/teacher",
 		component: THome,
 		children: [{
 				path: 'exam',
