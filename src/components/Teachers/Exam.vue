@@ -20,7 +20,7 @@
 						<span>输入试卷名称：</span>
 						<el-input v-model="input" placeholder="请输入内容"></el-input>
 						<template>
-							<span>选择班级：</span>
+							<span>选择班级11：</span>
 							<el-select v-model="value" placeholder="请选择班级(必选)">
 								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 								</el-option>
