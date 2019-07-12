@@ -112,13 +112,26 @@ export default {
   methods: {
     // 执行用户登录操作
     dologin() {
+      var app = this;
       this.$http.post("/permit/login", {
         loginName: this.loginName,
         password: this.password,
         validCode:'123456'
       }).then(function(response){
-          console.log(response)
+          console.log(response);
+          if(response.data=="success"){
+            //   app.$http.get("/permit/user/currentUserRoleFlag").then(function(res){
+            //       console.log(res);
+            //   })
+            //   console.log(app.$http.get);
+            
+              app.$http.get("/permit/user/currentUserRoleFlag").then(function(response) {
+                   console.log(response);
+              });
+            // app.$router.push('/teacher/myMajor');
+          }
       });
+      
     }
   }
 };
