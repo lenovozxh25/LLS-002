@@ -84,19 +84,19 @@
 				debugger
 				switch(key) {
 					case '1':
-						this.$router.push('/myMajor');
+						this.$router.push('/teacher/myMajor');
 						break;
 					case '2':
-						this.$router.push('/myCourse');
+						this.$router.push('/teacher/myCourse');
 						break;
 					case '3':
-						this.$router.push('/exam');
+						this.$router.push('/teacher/exam');
 						break;
 					case '4':
-						this.$router.push('/teather/students');
+						this.$router.push('/teacher/students');
 						break;
 					case '5':
-						this.$router.push('/myContribute');
+						this.$router.push('/teacher/myContribute');
 						break;
 				}
 			}
