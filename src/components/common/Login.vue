@@ -1,11 +1,10 @@
 <template>
   <div class="h-content">
     <p class="warningBox">
- 
       建议使用
       <a href="https://www.google.cn/intl/zh-CN/chrome/" target="_blank">Chrome</a>
+
       浏览器
-    
     </p>
     <div class="h-setting">
       <div class="h-tnav">
@@ -23,24 +22,48 @@
           <div id="h-form" for="user">
             <div class="h-user">
               <span class="h-colour">
-				  <svg class="icon" width="20px" height="20.00px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#333333" d="M592.896 589.141333c96.938667-34.816 166.570667-131.072 166.570667-244.053333 0-142.677333-110.933333-258.048-247.466667-258.048-136.533333 0-247.466667 115.712-247.466667 258.048 0 112.981333 69.632 208.896 166.570667 244.053333-162.816 40.96-284.672 202.069333-284.672 383.658667L877.226667 972.8C877.226667 791.210667 755.712 630.101333 592.896 589.141333L592.896 589.141333zM592.896 589.141333" /></svg>
-			  </span>
-              <input type="text" for="loginname" id="loginname" autocomplete="off" placeholder="邮箱">
+                <svg
+                  class="icon"
+                  width="20px"
+                  height="20.00px"
+                  viewBox="0 0 1024 1024"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="#333333"
+                    d="M592.896 589.141333c96.938667-34.816 166.570667-131.072 166.570667-244.053333 0-142.677333-110.933333-258.048-247.466667-258.048-136.533333 0-247.466667 115.712-247.466667 258.048 0 112.981333 69.632 208.896 166.570667 244.053333-162.816 40.96-284.672 202.069333-284.672 383.658667L877.226667 972.8C877.226667 791.210667 755.712 630.101333 592.896 589.141333L592.896 589.141333zM592.896 589.141333"
+                  ></path>
+                </svg>
+              </span>
+              <input type="text" v-model="loginName" for="loginname" id="loginname" autocomplete="off" placeholder="邮箱">
             </div>
             <div class="h-user2">
               <span class="h-colour">
-				  <svg class="icon" width="20px" height="20.00px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path fill="#333333" d="M592.896 589.141333c96.938667-34.816 166.570667-131.072 166.570667-244.053333 0-142.677333-110.933333-258.048-247.466667-258.048-136.533333 0-247.466667 115.712-247.466667 258.048 0 112.981333 69.632 208.896 166.570667 244.053333-162.816 40.96-284.672 202.069333-284.672 383.658667L877.226667 972.8C877.226667 791.210667 755.712 630.101333 592.896 589.141333L592.896 589.141333zM592.896 589.141333" /></svg>
-				  
-			  </span>
+                <svg
+                  class="icon"
+                  width="20px"
+                  height="20.00px"
+                  viewBox="0 0 1024 1024"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="#333333"
+                    d="M592.896 589.141333c96.938667-34.816 166.570667-131.072 166.570667-244.053333 0-142.677333-110.933333-258.048-247.466667-258.048-136.533333 0-247.466667 115.712-247.466667 258.048 0 112.981333 69.632 208.896 166.570667 244.053333-162.816 40.96-284.672 202.069333-284.672 383.658667L877.226667 972.8C877.226667 791.210667 755.712 630.101333 592.896 589.141333L592.896 589.141333zM592.896 589.141333"
+                  ></path>
+                </svg>
+              </span>
               <input
                 type="password"
                 for="password"
                 id="password"
                 autocomplete="off"
                 placeholder="密码"
+                v-model="password"
               >
             </div>
-            <div class="h-user1">
+            <!-- <div class="h-user1">
               <div class="h-test h-clear" id="h-clear1">
                 <input class="h-yanz" for="foryanz" autocomplete="off" placeholder="点击图片替换验证码">
                 <img
@@ -49,8 +72,8 @@
                   alt="验证码"
                 >
               </div>
-            </div>
-            <button class="h-entry button commonButton" id="h-entry">马上登录</button>
+            </div>-->
+            <button @click="dologin" class="h-entry button commonButton" id="h-entry">马上登录</button>
           </div>
           <div class="h-retrieve">
             <p class="fl">
@@ -80,33 +103,52 @@
 <script>
 export default {
   name: "login",
-  props: ["id"]
+  data: function() {
+    return {
+      loginName: "",
+      password: ""
+    };
+  },
+  methods: {
+    // 执行用户登录操作
+    dologin() {
+      this.$http.post("/permit/login", {
+        loginName: this.loginName,
+        password: this.password,
+        validCode:'zkss',
+        remember:false
+      }).then(function(response){
+          console.log(response)
+      });
+    }
+  }
 };
 </script>
 
 <style scoped>
-
-*{
-	font-family: "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", "Hiragino Sans GB", tahoma, Arial, sans-serif!important;
+* {
+  font-family: "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", "Hiragino Sans GB",
+    tahoma, Arial, sans-serif !important;
 }
-input{
-	outline:none;
+input {
+  outline: none;
 }
 .fl {
-    float: left;
+  float: left;
 }
-.fr{
-	float: right;
+.fr {
+  float: right;
 }
 .h-content {
-    position: relative;
+  position: relative;
 }
-.h-content, .h-setting {
-    min-height: 600px;
-    min-width: 960px;
-    height: 100%;
-	width: 100%;
-    overflow: hidden;
+.h-content,
+.h-setting {
+  min-height: 600px;
+  min-width: 960px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 p.warningBox {
   position: absolute;
@@ -125,278 +167,276 @@ p.warningBox a {
 }
 
 .h-content .h-setting {
-    background: url(../../images/06denglu.jpg) no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    overflow: hidden;
+  background: url(../../images/06denglu.jpg) no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.h-content, .h-setting {
-    min-height: 600px;
-    min-width: 960px;
-    height: 100%;
-    overflow: hidden;
+.h-content,
+.h-setting {
+  min-height: 600px;
+  min-width: 960px;
+  height: 100%;
+  overflow: hidden;
 }
 .h-tnav {
-    width: 100%;
-    padding-top: 70px;
+  width: 100%;
+  padding-top: 70px;
 }
 .h-tnav .h-logo {
-    width: 240px;
-    margin: 0 auto;
+  width: 240px;
+  margin: 0 auto;
 }
 .h-tnav .h-logo .h-beij {
-    width: 240px;
-    height: 70px;
-    background: url('../../images/lenovo-learning.png') no-repeat center -42px;
-    background-size: 90%;
-    margin-top: 10px;
+  width: 240px;
+  height: 70px;
+  background: url("../../images/lenovo-learning.png") no-repeat center -42px;
+  background-size: 90%;
+  margin-top: 10px;
 }
 .h-tnav .h-logo p {
-    font-family: "\5FAE\8F6F\96C5\9ED1", "Hiragino Sans GB";
-    color: #FFFFFF;
-    text-align: center;
-    margin-top: -32px;
-    font-size: 16px;
-    opacity: 0.8;
-    /* font-weight: 100; */
+  font-family: "\5FAE\8F6F\96C5\9ED1", "Hiragino Sans GB";
+  color: #ffffff;
+  text-align: center;
+  margin-top: -32px;
+  font-size: 16px;
+  opacity: 0.8;
+  /* font-weight: 100; */
 }
 .h-section {
-    width: 100%;
-    padding-top: 24px;
-    overflow: hidden;
+  width: 100%;
+  padding-top: 24px;
+  overflow: hidden;
 }
 .h-section .h-login {
-    width: 388px;
-    height: 320px;
-    background-color: #f2f7fa;
-    margin: 0 auto;
-    padding-top: 31px;
+  width: 388px;
+  height: 320px;
+  background-color: #f2f7fa;
+  margin: 0 auto;
+  padding-top: 31px;
 }
 .h-section .h-login .h-numbe {
-    text-align: center;
-    color: #606060;
-    font-weight: 500;
-    font-size: 17px;
+  text-align: center;
+  color: #606060;
+  font-weight: 500;
+  font-size: 17px;
 }
 .h-section .h-login .h-point {
-    width: 100%;
-    font-size: 12px;
-    color: #e2231b;
-    height: 8px;
-    line-height: 12px;
-    text-indent: 56px;
-    padding-top: 24px;
+  width: 100%;
+  font-size: 12px;
+  color: #e2231b;
+  height: 8px;
+  line-height: 12px;
+  text-indent: 56px;
+  padding-top: 24px;
 }
 .h-clear {
-    display: none !important;
+  display: none !important;
 }
 
 .h-section .h-login .h-user {
-    width: 320px;
-    height: 30px;
-    line-height: 30px;
-    margin: 0 auto;
-    margin-top: 10px;
-    border-bottom: 1px solid #e1e6e9;
-    overflow: hidden;
+  width: 320px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-bottom: 1px solid #e1e6e9;
+  overflow: hidden;
 }
 .h-login .h-user .h-colour {
-    color: #acafb1;
+  color: #acafb1;
 }
 
 .h-section .h-login .h-user span {
-    color: #919598;
-    font-size: 22px;
-    margin-top: -8px;
+  color: #919598;
+  font-size: 22px;
+  margin-top: -8px;
 }
 .h-section .h-login .h-user input {
-    width: 288px;
-    border: none;
-    height: 27px;
-    line-height: 27px;
-    background-color: #f2f7fa;
-    color: #919598;
-    text-indent: 5px;
-    margin-top: -7px;
+  width: 288px;
+  border: none;
+  height: 27px;
+  line-height: 27px;
+  background-color: #f2f7fa;
+  color: #919598;
+  text-indent: 5px;
+  margin-top: -7px;
 }
 .h-section .h-login .h-user2 {
-    width: 320px;
-    height: 30px;
-    line-height: 30px;
-    margin: 0 auto;
-    margin-top: 10px;
-    border-bottom: 1px solid #e1e6e9;
-    overflow: hidden;
+  width: 320px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 auto;
+  margin-top: 10px;
+  border-bottom: 1px solid #e1e6e9;
+  overflow: hidden;
 }
 .h-section .h-login .h-user2 .h-colour {
-    color: #acafb1;
+  color: #acafb1;
 }
 .h-section .h-login input[placeholder] {
-    color: #444444;
+  color: #444444;
 }
 
 .h-section .h-login .h-user2 span {
-    color: #919598;
-    font-size: 22px;
-    margin-top: -8px;
+  color: #919598;
+  font-size: 22px;
+  margin-top: -8px;
 }
 .h-section .h-login .h-user2 input {
-
-    width: 288px;
-    border: none;
-    height: 30px;
-    background-color: #f2f7fa;
-    /* background-color: #ff806f; */
-    color: #919598;
-    /* padding-bottom: 3px; */
-    margin-top: -2px;
-    /* font-weight: 100; */
-    text-indent: 5px;
-    margin-top: -10px;
-    /* background-color: #f2f7fa; */
+  width: 288px;
+  border: none;
+  height: 30px;
+  background-color: #f2f7fa;
+  /* background-color: #ff806f; */
+  color: #919598;
+  /* padding-bottom: 3px; */
+  margin-top: -2px;
+  /* font-weight: 100; */
+  text-indent: 5px;
+  margin-top: -10px;
+  /* background-color: #f2f7fa; */
 }
 .h-section .h-login .h-user1 {
-    width: 320px;
-    height: 30px;
-    line-height: 30px;
-    margin: 0 auto;
-    margin-top: 10px;
+  width: 320px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 auto;
+  margin-top: 10px;
 }
 .h-section .h-login .h-user1 .h-test {
-    /* display: none; */
-    width: 100%;
-    height: 100%;
-    /* border-bottom: 1px solid #e0e5e9; */
+  /* display: none; */
+  width: 100%;
+  height: 100%;
+  /* border-bottom: 1px solid #e0e5e9; */
 }
 
 .h-section .h-login .h-test {
-    border-bottom: 1px solid #e1e6e9;
+  border-bottom: 1px solid #e1e6e9;
 }
 .h-section .h-login .h-user1 .h-test input {
-    font-size: 12px;
-    /* margin-right: 106px; */
-    text-indent: 5px;
-    /* color: #919598; */
-    border: none;
-    width: 140px;
-    margin-top: -2px;
-    letter-spacing: 1px;
-    padding-bottom: 0px;
+  font-size: 12px;
+  /* margin-right: 106px; */
+  text-indent: 5px;
+  /* color: #919598; */
+  border: none;
+  width: 140px;
+  margin-top: -2px;
+  letter-spacing: 1px;
+  padding-bottom: 0px;
 }
 .h-section .h-login input[placeholder] {
-    color: #444444;
+  color: #444444;
 }
 
 .h-section .h-login .h-test input {
-    font-size: 14px;
-    border: none;
-    /* background-color: #f2f7fa; */
-    color: #919598;
-    padding-bottom: 5px;
-    /* font-weight: 100; */
-    color: #000;
-    background-color: #f2f7fa;
-    -webkit-box-shadow: 0 0 0 400px #f2f7fa inset;
+  font-size: 14px;
+  border: none;
+  /* background-color: #f2f7fa; */
+  color: #919598;
+  padding-bottom: 5px;
+  /* font-weight: 100; */
+  color: #000;
+  background-color: #f2f7fa;
+  -webkit-box-shadow: 0 0 0 400px #f2f7fa inset;
 }
 .h-user1 .h-test .h-yanz {
-    float: left;
+  float: left;
 }
 .h-section .h-login .h-user1 img {
-    border: none;
+  border: none;
 }
 
 .h-user1 .h-test img {
-    float: right;
+  float: right;
 }
 .h-section .h-login .h-entry {
-    width: 320px;
-    height: 36px;
-    line-height: 30px;
-    text-align: center;
-    background-color: #49c0e0;
-    border-radius: 5px;
-    margin: 0 auto;
-    display: block;
-    margin-top: 16px;
-    border: 1px solid #49c0e0;
-    color: #feffff;
-    letter-spacing: 1px;
-    /* font-family: Microsoft YaHei; */
+  width: 320px;
+  height: 36px;
+  line-height: 30px;
+  text-align: center;
+  background-color: #49c0e0;
+  border-radius: 5px;
+  margin: 0 auto;
+  display: block;
+  margin-top: 16px;
+  border: 1px solid #49c0e0;
+  color: #feffff;
+  letter-spacing: 1px;
+  /* font-family: Microsoft YaHei; */
 }
 .commonButton.button {
-    padding: 2px 20px;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 14px;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  padding: 2px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 .commonButton {
-    display: inline-block;
-    vertical-align: middle;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -moz-osx-font-smoothing: grayscale;
-    position: relative;
-    overflow: hidden;
-    -webkit-transition-property: color;
-    transition-property: color;
-    -webkit-transition-duration: 0.3s;
-    transition-duration: 0.3s;
-    background: #49c0e0;
-    color: #fff;
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow: hidden;
+  -webkit-transition-property: color;
+  transition-property: color;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  background: #49c0e0;
+  color: #fff;
 }
 
 .h-section .h-login .h-retrieve {
-    text-indent: 37px;
-    font-size: 12px;
-    color: #909090;
-    line-height: 20px;
+  text-indent: 37px;
+  font-size: 12px;
+  color: #909090;
+  line-height: 20px;
 }
 .h-section .h-login .h-retrieve p {
-    display: inline-block;
+  display: inline-block;
 }
-
 
 .h-jizhu {
-    margin-left: 2px;
-    position: relative;
-    top: 1px;
+  margin-left: 2px;
+  position: relative;
+  top: 1px;
 }
 .h-section .h-login .h-retrieve p {
-    display: inline-block;
+  display: inline-block;
 }
 .h-section .h-login .h-retrieves {
-    margin-right: 40px;
+  margin-right: 40px;
 }
 
 .h-section .h-login .h-retrieve a {
-    color: #1380f9;
+  color: #1380f9;
 }
-
 
 .h-foot {
-    height: 72px;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.14);
-    position: absolute;
-    bottom: 10px;
-    padding-top: 15px;
+  height: 72px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.14);
+  position: absolute;
+  bottom: 10px;
+  padding-top: 15px;
 }
 .h-foot p {
-    text-align: center;
-    line-height: 1.2;
-    color: #9196b3;
-    font-size: 12px;
-    font-family: "iconfont";
+  text-align: center;
+  line-height: 1.2;
+  color: #9196b3;
+  font-size: 12px;
+  font-family: "iconfont";
 }
 .h-foot p a {
-    margin: 0 43px;
-    color: #bebfd1;
-    font-size: 13px;
+  margin: 0 43px;
+  color: #bebfd1;
+  font-size: 13px;
 }
 </style>
