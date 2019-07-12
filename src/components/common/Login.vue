@@ -94,7 +94,7 @@
           <a href="./contact/contact.html" target="_blank">联系我们</a>
           <a href="./teacherStyle/teacherStyle.html" target="_blank">名师风采</a>
         </p>
-        <p>Copyright 2017 联想（北京）有限公司 京ICP备11035381 | 京公网安备110108007970号</p>
+        <p>Copyright 2017 联想有限公司 京ICP备11035381 | 京公网安备110108007970号</p>
       </div>
     </div>
   </div>
