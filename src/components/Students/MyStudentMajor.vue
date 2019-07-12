@@ -45,13 +45,20 @@
 		data() {
 			return {
 				activeNames: ['1', '2', '3', '4', '5']
-			};
+			}
 		},
 		methods: {
 			handleChange(val) {
 				console.log(val);
 			}
+		},
+		created:function(){
+			this.$http.get('/product/userMajorCustom/getStudentMajorCustomAdapter').then(function(response) {
+					console.log(response);
+				})
 		}
+			
+		
 	}
 </script>
 

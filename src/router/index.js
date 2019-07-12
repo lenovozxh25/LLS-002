@@ -28,7 +28,10 @@ import Logined from '@/components/common/Login.vue'
 Vue.use(VueRouter)
 
 const routes = [
-	{path:'/',component:Logined},
+	{
+		path:'/',
+		redirect:'/logined'
+	},
 	{
 		path: "/teacher",
 		component: THome,
