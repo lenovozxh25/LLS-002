@@ -10,7 +10,7 @@
       <div class="h-tnav">
         <div class="h-logo">
           <div class="h-beij"></div>
-          <p>培养能力111&nbsp;&nbsp;塑造人才</p>
+          <p>培养能力&nbsp;&nbsp;塑造人才</p>
         </div>
       </div>
       <div class="h-section">
@@ -94,7 +94,7 @@
           <a href="./contact/contact.html" target="_blank">联系我们</a>
           <a href="./teacherStyle/teacherStyle.html" target="_blank">名师风采</a>
         </p>
-        <p>Copyright 2017 联想有限公司 京ICP备11035381 | 京公网安备110108007970号</p>
+        <p>Copyright 2017 联想有限公司(北京) 京ICP备11035381 | 京公网安备110108007970号</p>
       </div>
     </div>
   </div>
@@ -115,8 +115,7 @@ export default {
       this.$http.post("/permit/login", {
         loginName: this.loginName,
         password: this.password,
-        validCode:'zkss',
-        remember:false
+        validCode:'123456'
       }).then(function(response){
           console.log(response)
       });
