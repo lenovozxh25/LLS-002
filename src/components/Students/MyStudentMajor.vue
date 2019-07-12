@@ -53,8 +53,8 @@
 			}
 		},
 		created:function(){
-			this.$http.get('/lls-cloud-product-server/userMajorCustom/getStudentMajorCustomAdapter').then(function(response) {
-					console.log(response.data);
+			this.$http.get('/product/userMajorCustom/getStudentMajorCustomAdapter').then(function(response) {
+					console.log(response);
 				})
 		}
 			
