@@ -91,7 +91,7 @@
       </div>
       <div class="h-foot">
         <p class="h-inter">
-          <a href="./contact/contact.html" target="_blank">联系我们</a>
+          <a href="" target="_blank" >联系我们</a>
           <a href="./teacherStyle/teacherStyle.html" target="_blank">名师风采</a>
         </p>
         <p>Copyright 2017 联想有限公司(北京) 京ICP备11035381 | 京公网安备110108007970号</p>
@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 export default {
   name: "login",
   data: function() {
@@ -111,28 +112,30 @@ export default {
   },
   methods: {
     // 执行用户登录操作
-    dologin() {
+    dologin() {  
       var app = this;
-      this.$http.post("/permit/login", {
+      app.$http.post("/permit/login", {
         loginName: this.loginName,
         password: this.password,
         validCode:'123456'
-      }).then(function(response){
-          console.log(response);
-          if(response.data=="success"){
-            //   app.$http.get("/permit/user/currentUserRoleFlag").then(function(res){
-            //       console.log(res);
-            //   })
-            //   console.log(app.$http.get);
-            
-              app.$http.get("/permit/user/currentUserRoleFlag").then(function(response) {
-                   console.log(response);
-              });
-            // app.$router.push('/teacher/myMajor');
-          }
-      });
+      }).then(function(response){  
+            app.$http.get("http://10.119.167.182:9090/v2.0/lls/permit/user/currentUserRoleFlag").then(
+              (res)=>{
+                // console.log(res.data);
+                // debugger
+                if(res.data[0] === "S"){
+                  app.$router.push('/student/myStudentMajor');
+                }else{
+                  app.$router.push('/teacher/myMajor');
+                }
+              }
+            );    
+      });  
       
-    }
+
+      
+    },
+    
   }
 };
 </script>

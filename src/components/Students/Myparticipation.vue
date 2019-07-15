@@ -190,7 +190,7 @@
         margin-right: 20px;
     }
     .el-tabs__nav{
-        margin-left: 100px;
+        margin-left: 100px !important;
     }
 
     .mydiv{
