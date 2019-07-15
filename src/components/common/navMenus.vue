@@ -80,8 +80,8 @@
 		},
 		methods: {
 			handleSelect(key, keyPath) {
-				console.log(key, keyPath);
-				debugger
+				// console.log(key, keyPath);
+				//debugger
 				switch(key) {
 					case '1':
 						this.$router.push('/teacher/myMajor');
