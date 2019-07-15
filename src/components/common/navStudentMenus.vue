@@ -48,7 +48,7 @@
 			return {
 				activeIndex: '1',
 				activeIndex2: '1',
-				userName:""
+				userName:"Student"
 			};
 		},
 		methods: {

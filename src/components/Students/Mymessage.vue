@@ -292,8 +292,8 @@
    }
 
    /* ---------------------------------------------------------- */
-   .el-tabs__nav{
-        margin-left: 120px;
+  .el-tabs /deep/ .el-tabs__nav{
+        margin-left: 140px;
     }
    
     .el-form-item{

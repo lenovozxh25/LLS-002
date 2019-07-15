@@ -174,7 +174,7 @@
     .z_p_test{
         margin-right: 20px;
     }
-    .el-tabs__nav{
+    .el-tabs /deep/ .el-tabs__nav{
         margin-left: 140px;
     }
 
