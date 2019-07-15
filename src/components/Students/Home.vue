@@ -27,7 +27,6 @@
 			navStudentMenus,
 			copyRight
 		}
-
 	}
 </script>
 

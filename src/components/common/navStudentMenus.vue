@@ -83,7 +83,8 @@
 		created(){
 			this.$http.get("/permit/user/currentUser").then(
               (res)=>{
-                // console.log(res.data);
+				// console.log(res.data.id);
+				// localStorage.setItem('userId',res.data.id);
                 // debugger
                this.userName = res.data.userName;
               }
