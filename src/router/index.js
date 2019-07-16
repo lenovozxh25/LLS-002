@@ -7,12 +7,9 @@ import MyCourse from '@/components/Teachers/MyCourse.vue'
 import MyMajor from '@/components/Teachers/MyMajor.vue'
 import Students from '@/components/Teachers/Students.vue'
 import MyContribute from '@/components/Teachers/MyContribute.vue'
-<<<<<<< HEAD
 import MyMeage from '@/components/Teachers/MyMeage.vue'
 
-=======
 import CourseManagement from '@/components/Teachers/CourseManagement.vue'
->>>>>>> ljp
 
 import Myproject from '@/components/Students/Myproject.vue'
 import Mytest from '@/components/Students/Mytest.vue'
