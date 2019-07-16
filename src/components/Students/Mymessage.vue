@@ -1,25 +1,25 @@
 <template>
-    <div id="myMessage">
+    <div id="myMessage" >
        <div class="z_top">
            个人中心
        </div>
        
        <el-tabs class="z_p_tab" type="border-card" v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="个人信息" name="first">
-                <div class="z_center">
+                <div class="z_center" v-cloak>
                     <div class="z_c_pname">
                         <div class="z_c_p_1">
                             基本资料
                         </div>
                     </div>
                     <!-- 基本资料 -->
-                    <div class="z_c_one">
+                    <div class="z_c_one" v-if="userInfo">
                             <div class="z_one_message">
                             <div class="one_m_l">
                                 姓名：
                             </div>
                             <div class="one_m_r">
-                                赵丽颖
+                                {{userInfo.userName}}
                             </div>
                         </div>
                         <div class="z_one_message">
@@ -51,7 +51,7 @@
                                 学校身份：
                             </div>
                             <div class="one_m_r">
-                                学生
+                                {{userInfo.roles}}
                             </div>
                         </div>
                         <div class="z_one_message">
@@ -67,7 +67,7 @@
                                 性别：
                             </div>
                             <div class="one_m_r">
-                                男
+                                {{userInfo.sysUserDetail.sex}}
                             </div>
                         </div>
                         <div class="z_one_message">
@@ -75,7 +75,7 @@
                                 出生日期：
                             </div>
                             <div class="one_m_r">
-                                1998-02-01
+                               {{userInfo.sysUserDetail.brithday}}
                             </div>
                         </div>
                         <div class="z_one_message">
@@ -83,7 +83,7 @@
                                 身份份证号：
                             </div>
                             <div class="one_m_r">
-                                132201111109875134
+                                {{userInfo.sysUserDetail.idCard}}
                             </div>
                         </div>
                         <div class="z_one_message">
@@ -91,7 +91,7 @@
                                 邮箱：
                             </div>
                             <div class="one_m_r">
-                                18511914500@163.com
+                                {{userInfo.email}}
                             </div>
                         </div>
                         <div class="z_one_message">
@@ -99,7 +99,7 @@
                                 手机：
                             </div>
                             <div class="one_m_r">
-                                18511914500
+                                {{userInfo.mobile}}
                             </div>
                         </div>
                         <div class="z_one_message">
@@ -107,7 +107,7 @@
                                 家庭住址：
                             </div>
                             <div class="one_m_r">
-                                河北省石家庄市无极县中心街道锦绣花园B区301
+                                {{userInfo.sysUserDetail.addressDetail}}
                             </div>
                         </div>
 
@@ -155,7 +155,8 @@
                     name: '',
                     region: '',
                     type: ''
-                }
+                },
+                userInfo:null
            }
        },
        methods:{
@@ -170,14 +171,23 @@
             }
        },
        created(){
-           
+           var userId = window.localStorage.getItem('userId');
+           console.log(userId);
+           this.$http.post(`/permit/user/detail/${userId}`).then(
+              (res)=>{
+                // console.log(res)
+                this.userInfo = res.data; 
+              }
+			); 
        }
   };
 
 </script>
 
 <style scoped>
-
+    [v-cloak] { 
+         display: none 
+    } 
    .z_top{
        width: 100%;
        height: 80px;

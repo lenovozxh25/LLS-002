@@ -107,7 +107,9 @@ export default {
   data: function() {
     return {
       loginName: "",
-      password: ""
+      password: "",
+      userId:0,
+      userName:""
     };
   },
   methods: {
@@ -124,11 +126,20 @@ export default {
                 // console.log(res.data);
                 // debugger
                 if(res.data[0] === "S"){
-                  app.$router.push('/student/myStudentMajor');
+                  app.$router.push('/student/myStudentMajor');                  
                 }else{
                   app.$router.push('/teacher/myMajor');
                 }
-              }
+                app.$http.get("/permit/user/currentUser").then(
+                        (res)=>{
+                          app.userId = res.data.id;
+                          app.userName = res.data.userName;
+                          window.localStorage.setItem("userId",app.userId)  
+                          window.localStorage.setItem("userName",app.userName) 
+                          window.history.go(0); 
+                          } 
+                        ); 	
+                  }
             );    
       });  
       

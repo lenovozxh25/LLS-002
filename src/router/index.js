@@ -7,6 +7,9 @@ import MyCourse from '@/components/Teachers/MyCourse.vue'
 import MyMajor from '@/components/Teachers/MyMajor.vue'
 import Students from '@/components/Teachers/Students.vue'
 import MyContribute from '@/components/Teachers/MyContribute.vue'
+import MyMeage from '@/components/Teachers/MyMeage.vue'
+
+
 import Myproject from '@/components/Students/Myproject.vue'
 import Mytest from '@/components/Students/Mytest.vue'
 import Mymessage from '@/components/Students/Mymessage.vue'
@@ -68,9 +71,10 @@ const routes = [
         	{ 
 				path: 'myTest', 
 				component: Mytest, 
-				name: '我的考试' },
-        	{ 
-				path: 'myMessage', 
+				name: '我的考试' 
+			},
+			{ 
+				path: 'mymeage', 
 				component: Mymessage, 
 				name: '我的资料' 
 			}
