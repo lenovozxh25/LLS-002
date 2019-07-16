@@ -46,9 +46,13 @@
 						<el-menu-item index="4">
 							学员管理
 						</el-menu-item>
+						<el-menu-item index="6">
+							课程管理
+						</el-menu-item>
 						<el-menu-item index="5">
 							我的贡献
 						</el-menu-item>
+						
 					</el-menu>
 				</div>
 			</el-col>
@@ -97,6 +101,9 @@
 						break;
 					case '5':
 						this.$router.push('/teacher/myContribute');
+						break;
+					case '6':
+						this.$router.push('/teacher/courseManagement');
 						break;
 				}
 			}

@@ -61,9 +61,6 @@ html,body{
     .z_p_test{
         margin-right: 20px;
     }
-    .el-tabs__nav{
-        margin-left: 100px;
-    }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
