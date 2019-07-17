@@ -101,7 +101,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 export default {
   name: "login",
   data: function() {
@@ -114,7 +113,7 @@ export default {
   },
   methods: {
     // 执行用户登录操作
-    dologin() {  
+    dologin() { 
       var app = this;
       app.$http.post("/permit/login", {
         loginName: this.loginName,
@@ -135,14 +134,11 @@ export default {
                                   app.$router.push('/student/myStudentMajor');                  
                                 }else{
                                   app.$router.push('/teacher/myMajor');
-                                }                	
-                            });  
-                          } 
-                        ); 
-      });  
-      
-
-      
+                                }
+                            }); 
+                          }
+                  );
+      });      
     },
     
   }
