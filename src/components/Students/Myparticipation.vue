@@ -17,11 +17,16 @@
                         <span style="margin-top:20px;">我的提问</span>
 			        </p>
                     <el-table :data="listAll" stripe style="width: 100%">
-                        <el-table-column prop="proName" label="问题" width="600">
+                        <el-table-column prop="typeName" label="提问类型" width="300">
                         </el-table-column>
-                        <el-table-column prop="testName" label="发起时间" width="180"></el-table-column>
-                        <el-table-column prop="testNumber" label="状态"></el-table-column>
+                        <el-table-column prop="proposeTime" width="300" label="发起时间"></el-table-column>
+                        <el-table-column prop="subject" label="问题"></el-table-column>
+                        <el-table-column prop="question" label="问题描述"></el-table-column>
                     </el-table>
+                    <div style="overflow:hidden;margin-top:30px;">
+                        <button style="float:left;" class="abutton" @click="shang">上一页</button>
+                        <button style="float:right" class="abutton" @click="xia($event)">下一页</button>
+                    </div>
 		        </el-collapse>
             </el-tab-pane>
             <el-tab-pane v-if="isShow" label="我的反馈" name="second">
@@ -82,10 +87,16 @@
 		name: 'myStuMajor',
 		data() {
 			return {
+                //反馈的数据
                 page: 1,  //当前第几页
                 pageSize: 10, //反馈每页的数据条数
                 nums:null,  //反馈总消息数
                 pages:null, //反馈总页数
+                //问答的数据
+                apage: 1,  //当前第几页
+                apageSize: 5, //反馈每页的数据条数
+                anums:null,  //反馈总消息数
+                apages:null, //反馈总页数
                 isShow:true,
                 activeNames: ['1', '2', '3', '4', '5'],
                 z_p_testName: 'first',
@@ -147,7 +158,7 @@
                     "params": {}
                 }).then(
                 (res)=>{
-                    console.log(res);
+                    // console.log(res);
                     // debugger
                     this.feedbackAll = res.data.data;
                     this.nums = res.data.recordsTotal;
@@ -157,12 +168,19 @@
             //获取问答数据
             getAsk(){
                 var userId = window.localStorage.getItem("userId");
-                this.$http.get(`/business/studentQuestion/detail/${userId}`).then(
+                //我的反馈相关数据
+                this.$http.post(`/business/studentQuestion/page`,{
+                    "page":this.apage,
+                    "pageSize":this.apageSize,
+                    "params": {}
+                }).then(
                 (res)=>{
-                    // console.log(res.data);
+                    console.log(res);
                     // debugger
-                    // this.listAll = res;
-                })
+                    this.listAll = res.data.data;
+                    this.anums = res.data.recordsTotal;
+                    this.apages = Math.ceil(this.anums/this.apageSize);
+                }) 
             },
             
             // 反馈建议分页效果
@@ -179,17 +197,49 @@
             nextClick(){
                 this.page++
                 this.getOpinions();               
+            },
+
+            //我的问答分页效果
+            //点击上一页
+            shang(){
+                if(this.apage>1){
+                    this.apage--;
+                    this.getAsk();
+                }                 
+            },
+            //点击下一页
+            xia(){
+                if(this.apage<this.apages){
+                    this.apage++
+                    this.getAsk();
+                }          
             }
         },
         created(){
             this.getOpinions();
             this.getAsk();                                    
-        }
+        }      
 	}
 </script>
 
 <style scoped>
-	
+	.abutton{
+        color: #FFF;
+        background-color: #409EFF;
+        border-color: #409EFF;
+        display: inline-block;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+        text-align: center;
+        box-sizing: border-box;
+        outline: 0;
+        margin: 0;
+        font-weight: 500;
+        padding: 12px 20px;
+        font-size: 14px;
+        border-radius: 4px;
+    }
 	ul li{list-style: none;}
 	#myStuMajor .el-collapse-item .el-collapse-item__header {
 		background: skyblue;
