@@ -115,8 +115,7 @@ export default {
       this.$http.post("/permit/login", {
         loginName: this.loginName,
         password: this.password,
-        validCode:'zkss',
-        remember:false
+        validCode:'123456'
       }).then(function(response){
           console.log(response)
       });
