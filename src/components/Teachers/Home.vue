@@ -58,10 +58,6 @@
 		padding-left: 10px !important;
 	}
 	
-	.el-menu {
-		height: 45px !important;
-	}
-	
 	ul.el-menu-demo>li {
 		height: 45px !important;
 		line-height: 45px !important;
