@@ -40,7 +40,7 @@
                         <el-table-column prop="暂无" label="状态">未处理</el-table-column>                  
                     </el-table>
                     <!-- 分页效果 -->
-                    <el-pagination style="margin-top:30px;" :page-size="pageSize" background layout="prev, pager, next" :total="nums" @current-change="pageClick" @prev-click="prevClick" @next-click="nextClick"></el-pagination>
+                    <el-pagination :current-page="page" style="margin-top:30px;" :page-size="pageSize" background layout="prev, pager, next" :total="nums" @current-change="pageClick" @prev-click="prevClick" @next-click="nextClick"></el-pagination>
 		        </el-collapse>
             </el-tab-pane>
             <el-tab-pane v-else label="提交反馈" name="second">
@@ -116,12 +116,8 @@
                     this.isShow = true;
                 }
                 //我的反馈相关数据
-                this.$http.get(`/business/opinionsSuggestions/listAll`).then(
-                (res)=>{
-                    console.log(res);
-                    // debugger
-                    this.feedbackAll = res.data;
-                }) 
+                this.page = this.pages;
+                this.getOpinions();
             },
             subComments(){
                 if(this.form.desc!==""&&this.form.name!==""&&this.form.region!==""){
@@ -155,6 +151,7 @@
                     // debugger
                     this.feedbackAll = res.data.data;
                     this.nums = res.data.recordsTotal;
+                    this.pages = Math.ceil(this.nums/this.pageSize);
                 }) 
             },
             //获取问答数据
