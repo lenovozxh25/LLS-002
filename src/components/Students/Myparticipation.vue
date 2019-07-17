@@ -1,5 +1,4 @@
 <template>
-	
 	<div id="myStuMajor">
 		<div class="mahorTitle">
 			<div>
@@ -18,23 +17,19 @@
                         <span style="margin-top:20px;">我的提问</span>
 			        </p>
                     <el-table :data="listAll" stripe style="width: 100%">
-                        <el-table-column prop="proName" label="问题" width="600">
+                        <el-table-column prop="typeName" label="提问类型" width="300">
                         </el-table-column>
-                        <el-table-column prop="testName" label="发起时间" width="180"></el-table-column>
-                        <el-table-column prop="testNumber" label="状态"></el-table-column>
-                        <el-table-column prop="detail" label="操作">
-                              <i class="el-icon-edit"></i><el-tag v-on:click="edit" size="medium">编辑</el-tag>
-                              <i class="el-icon-delete"></i><el-tag v-on:click="dele" size="medium" type="danger">删除</el-tag>
-                        </el-table-column>
+                        <el-table-column prop="proposeTime" width="300" label="发起时间"></el-table-column>
+                        <el-table-column prop="subject" label="问题"></el-table-column>
+                        <el-table-column prop="question" label="问题描述"></el-table-column>
                     </el-table>
+                    <div style="overflow:hidden;margin-top:30px;">
+                        <button style="float:left;" class="abutton" @click="shang">上一页</button>
+                        <button style="float:right" class="abutton" @click="xia($event)">下一页</button>
+                    </div>
 		        </el-collapse>
             </el-tab-pane>
             <el-tab-pane v-if="isShow" label="我的反馈" name="second">
-                <div class="mydiv">
-                    <div class="div1">我的意见<span style="color:#61E5F4;">1</span>条</div>
-                    <div class="div2">已回复<span style="color:#F8A7B8;">0</span>条</div>
-                    <div class="div3">未回复<span style="color:#E3A0E8;">1</span>条</div>
-                </div>
                 <el-collapse v-model="activeNames" >
 			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
                         <span class="redSquare"></span>
@@ -42,23 +37,18 @@
                         <span v-on:click="tabFeed" style="display:inline-block; float: right;background:#49C0E0;width:130px;height:40px;text-align:center;margin-top:5px;line-height:40px;font-size:16px;color:#fff;">新建反馈<i class="el-icon-edit-outline"></i></span>
 			        </p>
                     <el-table :data="feedbackAll" stripe style="width: 100%">
-                        <el-table-column prop="proName" label="意见" width="600">
+                        <el-table-column prop="subject" label="意见">
                         </el-table-column>
-                        <el-table-column prop="testName" label="发起时间" width="180"></el-table-column>
-                        <el-table-column prop="testNumber" label="状态"></el-table-column>
-                        <el-table-column prop="detail" label="操作">
-                              <i class="el-icon-edit"></i><el-tag v-on:click="edit" size="medium">编辑</el-tag>
-                              <i class="el-icon-delete"></i><el-tag v-on:click="dele" size="medium" type="danger">删除</el-tag>
-                        </el-table-column>
+                        <el-table-column prop="typeName" label="反馈类别" ></el-table-column>
+                        <el-table-column width="400px" prop="content" label="问题说明" ></el-table-column>
+                        <el-table-column prop="commitTime" label="发起时间" ></el-table-column>
+                        <el-table-column prop="暂无" label="状态">未处理</el-table-column>                  
                     </el-table>
+                    <!-- 分页效果 -->
+                    <el-pagination :current-page="page" style="margin-top:30px;" :page-size="pageSize" background layout="prev, pager, next" :total="nums" @current-change="pageClick" @prev-click="prevClick" @next-click="nextClick"></el-pagination>
 		        </el-collapse>
             </el-tab-pane>
             <el-tab-pane v-else label="提交反馈" name="second">
-                <div class="mydiv">
-                    <div class="div1">我的意见<span style="color:#61E5F4;">1</span>条</div>
-                    <div class="div2">已回复<span style="color:#F8A7B8;">0</span>条</div>
-                    <div class="div3">未回复<span style="color:#E3A0E8;">1</span>条</div>
-                </div>
                 <el-collapse v-model="activeNames" >
 			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
                         <span class="redSquare"></span>
@@ -69,10 +59,10 @@
                        <el-form ref="form" :model="form" label-width="80px">
                            <el-form-item label="问题分类">
                                 <el-select v-model="form.region">
-                                    <el-option label="用户体验" value="tiyan"></el-option>
-                                    <el-option label="产品BUG" value="bug"></el-option>
-                                    <el-option label="功能建议" value="gongneng"></el-option>
-                                    <el-option label="问卷建议" value="wenjuan"></el-option>
+                                    <el-option label="用户体验" value="用户体验"></el-option>
+                                    <el-option label="产品BUG" value="产品BUG"></el-option>
+                                    <el-option label="功能建议" value="功能建议"></el-option>
+                                    <el-option label="问卷建议" value="问卷建议"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="意见">
@@ -82,7 +72,7 @@
                                 <el-input class="z_min_textarea" placeholder="问题北京条件等详细信息" type="textarea" v-model="form.desc"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary">立即提交</el-button>
+                                <el-button @click="subComments" type="primary">立即提交</el-button>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -97,6 +87,16 @@
 		name: 'myStuMajor',
 		data() {
 			return {
+                //反馈的数据
+                page: 1,  //当前第几页
+                pageSize: 10, //反馈每页的数据条数
+                nums:null,  //反馈总消息数
+                pages:null, //反馈总页数
+                //问答的数据
+                apage: 1,  //当前第几页
+                apageSize: 5, //反馈每页的数据条数
+                anums:null,  //反馈总消息数
+                apages:null, //反馈总页数
                 isShow:true,
                 activeNames: ['1', '2', '3', '4', '5'],
                 z_p_testName: 'first',
@@ -104,25 +104,21 @@
                 feedbackAll:[],   //我的反馈建议相关数据
                 form: {
                     name: '',
-                    region: 'tiyan',
+                    region: '用户体验',
                     desc: ''
                 }
 			};
 		},
 		methods: {
 			handleChange(val) {
-				console.log(val);
+				// console.log(val);
             },
             handleClick(tab, event) {
-                console.log(tab, event);
-            },
-            edit(){
-                console.log("1")
-            },
-            dele(){
-                console.log("2")
+                // console.log(tab, event);
             },
             tabFeed(e){
+                var userId = window.localStorage.getItem("userId");
+                // console.log(userId);
                 if(this.isShow){
                     e.target.innerHTML = "我的意见<i data-v-294cbca4='' class='el-icon-user-solid'></i>";
                     this.isShow = false;
@@ -131,35 +127,119 @@
                     this.isShow = true;
                 }
                 //我的反馈相关数据
-                this.$http.get("/business/opinionsSuggestions/listAll").then(
+                this.page = this.pages;
+                this.getOpinions();
+            },
+            subComments(){
+                if(this.form.desc!==""&&this.form.name!==""&&this.form.region!==""){
+                    this.$http.post(`/business/opinionsSuggestions/submitComments`,{
+                        "content": this.form.desc, 
+                        "subject": this.form.name, 
+                        "typeName": this.form.region
+                    }).then(
+                    (res)=>{
+                        alert("反馈提交成功");
+                        this.form.desc="", 
+                        this.form.name="", 
+                        this.form.region="用户体验"
+                    })
+                }else{
+                    alert("输入内容不能为空")
+                }                
+            },
+            
+            //获取反馈建议
+            getOpinions(){
+                var userId = window.localStorage.getItem("userId");
+                 //我的反馈相关数据
+                this.$http.post(`/business/opinionsSuggestions/page`,{
+                    "page":this.page,
+                    "pageSize":this.pageSize,
+                    "params": {}
+                }).then(
                 (res)=>{
-                    console.log(res.data);
+                    // console.log(res);
                     // debugger
-                    this.feedbackAll = res.data;
+                    this.feedbackAll = res.data.data;
+                    this.nums = res.data.recordsTotal;
+                    this.pages = Math.ceil(this.nums/this.pageSize);
                 }) 
-            }           
+            },
+            //获取问答数据
+            getAsk(){
+                var userId = window.localStorage.getItem("userId");
+                //我的反馈相关数据
+                this.$http.post(`/business/studentQuestion/page`,{
+                    "page":this.apage,
+                    "pageSize":this.apageSize,
+                    "params": {}
+                }).then(
+                (res)=>{
+                    console.log(res);
+                    // debugger
+                    this.listAll = res.data.data;
+                    this.anums = res.data.recordsTotal;
+                    this.apages = Math.ceil(this.anums/this.apageSize);
+                }) 
+            },
+            
+            // 反馈建议分页效果
+            pageClick(event){
+                this.page = event;
+                this.getOpinions();
+            },
+            //点击上一页
+            prevClick(){
+                this.page--
+                this.getOpinions();               
+            },
+            //点击下一页
+            nextClick(){
+                this.page++
+                this.getOpinions();               
+            },
+
+            //我的问答分页效果
+            //点击上一页
+            shang(){
+                if(this.apage>1){
+                    this.apage--;
+                    this.getAsk();
+                }                 
+            },
+            //点击下一页
+            xia(){
+                if(this.apage<this.apages){
+                    this.apage++
+                    this.getAsk();
+                }          
+            }
         },
         created(){
-                //我的问答相关数据
-                this.$http.get("/business/studentQuestion/listAll").then(
-                (res)=>{
-                    // console.log(res.data);
-                    // debugger
-                    this.listAll = res.data;
-                })  
-                //我的反馈相关数据
-                this.$http.get("/business/opinionsSuggestions/listAll").then(
-                (res)=>{
-                    console.log(res.data);
-                    // debugger
-                    this.feedbackAll = res.data;
-                }) 
-        }
+            this.getOpinions();
+            this.getAsk();                                    
+        }      
 	}
 </script>
 
 <style scoped>
-	
+	.abutton{
+        color: #FFF;
+        background-color: #409EFF;
+        border-color: #409EFF;
+        display: inline-block;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+        text-align: center;
+        box-sizing: border-box;
+        outline: 0;
+        margin: 0;
+        font-weight: 500;
+        padding: 12px 20px;
+        font-size: 14px;
+        border-radius: 4px;
+    }
 	ul li{list-style: none;}
 	#myStuMajor .el-collapse-item .el-collapse-item__header {
 		background: skyblue;
