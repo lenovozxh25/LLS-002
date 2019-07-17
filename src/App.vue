@@ -50,6 +50,9 @@ html,body{
 		height: 144px;
 		background:#89db96
 	}
+<<<<<<< HEAD
+
+=======
 .z_p_title{
         background: #E4E9EC;
         height: 24px;;
@@ -61,9 +64,7 @@ html,body{
     .z_p_test{
         margin-right: 20px;
     }
-    .el-tabs__nav{
-        margin-left: 100px;
-    }
+>>>>>>> ljp
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

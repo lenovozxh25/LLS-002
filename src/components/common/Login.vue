@@ -91,35 +91,60 @@
       </div>
       <div class="h-foot">
         <p class="h-inter">
-          <a href="./contact/contact.html" target="_blank">联系我们</a>
+          <a href="" target="_blank" >联系我们</a>
           <a href="./teacherStyle/teacherStyle.html" target="_blank">名师风采</a>
         </p>
-        <p>Copyright 2017 联想有限公司 京ICP备11035381 | 京公网安备110108007970号</p>
+        <p>Copyright 2017 联想有限公司(北京) 京ICP备11035381 | 京公网安备110108007970号</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import $ from "jquery";
 export default {
   name: "login",
   data: function() {
     return {
       loginName: "",
-      password: ""
+      password: "",
+      userId:0,
+      userName:""
     };
   },
   methods: {
     // 执行用户登录操作
-    dologin() {
-      this.$http.post("/permit/login", {
+    dologin() {  
+      var app = this;
+      app.$http.post("/permit/login", {
         loginName: this.loginName,
         password: this.password,
         validCode:'123456'
       }).then(function(response){
-          console.log(response)
-      });
-    }
+            app.$http.get("/permit/user/currentUser").then(
+                        (res)=>{
+                          app.userId = res.data.id;
+                          app.userName = res.data.userName;
+                          window.localStorage.setItem("userId",app.userId);  
+                          window.localStorage.setItem("userName",app.userName);
+                          app.$http.get("http://10.119.167.182:9090/v2.0/lls/permit/user/currentUserRoleFlag").then(
+                              (res)=>{
+                                // console.log(res.data);
+                                // debugger
+                                if(res.data[0] === "S"){
+                                  app.$router.push('/student/myStudentMajor');                  
+                                }else{
+                                  app.$router.push('/teacher/myMajor');
+                                }                	
+                            });  
+                          } 
+                        ); 
+      });  
+      
+
+      
+    },
+    
   }
 };
 </script>

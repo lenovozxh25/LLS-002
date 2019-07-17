@@ -17,7 +17,7 @@
                         <span class="redSquare"></span>
                         <span style="margin-top:20px;">我的提问</span>
 			        </p>
-                    <el-table :data="tableData" stripe style="width: 100%">
+                    <el-table :data="listAll" stripe style="width: 100%">
                         <el-table-column prop="proName" label="问题" width="600">
                         </el-table-column>
                         <el-table-column prop="testName" label="发起时间" width="180"></el-table-column>
@@ -29,7 +29,7 @@
                     </el-table>
 		        </el-collapse>
             </el-tab-pane>
-            <el-tab-pane label="我的反馈" name="second">
+            <el-tab-pane v-if="isShow" label="我的反馈" name="second">
                 <div class="mydiv">
                     <div class="div1">我的意见<span style="color:#61E5F4;">1</span>条</div>
                     <div class="div2">已回复<span style="color:#F8A7B8;">0</span>条</div>
@@ -39,9 +39,9 @@
 			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
                         <span class="redSquare"></span>
                         <span style="margin-top:20px;">我的意见反馈</span>
-                        <span style="display:inline-block; float: right;background:#49C0E0;width:130px;height:40px;text-align:center;margin-top:5px;line-height:40px;font-size:16px;color:#fff;">新建反馈<i class="el-icon-edit-outline"></i></span>
+                        <span v-on:click="tabFeed" style="display:inline-block; float: right;background:#49C0E0;width:130px;height:40px;text-align:center;margin-top:5px;line-height:40px;font-size:16px;color:#fff;">新建反馈<i class="el-icon-edit-outline"></i></span>
 			        </p>
-                    <el-table :data="tableData" stripe style="width: 100%">
+                    <el-table :data="feedbackAll" stripe style="width: 100%">
                         <el-table-column prop="proName" label="意见" width="600">
                         </el-table-column>
                         <el-table-column prop="testName" label="发起时间" width="180"></el-table-column>
@@ -53,6 +53,41 @@
                     </el-table>
 		        </el-collapse>
             </el-tab-pane>
+            <el-tab-pane v-else label="提交反馈" name="second">
+                <div class="mydiv">
+                    <div class="div1">我的意见<span style="color:#61E5F4;">1</span>条</div>
+                    <div class="div2">已回复<span style="color:#F8A7B8;">0</span>条</div>
+                    <div class="div3">未回复<span style="color:#E3A0E8;">1</span>条</div>
+                </div>
+                <el-collapse v-model="activeNames" >
+			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
+                        <span class="redSquare"></span>
+                        <span style="margin-top:20px;">意见反馈</span>
+                        <span v-on:click="tabFeed" style="display:inline-block; float: right;background:#49C0E0;width:130px;height:40px;text-align:center;margin-top:5px;line-height:40px;font-size:16px;color:#fff;">我的意见<i class="el-icon-user-solid"></i></span>
+			        </p>
+                    <div>
+                       <el-form ref="form" :model="form" label-width="80px">
+                           <el-form-item label="问题分类">
+                                <el-select v-model="form.region">
+                                    <el-option label="用户体验" value="tiyan"></el-option>
+                                    <el-option label="产品BUG" value="bug"></el-option>
+                                    <el-option label="功能建议" value="gongneng"></el-option>
+                                    <el-option label="问卷建议" value="wenjuan"></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item label="意见">
+                                <el-input placeholder="请在这输入你的问题建议，60个字符之内" v-model="form.name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="问题说明" >
+                                <el-input class="z_min_textarea" placeholder="问题北京条件等详细信息" type="textarea" v-model="form.desc"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary">立即提交</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+		        </el-collapse>
+            </el-tab-pane>
         </el-tabs>
 	</div>
 </template>
@@ -62,19 +97,16 @@
 		name: 'myStuMajor',
 		data() {
 			return {
+                isShow:true,
                 activeNames: ['1', '2', '3', '4', '5'],
                 z_p_testName: 'first',
-                tableData: [{
-                    proName: 'WEB前端基础(HTML+CSS)',
-                    testName: 'Web前端基础期末',
-                    testNumber: '100',
-                    detail: 'https://element.eleme.cn/#/zh-CN/component/link'
-                    }, {
-                    proName: 'WEB前端基础(HTML+CSS)',
-                    testName: 'Web前端基础期末',
-                    testNumber: '100',
-                    detail: 'https://element.eleme.cn/#/zh-CN/component/link'
-                    }]
+                listAll:[],   //我的问答相关信息
+                feedbackAll:[],   //我的反馈建议相关数据
+                form: {
+                    name: '',
+                    region: 'tiyan',
+                    desc: ''
+                }
 			};
 		},
 		methods: {
@@ -89,8 +121,40 @@
             },
             dele(){
                 console.log("2")
-            }
-		}
+            },
+            tabFeed(e){
+                if(this.isShow){
+                    e.target.innerHTML = "我的意见<i data-v-294cbca4='' class='el-icon-user-solid'></i>";
+                    this.isShow = false;
+                }else{
+                    e.target.innerHTML = "新建反馈<i data-v-294cbca4='' class='el-icon-edit-outline'></i>";
+                    this.isShow = true;
+                }
+                //我的反馈相关数据
+                this.$http.get("/business/opinionsSuggestions/listAll").then(
+                (res)=>{
+                    console.log(res.data);
+                    // debugger
+                    this.feedbackAll = res.data;
+                }) 
+            }           
+        },
+        created(){
+                //我的问答相关数据
+                this.$http.get("/business/studentQuestion/listAll").then(
+                (res)=>{
+                    // console.log(res.data);
+                    // debugger
+                    this.listAll = res.data;
+                })  
+                //我的反馈相关数据
+                this.$http.get("/business/opinionsSuggestions/listAll").then(
+                (res)=>{
+                    console.log(res.data);
+                    // debugger
+                    this.feedbackAll = res.data;
+                }) 
+        }
 	}
 </script>
 
@@ -189,8 +253,8 @@
     .z_p_test{
         margin-right: 20px;
     }
-    .el-tabs__nav{
-        margin-left: 100px;
+    .el-tabs /deep/ .el-tabs__nav{
+        margin-left: 140px;
     }
 
     .mydiv{
@@ -211,5 +275,7 @@
         font-style:oblique;
     }
     
-
+    .el-form /deep/ .el-textarea__inner{
+        height: 300px;
+    }
 </style>
