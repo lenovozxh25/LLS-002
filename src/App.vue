@@ -50,21 +50,10 @@ html,body{
 		height: 144px;
 		background:#89db96
 	}
-<<<<<<< HEAD
 
-=======
-.z_p_title{
-        background: #E4E9EC;
-        height: 24px;;
-        color:#303030;
-        font-size: 16px;
-        line-height: 24px;
-        padding-left: 122px;
-    }
-    .z_p_test{
-        margin-right: 20px;
-    }
->>>>>>> ljp
+.el-dialog{
+    margin-top: 0 !important;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

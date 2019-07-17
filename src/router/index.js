@@ -7,6 +7,7 @@ import MyCourse from '@/components/Teachers/MyCourse.vue'
 import MyMajor from '@/components/Teachers/MyMajor.vue'
 import Students from '@/components/Teachers/Students.vue'
 import MyContribute from '@/components/Teachers/MyContribute.vue'
+import MasterSetting from '@/components/Teachers/MasterSetting.vue'
 import MyMeage from '@/components/Teachers/MyMeage.vue'
 
 import CourseManagement from '@/components/Teachers/CourseManagement.vue'
@@ -82,7 +83,12 @@ const routes = [
 			{ 
 				path: 'courseManagement', 
 				component: CourseManagement, 
-				name: '课程管理' 
+				name: '课程管理' ,
+			},
+			{
+				path:'/masterSetting',
+				component:MasterSetting,
+				name:'masterSetting'
 			}
 		]
 	},
