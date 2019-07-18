@@ -83,279 +83,295 @@
 </template>
 
 <script>
-	export default {
-		name: 'myStuMajor',
-		data() {
-			return {
-                //反馈的数据
-                page: 1,  //当前第几页
-                pageSize: 10, //反馈每页的数据条数
-                nums:null,  //反馈总消息数
-                pages:null, //反馈总页数
-                //问答的数据
-                apage: 1,  //当前第几页
-                apageSize: 5, //反馈每页的数据条数
-                anums:null,  //反馈总消息数
-                apages:null, //反馈总页数
-                isShow:true,
-                activeNames: ['1', '2', '3', '4', '5'],
-                z_p_testName: 'first',
-                listAll:[],   //我的问答相关信息
-                feedbackAll:[],   //我的反馈建议相关数据
-                form: {
-                    name: '',
-                    region: '用户体验',
-                    desc: ''
-                }
-			};
-		},
-		methods: {
-			handleChange(val) {
-				// console.log(val);
-            },
-            handleClick(tab, event) {
-                // console.log(tab, event);
-            },
-            tabFeed(e){
-                var userId = window.localStorage.getItem("userId");
-                // console.log(userId);
-                if(this.isShow){
-                    e.target.innerHTML = "我的意见<i data-v-294cbca4='' class='el-icon-user-solid'></i>";
-                    this.isShow = false;
-                }else{
-                    e.target.innerHTML = "新建反馈<i data-v-294cbca4='' class='el-icon-edit-outline'></i>";
-                    this.isShow = true;
-                }
-                //我的反馈相关数据
-                this.page = this.pages;
-                this.getOpinions();
-            },
-            subComments(){
-                if(this.form.desc!==""&&this.form.name!==""&&this.form.region!==""){
-                    this.$http.post(`/business/opinionsSuggestions/submitComments`,{
-                        "content": this.form.desc, 
-                        "subject": this.form.name, 
-                        "typeName": this.form.region
-                    }).then(
-                    (res)=>{
-                        alert("反馈提交成功");
-                        this.form.desc="", 
-                        this.form.name="", 
-                        this.form.region="用户体验"
-                    })
-                }else{
-                    alert("输入内容不能为空")
-                }                
-            },
-            
-            //获取反馈建议
-            getOpinions(){
-                var userId = window.localStorage.getItem("userId");
-                 //我的反馈相关数据
-                this.$http.post(`/business/opinionsSuggestions/page`,{
-                    "page":this.page,
-                    "pageSize":this.pageSize,
-                    "params": {}
-                }).then(
-                (res)=>{
-                    // console.log(res);
-                    // debugger
-                    this.feedbackAll = res.data.data;
-                    this.nums = res.data.recordsTotal;
-                    this.pages = Math.ceil(this.nums/this.pageSize);
-                }) 
-            },
-            //获取问答数据
-            getAsk(){
-                var userId = window.localStorage.getItem("userId");
-                //我的反馈相关数据
-                this.$http.post(`/business/studentQuestion/page`,{
-                    "page":this.apage,
-                    "pageSize":this.apageSize,
-                    "params": {}
-                }).then(
-                (res)=>{
-                    console.log(res);
-                    // debugger
-                    this.listAll = res.data.data;
-                    this.anums = res.data.recordsTotal;
-                    this.apages = Math.ceil(this.anums/this.apageSize);
-                }) 
-            },
-            
-            // 反馈建议分页效果
-            pageClick(event){
-                this.page = event;
-                this.getOpinions();
-            },
-            //点击上一页
-            prevClick(){
-                this.page--
-                this.getOpinions();               
-            },
-            //点击下一页
-            nextClick(){
-                this.page++
-                this.getOpinions();               
-            },
+export default {
+  name: "myStuMajor",
+  data() {
+    return {
+      //反馈的数据
+      page: 1, //当前第几页
+      pageSize: 10, //反馈每页的数据条数
+      nums: null, //反馈总消息数
+      pages: null, //反馈总页数
+      //问答的数据
+      apage: 1, //当前第几页
+      apageSize: 5, //反馈每页的数据条数
+      anums: null, //反馈总消息数
+      apages: null, //反馈总页数
+      isShow: true,
+      activeNames: ["1", "2", "3", "4", "5"],
+      z_p_testName: "first",
+      listAll: [], //我的问答相关信息
+      feedbackAll: [], //我的反馈建议相关数据
+      form: {
+        name: "",
+        region: "用户体验",
+        desc: ""
+      }
+    };
+  },
+  methods: {
+    handleChange(val) {
+      // console.log(val);
+    },
+    handleClick(tab, event) {
+      // console.log(tab, event);
+    },
+    tabFeed(e) {
+      var userId = window.localStorage.getItem("userId");
+      // console.log(userId);
+      if (this.isShow) {
+        e.target.innerHTML =
+          "我的意见<i data-v-294cbca4='' class='el-icon-user-solid'></i>";
+        this.isShow = false;
+      } else {
+        e.target.innerHTML =
+          "新建反馈<i data-v-294cbca4='' class='el-icon-edit-outline'></i>";
+        this.isShow = true;
+      }
+      //我的反馈相关数据
+      this.page = this.pages;
+      this.getOpinions();
+    },
+    subComments() {
+      if (
+        this.form.desc !== "" &&
+        this.form.name !== "" &&
+        this.form.region !== ""
+      ) {
+        this.$http
+          .post(`/business/opinionsSuggestions/submitComments`, {
+            content: this.form.desc,
+            subject: this.form.name,
+            typeName: this.form.region
+          })
+          .then(res => {
+            alert("反馈提交成功");
+            (this.form.desc = ""),
+              (this.form.name = ""),
+              (this.form.region = "用户体验");
+          });
+      } else {
+        alert("输入内容不能为空");
+      }
+    },
 
-            //我的问答分页效果
-            //点击上一页
-            shang(){
-                if(this.apage>1){
-                    this.apage--;
-                    this.getAsk();
-                }                 
-            },
-            //点击下一页
-            xia(){
-                if(this.apage<this.apages){
-                    this.apage++
-                    this.getAsk();
-                }          
-            }
-        },
-        created(){
-            this.getOpinions();
-            this.getAsk();                                    
-        }      
-	}
+    //获取反馈建议
+    getOpinions() {
+      var userId = window.localStorage.getItem("userId");
+      //我的反馈相关数据
+      this.$http
+        .post(`/business/opinionsSuggestions/page`, {
+          page: this.page,
+          pageSize: this.pageSize,
+          params: {}
+        })
+        .then(res => {
+          // console.log(res);
+          // debugger
+          this.feedbackAll = res.data.data;
+          this.nums = res.data.recordsTotal;
+          this.pages = Math.ceil(this.nums / this.pageSize);
+        });
+    },
+    //获取问答数据
+    getAsk() {
+      var userId = window.localStorage.getItem("userId");
+      //我的反馈相关数据
+      this.$http
+        .post(`/business/studentQuestion/page`, {
+          page: this.apage,
+          pageSize: this.apageSize,
+          params: {}
+        })
+        .then(res => {
+          console.log(res);
+          // debugger
+          this.listAll = res.data.data;
+          this.anums = res.data.recordsTotal;
+          this.apages = Math.ceil(this.anums / this.apageSize);
+        });
+    },
+
+    // 反馈建议分页效果
+    pageClick(event) {
+      this.page = event;
+      this.getOpinions();
+    },
+    //点击上一页
+    prevClick() {
+      this.page--;
+      this.getOpinions();
+    },
+    //点击下一页
+    nextClick() {
+      this.page++;
+      this.getOpinions();
+    },
+
+    //我的问答分页效果
+    //点击上一页
+    shang() {
+      if(this.apage==1){
+        alert("已经到了第一页")
+      }
+      if (this.apage > 1) {
+        this.apage--;
+        this.getAsk();
+      }
+    },
+    //点击下一页
+    xia() {
+       if(this.apage==this.apages){
+        alert("已经到了最后一页")
+      }
+      if (this.apage < this.apages) {
+        this.apage++;
+        this.getAsk();
+      }
+    }
+  },
+  created() {
+    this.getOpinions();
+    this.getAsk();
+  }
+};
 </script>
 
 <style scoped>
-	.abutton{
-        color: #FFF;
-        background-color: #409EFF;
-        border-color: #409EFF;
-        display: inline-block;
-        line-height: 1;
-        white-space: nowrap;
-        cursor: pointer;
-        text-align: center;
-        box-sizing: border-box;
-        outline: 0;
-        margin: 0;
-        font-weight: 500;
-        padding: 12px 20px;
-        font-size: 14px;
-        border-radius: 4px;
-    }
-	ul li{list-style: none;}
-	#myStuMajor .el-collapse-item .el-collapse-item__header {
-		background: skyblue;
-		padding-left: 50px;
-		color: white;
-		font-size: 23px;
-	}
-	
-	#myStuMajor a {
-		color: #6c6868;
-		font-size: 16px;
-	}
-	
-	#myStuMajor a:hover {
-		color: skyblue;
-	}
-	
-	#myStuMajor .el-main {
-		text-align: left;
-		/*line-height: 30px;*/
-	}
-	#myStuMajor .el-collapse{
-		width: 1100px;
-		margin: auto;
-	}
-	#myStuMajor .el-collapse-item__content {
-		padding-left: 50px;
-		padding-top: 20px;
-	}
-	#myStuMajor .mahorTitle{
-        text-align: center;
-		width: 100%;
-		height: 144px;
-		background:#F16179
-	}
-	#myStuMajor .mahorTitle>div{
-		width: 1100px;
-		height: 144px;
-		margin: auto;
-		background: url(../../images/download.png) no-repeat right -20px;
-		padding: 45px 50px 0px 110px;
-	}
-	#myStuMajor .mahorTitle div div{
-		min-width: 400px;
-	    color: #fff;
-	    font-size: 25px;
-	}
-	#myStuMajor .mahorTitle div ul{
-		overflow: hidden;
-		/*margin-top: 10px;*/
-	}
-	#myStuMajor .mahorTitle ul li{
-		float: left;
-		padding-right: 10px;
-    	color: #fff;
-    	font-size: 14px;
-	}
-	#myStuMajor .major{
-		overflow: hidden;
-	    /*height:16px;*/
-	    font-family:HiraginoSansGB-W6;
-	    color:rgba(64,64,64,1);
-	    margin-bottom: 10px;
-	}
-	.top{
-		margin: 30px 0;
-	}
-	.major span{
-      float: left;
-      height: 18px;
-      line-height: 1;
-	  
-    }
-	.redSquare{
-	  margin-top:20px;
-      width:6px;
-      /*height:16px;*/
-      background:skyblue;
-      margin-right: 10px;
-    }
+.abutton {
+  color: #fff;
+  background-color: #409eff;
+  border-color: #409eff;
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: center;
+  box-sizing: border-box;
+  outline: 0;
+  margin: 0;
+  font-weight: 500;
+  padding: 12px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+ul li {
+  list-style: none;
+}
+#myStuMajor .el-collapse-item .el-collapse-item__header {
+  background: skyblue;
+  padding-left: 50px;
+  color: white;
+  font-size: 23px;
+}
 
-    /* ------------------------------- */
-    .z_p_title{
-        background: #E4E9EC;
-        height: 24px;;
-        color:#303030;
-        font-size: 16px;
-        line-height: 24px;
-        padding-left: 122px;
-    }
-    .z_p_test{
-        margin-right: 20px;
-    }
-    .el-tabs /deep/ .el-tabs__nav{
-        margin-left: 140px;
-    }
+#myStuMajor a {
+  color: #6c6868;
+  font-size: 16px;
+}
 
-    .mydiv{
-        height: 40px;
-        margin-bottom: 20px;
-    }
-    .mydiv div{
-        width: 20%;
-        height: 40px;
-        float: left;
-        line-height: 40px;
-    }
-    .mydiv .div1{
-        margin-left: 24%;
-    }
-    .mydiv span{
-        font-size:26px;
-        font-style:oblique;
-    }
-    
-    .el-form /deep/ .el-textarea__inner{
-        height: 300px;
-    }
+#myStuMajor a:hover {
+  color: skyblue;
+}
+
+#myStuMajor .el-main {
+  text-align: left;
+  /*line-height: 30px;*/
+}
+#myStuMajor .el-collapse {
+  width: 1100px;
+  margin: auto;
+}
+#myStuMajor .el-collapse-item__content {
+  padding-left: 50px;
+  padding-top: 20px;
+}
+#myStuMajor .mahorTitle {
+  text-align: center;
+  width: 100%;
+  height: 144px;
+  background: #f16179;
+}
+#myStuMajor .mahorTitle > div {
+  width: 1100px;
+  height: 144px;
+  margin: auto;
+  background: url(../../images/download.png) no-repeat right -20px;
+  padding: 45px 50px 0px 110px;
+}
+#myStuMajor .mahorTitle div div {
+  min-width: 400px;
+  color: #fff;
+  font-size: 25px;
+}
+#myStuMajor .mahorTitle div ul {
+  overflow: hidden;
+  /*margin-top: 10px;*/
+}
+#myStuMajor .mahorTitle ul li {
+  float: left;
+  padding-right: 10px;
+  color: #fff;
+  font-size: 14px;
+}
+#myStuMajor .major {
+  overflow: hidden;
+  /*height:16px;*/
+  font-family: HiraginoSansGB-W6;
+  color: rgba(64, 64, 64, 1);
+  margin-bottom: 10px;
+}
+.top {
+  margin: 30px 0;
+}
+.major span {
+  float: left;
+  height: 18px;
+  line-height: 1;
+}
+.redSquare {
+  margin-top: 20px;
+  width: 6px;
+  /*height:16px;*/
+  background: skyblue;
+  margin-right: 10px;
+}
+
+/* ------------------------------- */
+.z_p_title {
+  background: #e4e9ec;
+  height: 24px;
+  color: #303030;
+  font-size: 16px;
+  line-height: 24px;
+  padding-left: 122px;
+}
+.z_p_test {
+  margin-right: 20px;
+}
+.el-tabs /deep/ .el-tabs__nav {
+  margin-left: 140px;
+}
+
+.mydiv {
+  height: 40px;
+  margin-bottom: 20px;
+}
+.mydiv div {
+  width: 20%;
+  height: 40px;
+  float: left;
+  line-height: 40px;
+}
+.mydiv .div1 {
+  margin-left: 24%;
+}
+.mydiv span {
+  font-size: 26px;
+  font-style: oblique;
+}
+
+.el-form /deep/ .el-textarea__inner {
+  height: 300px;
+}
 </style>

@@ -42,81 +42,80 @@
 </template>
 
 <script>
-	export default {
-		name: 'navMenus',
-		data() {
-			return {
-				activeIndex: '1',
-				activeIndex2: '1',
-				userName:""
-			};
-		},
-		methods: {
-			handleSelect(key, keyPath) {
-				console.log(key, keyPath);
-				//debugger
-				switch(key) {
-					case '1':
-						this.$router.push('/student/myStudentMajor');
-						break;
-					case '2':
-						this.$router.push('/student/Myproject');
-						break;
-					case '3':
-						this.$router.push('/student/Mygrowup');
-						break;	
-					case '4':
-						this.$router.push('/student/Myparticipation');
-						break;
-					case '5':
-						this.$router.push('/student/Mytest');
-						break;
-				}
-			},
-			mymessage(){
-				this.$router.push('/student/Mymessage');
-			},
-			mynews(){
-				this.$router.push('/student/Mynews');
-			}
-		},
-		created(){
-			this.userName = window.localStorage.getItem("userName");			
-		}
-	}
+export default {
+  name: "navMenus",
+  data() {
+    return {
+      activeIndex: "1",
+      activeIndex2: "1",
+      userName: ""
+    };
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+      //debugger
+      switch (key) {
+        case "1":
+          this.$router.push("/student/myStudentMajor");
+          break;
+        case "2":
+          this.$router.push("/student/Myproject");
+          break;
+        case "3":
+          this.$router.push("/student/Mygrowup");
+          break;
+        case "4":
+          this.$router.push("/student/Myparticipation");
+          break;
+        case "5":
+          this.$router.push("/student/Mytest");
+          break;
+      }
+    },
+    mymessage() {
+      this.$router.push("/student/Mymessage");
+    },
+    mynews() {
+      this.$router.push("/student/Mynews");
+    }
+  },
+  created() {
+    this.userName = window.localStorage.getItem("userName");
+  }
+};
 </script>
 
 <style>
-	.el-row:last-child {
-			margin-bottom: 0;
-		}
-	
-	
-	.el-col {
-		border-radius: 4px;
-		padding-left: 0 !important;
-	}
-	
-	.bg-purple-dark {
-		background: #99a9bf;
-	}
-	
-	.bg-purple-light {
-		background: #e5e9f2;
-	}
-	
-	.grid-content {
-		border-radius: 4px;
-		min-height: 36px;
-	}
-	
-	.grid-content img {
-		height: 100%;
-		display: block;
-	}
-	
-	.row-bg {
-		padding: 10px 0;
-		background-color: #f9fafc;
-	}
+.el-row:last-child {
+  margin-bottom: 0;
+}
+
+.el-col {
+  border-radius: 4px;
+  padding-left: 0 !important;
+}
+
+.bg-purple-dark {
+  background: #99a9bf;
+}
+
+.bg-purple-light {
+  background: #e5e9f2;
+}
+
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+
+.grid-content img {
+  height: 100%;
+  display: block;
+}
+
+.row-bg {
+  padding: 10px 0;
+  background-color: #f9fafc;
+}
 </style>
