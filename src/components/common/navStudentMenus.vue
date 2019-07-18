@@ -42,50 +42,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-export default {
-  name: "navMenus",
-  data() {
-    return {
-      activeIndex: "1",
-      activeIndex2: "1",
-      userName: ""
-    };
-  },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-      //debugger
-      switch (key) {
-        case "1":
-          this.$router.push("/student/myStudentMajor");
-          break;
-        case "2":
-          this.$router.push("/student/Myproject");
-          break;
-        case "3":
-          this.$router.push("/student/Mygrowup");
-          break;
-        case "4":
-          this.$router.push("/student/Myparticipation");
-          break;
-        case "5":
-          this.$router.push("/student/Mytest");
-          break;
-      }
-    },
-    mymessage() {
-      this.$router.push("/student/Mymessage");
-    },
-    mynews() {
-      this.$router.push("/student/Mynews");
-    }
-  },
-  created() {
-    this.userName = window.localStorage.getItem("userName");
-  }
-};
-=======
 	export default {
 		name: 'navMenus',
 		data() {
@@ -142,7 +98,6 @@ export default {
       });
     }
 	}
->>>>>>> ljp
 </script>
 
 <style>
