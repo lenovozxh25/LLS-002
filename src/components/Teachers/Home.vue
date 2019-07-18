@@ -54,11 +54,11 @@
 		width: 1100px;
 		margin: auto;
 		line-height: 45px;
-		height: 45px !important;
+		height: 46px !important;
 		padding-left: 10px !important;
 	}
 	
-	ul.el-menu-demo>li {
+	#thome ul.el-menu-demo>li {
 		height: 45px !important;
 		line-height: 45px !important;
 	}

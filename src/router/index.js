@@ -9,8 +9,9 @@ import Students from '@/components/Teachers/Students.vue'
 import MyContribute from '@/components/Teachers/MyContribute.vue'
 import MasterSetting from '@/components/Teachers/MasterSetting.vue'
 import MyMeage from '@/components/Teachers/MyMeage.vue'
-
+import MyTeacherMyNews from '@/components/Teachers/MyNews.vue'
 import CourseManagement from '@/components/Teachers/CourseManagement.vue'
+import OnlineAsk from '@/components/Teachers/OnlineAsk.vue'
 
 import Myproject from '@/components/Students/Myproject.vue'
 import Mytest from '@/components/Students/Mytest.vue'
@@ -89,7 +90,17 @@ const routes = [
 				path:'/masterSetting',
 				component:MasterSetting,
 				name:'masterSetting'
-			}
+			},
+			{
+				path: 'myNews',
+				component: MyTeacherMyNews,
+				name: '老师消息中心',
+			},
+			{
+				path: 'onlineAsk',
+				component: OnlineAsk,
+				name: '老师在线提问',
+			},
 		]
 	},
 	{

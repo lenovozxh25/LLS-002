@@ -345,7 +345,7 @@
 		margin-right: 10px;
 	}
 	
-	.el-input {
+	#exam .el-input {
 		width: 217px;
 	}
 	

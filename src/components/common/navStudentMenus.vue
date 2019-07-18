@@ -29,7 +29,7 @@
 							<span v-if="userName"  v-on:click="mymessage" style="cursor:pointer;color:#A3A3A4;font-size:14px;">
 								{{userName}}
 							</span>
-							<span style="cursor:pointer;color:#A3A3A4;font-size:14px;margin-left:15px">
+							<span style="cursor:pointer;color:#A3A3A4;font-size:14px;margin-left:15px" @click="logOut">
 								退出
 							</span>
 						</li>
@@ -82,7 +82,21 @@
 		},
 		created(){
 			this.userName = window.localStorage.getItem("userName");			
-		}
+		},
+		//退出
+    logOut() {
+      var app = this;
+      this.$http.get("/permit/logout").then(res => {
+        if (!!res.data === false) {
+          app.$router.push({
+            path: "/logined",
+            query: {
+              r: true
+            }
+          });
+        }
+      });
+    }
 	}
 </script>
 
