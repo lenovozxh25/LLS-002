@@ -54,6 +54,9 @@ html,body{
 .el-dialog{
     margin-top: 0 !important;
 }
+#editor{
+    height: 200px !important;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -169,182 +169,182 @@ export default {
 </script>
 
 <style>
-.examTitle {
-  width: 100%;
-  height: 144px;
-  background: linear-gradient(60deg, rgb(108, 196, 206), rgb(101, 241, 206));
-}
-
-.examTitle > div {
-  width: 1100px;
-  height: 144px;
-  margin: auto;
-  background: url(../../images/back03.png) no-repeat right 0px;
-  background-size: 235px 140px;
-}
-
-.examTitle div div {
-  min-width: 400px;
-  color: #fff;
-  font-size: 25px;
-  margin-left: 40px;
-  padding-top: 40px;
-}
-
-.examTitle div ul {
-  overflow: hidden;
-  margin-left: 40px;
-  /*margin-top: 10px;*/
-}
-
-.examTitle ul li {
-  float: left;
-  padding-right: 10px;
-  color: #fff;
-  font-size: 14px;
-}
-/**/
-
-.eaxmMain {
-  width: 1100px;
-  margin: 10px auto;
-  background: white;
-  padding: 20px;
-}
-
-.exam {
-  overflow: hidden;
-  /*height:16px;*/
-  font-family: HiraginoSansGB-W6;
-  color: rgba(64, 64, 64, 1);
-  margin-bottom: 10px;
-}
-
-.top {
-  margin: 15px 0;
-}
-
-.exam span {
-  float: left;
-  height: 20px;
-  line-height: 18px;
-  font-size: 18px;
-}
-
-.redSquare {
-  width: 6px;
-  /*height:16px;*/
-  background: skyblue;
-  margin-right: 10px;
-}
-
-.el-input {
-  width: 217px;
-}
-
-.inputBox {
-  font-size: 14px;
-  margin-left: 40px;
-}
-
-.inputBox > div > span {
-  /*border: red solid 1px ;*/
-  display: inline-block;
-  width: 100px;
-  text-align: right;
-}
-
-.weekExam {
-  margin-top: 20px;
-}
-
-#exam .explain {
-  background: #ffe4d0;
-  font-size: 12px;
-  color: #ff7b61;
-  padding: 6px 20px;
-  margin-top: 20px;
-}
-
-.explain a {
-  font-size: 12px;
-  color: #087acf;
-}
-
-.topN {
-  margin: 20px 0;
-}
-
-.topN > p {
-  display: inline-block;
-  font-size: 12px;
-  width: 138px;
-  text-align: center;
-  margin-left: 70px;
-}
-
-.topN i {
-  font-size: 14px;
-  margin-right: 5px;
-}
-
-.topN span {
-  font-size: 30px;
-  font-weight: bold;
-  margin: 0 5px;
-}
-
-.topNum1 {
-  color: #d693e2;
-}
-
-.topNum2 {
-  color: #f4a9b9;
-}
-
-.topNum3 {
-  color: #f8b596;
-}
-
-.topNum4,
-.topNum5 {
-  color: #ababab;
-}
-
-.countNum1 {
-  color: #cd1bc7;
-}
-
-.countNum2 {
-  color: #ef5a80;
-}
-
-.countNum3 {
-  color: #f47727;
-}
-
-.countNum4 {
-  color: #5eebc0;
-}
-
-.countNum5 {
-  color: #289bf4;
-}
-
-.listTable {
-  overflow: hidden;
-}
-
-.listTable a {
-  color: #7b7171;
-  margin-right: 5px;
-}
-
-.listTable > div > span {
-  font-size: 14px;
-}
-
-.listTable .el-select {
-  margin-right: 35px;
-}
+	.examTitle {
+		width: 100%;
+		height: 144px;
+		background: linear-gradient(60deg, rgb(108, 196, 206), rgb(101, 241, 206));
+	}
+	
+	.examTitle>div {
+		width: 1100px;
+		height: 144px;
+		margin: auto;
+		background: url(../../images/back03.png) no-repeat right 0px;
+		background-size: 235px 140px;
+	}
+	
+	.examTitle div div {
+		min-width: 400px;
+		color: #fff;
+		font-size: 25px;
+		margin-left: 40px;
+		padding-top: 40px;
+	}
+	
+	.examTitle div ul {
+		overflow: hidden;
+		margin-left: 40px;
+		/*margin-top: 10px;*/
+	}
+	
+	.examTitle ul li {
+		float: left;
+		padding-right: 10px;
+		color: #fff;
+		font-size: 14px;
+	}
+	/**/
+	
+	.eaxmMain {
+		width: 1100px;
+		margin: 10px auto;
+		background: white;
+		padding: 20px;
+	}
+	
+	.exam {
+		overflow: hidden;
+		/*height:16px;*/
+		font-family: HiraginoSansGB-W6;
+		color: rgba(64, 64, 64, 1);
+		margin-bottom: 10px;
+	}
+	
+	.top {
+		margin: 15px 0;
+	}
+	
+	.exam span {
+		float: left;
+		height: 20px;
+		line-height: 18px;
+		font-size: 18px;
+	}
+	
+	.redSquare {
+		width: 6px;
+		/*height:16px;*/
+		background: skyblue;
+		margin-right: 10px;
+	}
+	
+	#exam .el-input {
+		width: 217px;
+	}
+	
+	.inputBox {
+		font-size: 14px;
+		margin-left: 40px;
+	}
+	
+	.inputBox>div>span {
+		/*border: red solid 1px ;*/
+		display: inline-block;
+		width: 100px;
+		text-align: right;
+	}
+	
+	.weekExam {
+		margin-top: 20px;
+	}
+	
+	#exam .explain {
+		background: #ffe4d0;
+		font-size: 12px;
+		color: #ff7b61;
+		padding: 6px 20px;
+		margin-top: 20px;
+	}
+	
+	.explain a {
+		font-size: 12px;
+		color: #087acf
+	}
+	
+	.topN {
+		margin: 20px 0;
+	}
+	
+	.topN>p {
+		display: inline-block;
+		font-size: 12px;
+		width: 138px;
+		text-align: center;
+		margin-left: 70px;
+	}
+	
+	.topN i {
+		font-size: 14px;
+		margin-right: 5px;
+	}
+	
+	.topN span {
+		font-size: 30px;
+		font-weight: bold;
+		margin: 0 5px;
+	}
+	
+	.topNum1 {
+		color: #d693e2;
+	}
+	
+	.topNum2 {
+		color: #f4a9b9;
+	}
+	
+	.topNum3 {
+		color: #f8b596;
+	}
+	
+	.topNum4,
+	.topNum5 {
+		color: #ababab;
+	}
+	
+	.countNum1 {
+		color: #cd1bc7;
+	}
+	
+	.countNum2 {
+		color: #ef5a80;
+	}
+	
+	.countNum3 {
+		color: #f47727;
+	}
+	
+	.countNum4 {
+		color: #5eebc0;
+	}
+	
+	.countNum5 {
+		color: #289bf4;
+	}
+	
+	.listTable {
+		overflow: hidden;
+	}
+	
+	.listTable a {
+		color: #7b7171;
+		margin-right: 5px;
+	}
+	
+	.listTable>div>span {
+		font-size: 14px;
+	}
+	
+	.listTable .el-select {
+		margin-right: 35px;
+	}
 </style>

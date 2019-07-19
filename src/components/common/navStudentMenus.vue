@@ -29,7 +29,7 @@
 							<span v-if="userName"  v-on:click="mymessage" style="cursor:pointer;color:#A3A3A4;font-size:14px;">
 								{{userName}}
 							</span>
-							<span style="cursor:pointer;color:#A3A3A4;font-size:14px;margin-left:15px">
+							<span style="cursor:pointer;color:#A3A3A4;font-size:14px;margin-left:15px" @click="logOut">
 								退出
 							</span>
 						</li>
@@ -42,48 +42,62 @@
 </template>
 
 <script>
-export default {
-  name: "navMenus",
-  data() {
-    return {
-      activeIndex: "1",
-      activeIndex2: "1",
-      userName: ""
-    };
-  },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-      //debugger
-      switch (key) {
-        case "1":
-          this.$router.push("/student/myStudentMajor");
-          break;
-        case "2":
-          this.$router.push("/student/Myproject");
-          break;
-        case "3":
-          this.$router.push("/student/Mygrowup");
-          break;
-        case "4":
-          this.$router.push("/student/Myparticipation");
-          break;
-        case "5":
-          this.$router.push("/student/Mytest");
-          break;
-      }
-    },
-    mymessage() {
-      this.$router.push("/student/Mymessage");
-    },
-    mynews() {
-      this.$router.push("/student/Mynews");
+	export default {
+		name: 'navMenus',
+		data() {
+			return {
+				activeIndex: '1',
+				activeIndex2: '1',
+				userName:""
+			};
+		},
+		methods: {
+			handleSelect(key, keyPath) {
+				console.log(key, keyPath);
+				//debugger
+				switch(key) {
+					case '1':
+						this.$router.push('/student/myStudentMajor');
+						break;
+					case '2':
+						this.$router.push('/student/Myproject');
+						break;
+					case '3':
+						this.$router.push('/student/Mygrowup');
+						break;	
+					case '4':
+						this.$router.push('/student/Myparticipation');
+						break;
+					case '5':
+						this.$router.push('/student/Mytest');
+						break;
+				}
+			},
+			mymessage(){
+				this.$router.push('/student/Mymessage');
+			},
+			mynews(){
+				this.$router.push('/student/Mynews');
+			}
+		},
+		created(){
+			this.userName = window.localStorage.getItem("userName");			
+		},
+		//退出
+    logOut() {
+      var app = this;
+      this.$http.get("/permit/logout").then(res => {
+        if (!!res.data === false) {
+          app.$router.push({
+            path: "/logined",
+            query: {
+              r: true
+            }
+          });
+        }
+      });
     }
-  },
-  created() {
-    this.userName = window.localStorage.getItem("userName");
-  }
-};
+	}
 </script>
 
 <style>
