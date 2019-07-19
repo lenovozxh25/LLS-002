@@ -100,7 +100,7 @@ export default {
       isShow: true,
       activeNames: ["1", "2", "3", "4", "5"],
       z_p_testName: "first",
-      listAll: [], //我的问答相关信息
+      listAll: [], //我的问答相关数据
       feedbackAll: [], //我的反馈建议相关数据
       form: {
         name: "",
