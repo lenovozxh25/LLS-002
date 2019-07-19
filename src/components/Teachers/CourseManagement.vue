@@ -108,7 +108,7 @@ export default {
   methods: {
     //维护跳转
     pushChange(customId){
-      debugger
+     // debugger
         this.$router.push({  //核心语句
         name:'masterSetting',   //跳转的路径
         params:{
@@ -124,14 +124,14 @@ export default {
          console.log($(event.target).parents(".ul").find(".aaa"))
         if(event.target.textContent =="新增课程"){
         $(event.target).parents(".ul").find("#aaa").removeClass()
-         $(event.target).parents(".ul").find("#aaa").addClass('hide')
+         $(event.target).parents(".ul").find("#aaa").addClass('show')
            event.target.textContent ="保存修改"
-         //  this.pres=false
+           this.pres=false
         }else{
           $(event.target).parents(".ul").find("#aaa").removeClass()
-         $(event.target).parents(".ul").find("#aaa").addClass('show')
+         $(event.target).parents(".ul").find("#aaa").addClass('hide')
            event.target.textContent ="新增课程"
-          // this.pres=true
+           this.pres=true
         }
      
     },

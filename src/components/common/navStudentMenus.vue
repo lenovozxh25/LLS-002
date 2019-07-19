@@ -29,7 +29,7 @@
 							<span v-if="userName"  v-on:click="mymessage" style="cursor:pointer;color:#A3A3A4;font-size:14px;">
 								{{userName}}
 							</span>
-							<span style="cursor:pointer;color:#A3A3A4;font-size:14px;margin-left:15px">
+							<span style="cursor:pointer;color:#A3A3A4;font-size:14px;margin-left:15px" @click="logOut">
 								退出
 							</span>
 						</li>
@@ -82,41 +82,54 @@
 		},
 		created(){
 			this.userName = window.localStorage.getItem("userName");			
-		}
+		},
+		//退出
+    logOut() {
+      var app = this;
+      this.$http.get("/permit/logout").then(res => {
+        if (!!res.data === false) {
+          app.$router.push({
+            path: "/logined",
+            query: {
+              r: true
+            }
+          });
+        }
+      });
+    }
 	}
 </script>
 
 <style>
-	.el-row:last-child {
-			margin-bottom: 0;
-		}
-	
-	
-	.el-col {
-		border-radius: 4px;
-		padding-left: 0 !important;
-	}
-	
-	.bg-purple-dark {
-		background: #99a9bf;
-	}
-	
-	.bg-purple-light {
-		background: #e5e9f2;
-	}
-	
-	.grid-content {
-		border-radius: 4px;
-		min-height: 36px;
-	}
-	
-	.grid-content img {
-		height: 100%;
-		display: block;
-	}
-	
-	.row-bg {
-		padding: 10px 0;
-		background-color: #f9fafc;
-	}
+.el-row:last-child {
+  margin-bottom: 0;
+}
+
+.el-col {
+  border-radius: 4px;
+  padding-left: 0 !important;
+}
+
+.bg-purple-dark {
+  background: #99a9bf;
+}
+
+.bg-purple-light {
+  background: #e5e9f2;
+}
+
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+
+.grid-content img {
+  height: 100%;
+  display: block;
+}
+
+.row-bg {
+  padding: 10px 0;
+  background-color: #f9fafc;
+}
 </style>

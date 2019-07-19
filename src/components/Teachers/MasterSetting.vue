@@ -41,6 +41,8 @@
                 :index="`${indexs}-${index}`"
                 v-for="(itemChild,index) in item.childList"
                 :key="itemChild.id"
+                :data-itemId="itemChild.id"
+                @click="menuItem(itemChild.id)"
               >{{itemChild.name}}</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
@@ -68,30 +70,42 @@
       </div>
     </div>
     <!-- 新增内容框 -->
-    <el-dialog title="新增课程资源" :visible.sync="dialogVisible" width="36%" :before-close="handleClose" style="margin:0">
+    <el-dialog
+      title="新增课程资源"
+      :visible.sync="dialogVisible"
+      width="36%"
+      :before-close="handleClose"
+      style="margin:0"
+    >
       <div>
         上传文件：
-        <input type="file" id="file" name="file" required @change="onChangeFile($event)"/>
+        <input type="file" id="file" name="file" required @change="onChangeFile($event)" />
       </div>
       <div style="margin:15px 0">
         上传图片：
-        <input type="file" id="showImageFile" name="showImageFile" required />
+        <input
+          type="file"
+          id="showImageFile"
+          name="showImageFile"
+          required
+          @change="onChangeImgFile($event)"
+        />
       </div>
       <div>
         资源名称：
-        <el-input type="text" :value="fileName" placeholder="资源名称" v-model="fileName" ></el-input>
+        <el-input type="text" :value="fileName" placeholder="资源名称" v-model="fileName"></el-input>
       </div>
       <div style="margin:15px 0">
         作者：
-        <el-input type="text" placeholder="作者" v-model="fileAuthor" ></el-input>
+        <el-input type="text" placeholder="作者" v-model="fileAuthor"></el-input>
       </div>
       <div>
         简短描述：
-        <el-input type="textarea" :rows="4"  v-model="shortDescVal"></el-input>
+        <el-input type="textarea" :rows="4" v-model="shortDescVal"></el-input>
       </div>
       <div style="margin:15px 0">
         <span>资源内容:</span>
-        <el-input type="textarea" :rows="4"  v-model="content"></el-input>
+        <el-input type="textarea" :rows="4" v-model="content"></el-input>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -102,15 +116,19 @@
 </template>
 <script>
 import { Message } from "element-ui";
+// import baseUrl from "../Teachers/components/ajax.js";
 export default {
   name: "masterSetting",
   data() {
     return {
       dialogVisible: false,
       cur: 1,
+      typeId:1,
       masterTree: [],
       sourceTabs: [],
+      itemChildId:1,
       file:"",
+      imgFile:"",
       fileName:"",
       fileAuthor:"",
       shortDescVal:"",
@@ -125,16 +143,6 @@ export default {
           date: "2016",
           name: "王小虎",
           address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
         }
       ]
     };
@@ -154,6 +162,10 @@ export default {
         let index=file.name.lastIndexOf(".");
         this.fileName=file.name.substring(0,index);
     },
+    onChangeImgFile(e){
+        let imgFile=e.target.files[0];
+        this.imgFile=imgFile
+    },
     //新增课程资源
     submitCourse(){
         var app=this;
@@ -162,9 +174,14 @@ export default {
         var formData = new window.FormData();
         let config = {headers: {"Content-Type": "multipart/form-data"}}
         formData.append("file", this.file)
-        this.$http.post(`/product/customMaterial/save?customItemId=${this.itemID}&typeId=${this.selectValue}&name=${this.fileName}&shortDescribe=${this.shortDescVal}&fileAuthor=${this.fileAuthor}&content=${this.content}`, formData, config).then((res) => {
+        formData.append("showImageFile", this.imgFile)
+        this.$http.post(`http://10.119.167.182:9090/v2.0/lls/product/customMaterial/save?customItemId=${this.itemChildId}&typeId=${this.typeId}&name=${this.fileName}&shortDescribe=${this.shortDescVal}&fileAuthor=${this.fileAuthor}&content=${this.content}`, formData, config).then((res) => {
             if(res.data==""){
                 app.$message.success("新增成功！")
+                app.fileName=""
+                app.fileAuthor=""
+                app.shortDescVal=""
+                app.content=""
             }else{
                 app.$message.error("新增失败！")
             }
@@ -173,6 +190,21 @@ export default {
     //tabs切换
     tabsClick(index) {
       this.cur = index;
+      this.typeId=index;
+       this.getCustom(this.itemChildId,this.typeId)
+    },
+    menuItem(itemChildId){
+        this.itemChildId=itemChildId;
+        this.getCustom(this.itemChildId,this.typeId)
+    },
+    //通过课程节点和类型获取资源
+    getCustom (itemChildId,typeId){
+      debugger
+        var app = this;
+      this.$http.post(`/product/customMaterial/listForItemIdAndTypeId?itemId=${itemChildId}&typeId=${typeId}`).then(function(res) {
+        console.log(res.data);
+        app.sourceTabs = res.data;
+      });
     },
     //获取资源类型接口
     getMasterSourceTabList() {
@@ -195,11 +227,7 @@ export default {
 
     //新增窗口关闭
     handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
             done();
-          })
-          .catch(_ => {});
       }
   },
   created() {

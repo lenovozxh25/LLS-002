@@ -107,40 +107,42 @@ export default {
     return {
       loginName: "",
       password: "",
-      userId:0,
-      userName:""
+      userId: 0,
+      userName: ""
     };
   },
   methods: {
     // 执行用户登录操作
-    dologin() { 
+    dologin() {
       var app = this;
-      app.$http.post("/permit/login", {
-        loginName: this.loginName,
-        password: this.password,
-        validCode:'123456'
-      }).then(function(response){
-            app.$http.get("/permit/user/currentUser").then(
-                        (res)=>{
-                          app.userId = res.data.id;
-                          app.userName = res.data.userName;
-                          window.localStorage.setItem("userId",app.userId);  
-                          window.localStorage.setItem("userName",app.userName);
-                          app.$http.get("http://10.119.167.182:9090/v2.0/lls/permit/user/currentUserRoleFlag").then(
-                              (res)=>{
-                                // console.log(res.data);
-                                // debugger
-                                if(res.data[0] === "S"){
-                                  app.$router.push('/student/myStudentMajor');                  
-                                }else{
-                                  app.$router.push('/teacher/myMajor');
-                                }
-                            }); 
-                          }
-                  );
-      });      
-    },
-    
+      app.$http
+        .post("/permit/login", {
+          loginName: this.loginName,
+          password: this.password,
+          validCode: "123456"
+        })
+        .then(function(response) {
+          app.$http.get("/permit/user/currentUser").then(res => {
+            app.userId = res.data.id;
+            app.userName = res.data.userName;
+            window.localStorage.setItem("userId", app.userId);
+            window.localStorage.setItem("userName", app.userName);
+            app.$http
+              .get(
+                "http://10.119.167.182:9090/v2.0/lls/permit/user/currentUserRoleFlag"
+              )
+              .then(res => {
+                // console.log(res.data);
+                // debugger
+                if (res.data[0] === "S") {
+                  app.$router.push("/student/myStudentMajor");
+                } else {
+                  app.$router.push("/teacher/myMajor");
+                }
+              });
+          });
+        });
+    }
   }
 };
 </script>
