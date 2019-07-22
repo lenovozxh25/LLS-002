@@ -56,6 +56,7 @@ html,body{
 }
 #editor{
     height: 200px !important;
+	width: 100% !important;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

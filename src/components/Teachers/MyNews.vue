@@ -11,15 +11,17 @@
       </div>
     </div>
     <div class="myNews_main">
-      <el-tabs type="border-card">
+      <el-tabs type="border-card" @tab-click="unReadMsg">
         <el-tab-pane label="未读消息">
-          <i class="el-icon-info"></i>暂无消息
+          <i class="el-icon-info"></i>
+          暂无未读消息{{unMsg}}
         </el-tab-pane>
         <el-tab-pane label="已读消息">
           <i class="el-icon-info"></i>暂无消息
         </el-tab-pane>
         <el-tab-pane label="全部消息">
-          <i class="el-icon-info"></i>暂无消息
+          <i class="el-icon-info"></i>
+          暂无消息{{allMsg}}
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -30,8 +32,36 @@ export default {
   name: "myNews",
   data() {
     return {
-      
+      unMsg: [],
+      allMsg: []
     };
+  },
+  created() {
+    this.unReadMsg();
+  },
+  methods: {
+    //未读消息
+    unReadMsg(event) {
+      console.log(event.index);
+      var app = this;
+      if (event.index == 0) {
+        this.$http
+          .get("/message/sysMessageReading/noHaveReadDataCount")
+          .then(res => {
+            console.log(res.data);
+            app.unMsg = res.data;
+          });
+      } else if (event.index == 1) {
+        console.log("已读消息");
+      } else {
+        this.$http
+          .post("/message/sysMessageReading/page", { page, pageSize, params })
+          .then(res => {
+            console.log(res.data);
+            app.allMsg = res.data;
+          });
+      }
+    }
   }
 };
 </script>

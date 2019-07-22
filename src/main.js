@@ -5,7 +5,9 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import request from './ajax.js';
 import store from './store';
+import {Message} from "element-ui"
 
+Vue.prototype.$message = Message;
 // 为Vue对象添加一个继承属性
 Vue.prototype.$http = request;
 

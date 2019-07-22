@@ -25,7 +25,7 @@ import MyStudentMytest from '@/components/Students/Mytest.vue'
 import MyStudentMyparticipation from '@/components/Students/Myparticipation.vue'
 import MyStudentMynews from '@/components/Students/Mynews.vue'
 import MyStudentMygrowup from '@/components/Students/Mygrowup.vue'
-
+import StuOnlineAsk from '@/components/Students/OnlineAsk.vue'
 
 import Logined from '@/components/common/Login.vue'
 
@@ -140,7 +140,12 @@ const routes = [
 				path: 'Mygrowup',
 				component: MyStudentMygrowup,
 				name: '学生我的成长',
-			}
+			},
+			{
+				path: 'stuOnlineAsk',
+				component: StuOnlineAsk,
+				name: '学生在线提问',
+			},
 		]
 	},
 	{

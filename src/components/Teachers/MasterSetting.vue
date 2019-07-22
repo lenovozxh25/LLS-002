@@ -57,7 +57,7 @@
             @click="tabsClick(item.id)"
           >{{item.name}}</li>
         </ul>
-        <el-button type="info" icon="el-icon-plus" @click="dialogVisible = true">新增</el-button>
+        <el-button icon="el-icon-plus" @click="dialogVisible = true">新增</el-button>
         <template>
           <el-table :data="tableData" style="width: 100%">
             <el-table-column prop="date" label="序号" width="80"></el-table-column>
@@ -74,7 +74,7 @@
       title="新增课程资源"
       :visible.sync="dialogVisible"
       width="36%"
-      :before-close="handleClose"
+      :before-close="handleCloses"
       style="margin:0"
     >
       <div>
@@ -133,18 +133,7 @@ export default {
       fileAuthor:"",
       shortDescVal:"",
       content:"",
-      tableData: [
-        {
-          date: "2016",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        }
-      ]
+      tableData: []
     };
   },
   methods: {
@@ -175,7 +164,7 @@ export default {
         let config = {headers: {"Content-Type": "multipart/form-data"}}
         formData.append("file", this.file)
         formData.append("showImageFile", this.imgFile)
-        this.$http.post(`http://10.119.167.182:9090/v2.0/lls/product/customMaterial/save?customItemId=${this.itemChildId}&typeId=${this.typeId}&name=${this.fileName}&shortDescribe=${this.shortDescVal}&fileAuthor=${this.fileAuthor}&content=${this.content}`, formData, config).then((res) => {
+        this.$http.post(`/product/customMaterial/save?customItemId=${this.itemChildId}&typeId=${this.typeId}&name=${this.fileName}&shortDescribe=${this.shortDescVal}&fileAuthor=${this.fileAuthor}&content=${this.content}`, formData, config).then((res) => {
             if(res.data==""){
                 app.$message.success("新增成功！")
                 app.fileName=""
@@ -191,29 +180,38 @@ export default {
     tabsClick(index) {
       this.cur = index;
       this.typeId=index;
-       this.getCustom(this.itemChildId,this.typeId)
+       this.getCustom(this.itemChildId)
     },
     menuItem(itemChildId){
         this.itemChildId=itemChildId;
-        this.getCustom(this.itemChildId,this.typeId)
+        this.getCustom(this.itemChildId)
     },
     //通过课程节点和类型获取资源
-    getCustom (itemChildId,typeId){
+    // getCustom (itemChildId,typeId){
+    //   debugger
+    //     var app = this;
+    //   this.$http.post(`/product/customMaterial/listForItemIdAndTypeId?itemId=${itemChildId}&typeId=${typeId}`).then(function(res) {
+    //     console.log(res.data);
+    //     app.sourceTabs = res.data;
+    //   });
+    // },
+    //通过课程节点和类型获取资源
+    getCustom (itemChildId){
       debugger
         var app = this;
-      this.$http.post(`/product/customMaterial/listForItemIdAndTypeId?itemId=${itemChildId}&typeId=${typeId}`).then(function(res) {
+      this.$http.get(`/product/majorCustomCourse/getListByItemId/${itemChildId}`).then(function(res) {
         console.log(res.data);
-        app.sourceTabs = res.data;
+        app.tableData = res.data;
       });
     },
     //获取资源类型接口
-    getMasterSourceTabList() {
-      var app = this;
-      this.$http.get("/product/materialType/listForAble").then(function(res) {
-        console.log(res.data);
-        app.sourceTabs = res.data;
-      });
-    },
+    // getMasterSourceTabList() {
+    //   var app = this;
+    //   this.$http.get("/product/materialType/listForAble").then(function(res) {
+    //     console.log(res.data);
+    //     app.sourceTabs = res.data;
+    //   });
+    // },
     //获取学期列表
     getMasterTree(customId) {
       var app = this;
@@ -226,13 +224,13 @@ export default {
     },
 
     //新增窗口关闭
-    handleClose(done) {
+    handleCloses(done) {
             done();
       }
   },
   created() {
     this.getMasterTree(this.$route.params.customId);
-    this.getMasterSourceTabList();
+    // this.getMasterSourceTabList();
   }
 };
 </script>
@@ -289,6 +287,10 @@ export default {
 .master_right {
   width: 750px;
 }
+.master_right>.el-button{
+  float: right;
+  margin-bottom: 10px;
+}
 .sourceTabs {
   display: flex;
   font-size: 14px;
@@ -305,7 +307,10 @@ export default {
   cursor: pointer;
 }
 .active {
-  background-color: #909399;
+  background-color: #49c0e0;
   color: white;
+}
+#masterSetting .el-submenu__title i {
+    color: #49c0e0;
 }
 </style>

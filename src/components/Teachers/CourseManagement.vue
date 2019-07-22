@@ -42,9 +42,9 @@
                     <el-button
                       plain
                       @click="insertBtn(items.id,$event)"
-                      :data-id="items.id"
-                    >新增课程</el-button>
+                    >{{pres && currentId == items.id ? "保存修改" : "课程定制"}}</el-button>
                     <el-button plain style="margin-left:23px" @click="pushChange(items.id)">内容维护</el-button>
+                  <p>{{items.id}}</p>
                   </div>
                 </div>
               </div>
@@ -59,29 +59,47 @@
                       class="course_item"
                       v-for="(i ,index) in itemChildList.childList"
                       :key="index"
-                    >{{i.name}}
-                      <span :class="{hide:pres}"><i class="el-icon-error" @click="deleteCourseItem(i.id)"></i></span>
+                    >
+                      {{i.name}}
+                      <span :class="{hide:pres}">
+                        <i class="el-icon-error" @click="deleteCourseItem(i.id)"></i>
+                      </span>
                     </li>
                     <template>
-                      <li style="margin-top: 10px;" id="aaa">
-                        <input type="text" class="inputVal" placeholder="添加课程" :key="itemChildList.customId" @change="changeEvent($event)">
-                        <button class="inputBtn" @click="insertCourse(itemChildList.customId,itemChildList.id,input2)">添加</button>
+                      <li style="margin-top: 10px;" id="aaa" :class="{hide:pres}">
+                        <input
+                          type="text"
+                          class="inputVal"
+                          placeholder="添加课程"
+                          :key="itemChildList.customId"
+                          @change="changeEvent($event)"
+                        />
+                        <button
+                          class="inputBtn"
+                          @click="insertCourse(itemChildList.customId,itemChildList.id,input2)"
+                        >添加</button>
                         <!-- <el-input placeholder="添加课程" :key="itemChildList.customId" @change="changeEvent($event)"> 
                           <el-button slot="append"  @click="insertCourse(itemChildList.customId,itemChildList.id,input2)">添加</el-button>
-                        </el-input> -->
+                        </el-input>-->
                       </li>
                     </template>
                   </ul>
                 </li>
-                  <template >
-                    <li style="width:190px" :class="{hide:pres}">
-                      <input type="text" class="inputVal" placeholder="添加学期" :key="items.customId" @change="changeEvent($event)">
-                      <button class="inputBtn" @click="insertCourse(items.id,0,input3)">添加</button>
-                      <!-- <el-input placeholder="添加学期" v-model="input3">
+                <template>
+                  <li style="width:190px" :class="{hide:pres}">
+                    <input
+                      type="text"
+                      class="inputVal"
+                      placeholder="添加学期"
+                      :key="items.customId"
+                      @change="changeEvent($event)"
+                    />
+                    <button class="inputBtn" @click="insertCourse(items.id,0,input3)">添加</button>
+                    <!-- <el-input placeholder="添加学期" v-model="input3">
                         <el-button slot="append"  @click="insertCourse(items.id,0,input3)">添加</el-button>
-                      </el-input> -->
-                    </li>
-               </template>
+                    </el-input>-->
+                  </li>
+                </template>
               </ul>
             </li>
           </ul>
@@ -92,61 +110,91 @@
 </template>
 
 <script>
-import $ from 'jquery';
+import $ from "jquery";
 export default {
   name: "courseManagement",
   data() {
     return {
-      input2:'',
-      input3:'',
-      pres:true,
+      input2: "",
+      input3: "",
+      pres: true,
       editableTabsValue: "大前端",
       editableTabs: null, //专业分类
-      insertId:''
+      insertId: "",
+      currentId: ""
     };
   },
   methods: {
     //维护跳转
-    pushChange(customId){
-     // debugger
-        this.$router.push({  //核心语句
-        name:'masterSetting',   //跳转的路径
-        params:{
-          customId:customId
+    pushChange(customId) {
+      // debugger
+      this.$router.push({
+        //核心语句
+        name: "masterSetting", //跳转的路径
+        params: {
+          customId: customId
         }
-      })
-    },
-    changeEvent (e){ //获取输入框的值
-      this.input2=e.target.value
-      this.input3=e.target.value
-    },
-    insertBtn (e,event) {
-         console.log($(event.target).parents(".ul").find(".aaa"))
-        if(event.target.textContent =="新增课程"){
-        $(event.target).parents(".ul").find("#aaa").removeClass()
-         $(event.target).parents(".ul").find("#aaa").addClass('show')
-           event.target.textContent ="保存修改"
-           this.pres=false
-        }else{
-          $(event.target).parents(".ul").find("#aaa").removeClass()
-         $(event.target).parents(".ul").find("#aaa").addClass('hide')
-           event.target.textContent ="新增课程"
-           this.pres=true
-        }
-     
-    },
-    //获取专业列表
-    getContainCustomList:function(){
-      var app = this;
-       this.$http
-      .get("/product/majorType/listContainCustomList")
-      .then(function(res) {
-         console.log(res.data);
-        app.editableTabs = res.data;
       });
     },
-     //新增课程
-    insertCourse:function(customId, parentId, name) {
+    changeEvent(e) {
+      //获取输入框的值
+      this.input2 = e.target.value;
+      this.input3 = e.target.value;
+    },
+    //母版定制
+    insertBtn(id, event) {
+     // debugger;
+      console.log(this.currentId)
+      if (id == this.currentId || this.currentId === "") {
+          this.pres= !this.pres,
+          this.currentId=!this.pres ? id : ""
+           event.target.textContent = "保存修改";
+      } else {
+        this.$message.error("请先保存正在编辑的母版");
+      }
+      // let itemId = id;
+      // if (itemId === this.currentId || this.currentId === "") {
+      //   this.pres = !this.pres;
+      //   this.currentId = !this.pres ? itemId : "";
+      // } else {
+      //   this.$message.error("请先保存正在编辑的母版");
+      // }
+      // if (event.target.textContent == "新增课程" && itemId===this.currentId) {
+      //   $(event.target)
+      //     .parents(".ul")
+      //     .find("#aaa")
+      //     .removeClass();
+      //   $(event.target)
+      //     .parents(".ul")
+      //     .find("#aaa")
+      //     .addClass("show");
+      //   event.target.textContent = "保存修改";
+      //   this.pres = false;
+      // } else {
+      //   $(event.target)
+      //     .parents(".ul")
+      //     .find("#aaa")
+      //     .removeClass();
+      //   $(event.target)
+      //     .parents(".ul")
+      //     .find("#aaa")
+      //     .addClass("hide");
+      //   event.target.textContent = "新增课程";
+      //   this.pres = true;
+      // }
+    },
+    //获取专业列表
+    getContainCustomList: function() {
+      var app = this;
+      this.$http
+        .get("/product/majorType/listContainCustomList")
+        .then(function(res) {
+          console.log(res.data);
+          app.editableTabs = res.data;
+        });
+    },
+    //新增课程
+    insertCourse: function(customId, parentId, name) {
       // console.log(e);
       debugger;
       var app = this;
@@ -157,32 +205,32 @@ export default {
           if (res) {
             app.getContainCustomList();
             alert("新增成功！");
-            app.input3="";
-            app.input2="";
+            app.input3 = "";
+            app.input2 = "";
           } else {
             alert("新增失败！");
           }
         });
     },
     //删除课程
-    deleteCourseItem (id){
-      debugger
-       var app = this;
+    deleteCourseItem(id) {
+      debugger;
+      var app = this;
       this.$http
         .get(`/product/majorCustomItem/delete/${id}`)
         .then(function(res) {
-            if(res){
-              alert("删除成功！")
-              app.getContainCustomList();
-            }else{
-              alert("删除失败！")
-            }
-        })
+          if (res) {
+            alert("删除成功！");
+            app.getContainCustomList();
+          } else {
+            alert("删除失败！");
+          }
+        });
     }
   },
   created: function() {
     this.getContainCustomList();
-    var app = this; 
+    var app = this;
     this.$http.get("/product/majorCustom/listByTypeId/1").then(function(res) {
       //app.majorTypeList = res.data;
     });
@@ -299,36 +347,37 @@ export default {
   margin-top: 7px;
   border: 1px solid #49c0e0;
 }
-.el-icon-error{
+.el-icon-error {
   position: absolute;
   right: -8px;
   top: -8px;
   color: red;
 }
-.el-icon-error:hover{
+.el-icon-error:hover {
   cursor: pointer;
 }
 
-.show{
+.show {
   display: block;
 }
-.hide{
+.hide {
   display: none;
 }
-.inputVal, .inputBtn{
+.inputVal,
+.inputBtn {
   border: none;
   height: 35px;
   float: left;
   outline: none;
 }
-.inputVal{
+.inputVal {
   width: 106px;
   border: 1px solid #49c0e0;
   padding-left: 10px;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 }
-.inputBtn{
+.inputBtn {
   width: 60px;
   height: 37px;
   background: #49c0e0;
@@ -336,7 +385,7 @@ export default {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
-.inputBtn:hover{
+.inputBtn:hover {
   cursor: pointer;
 }
 </style>

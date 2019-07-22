@@ -57,7 +57,7 @@
 		padding-left: 10px !important;
 	}
 	
-	.el-menu {
+	#stuHome .el-menu {
 		height: 45px !important;
 	}
 	
