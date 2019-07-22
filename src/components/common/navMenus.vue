@@ -17,7 +17,10 @@
             <el-menu-item index="1">我教的专业</el-menu-item>
             <el-submenu index="2">
               <template slot="title">我教的课程</template>
-              <el-submenu index="2-1">
+              <el-submenu v-for=''>
+
+              </el-submenu>
+              <!-- <el-submenu index="2-1">
                 <template slot="title">第一学期</template>
                 <el-menu-item index="2-1-1">web前端基础</el-menu-item>
                 <el-menu-item index="2-1-2">web前端高级</el-menu-item>
@@ -45,7 +48,7 @@
                 <template slot="title">第五学期</template>
                 <el-menu-item index="2-5-1">就业岗前冲刺</el-menu-item>
                 <el-menu-item index="2-5-2">全真项目实训</el-menu-item>
-              </el-submenu>
+              </el-submenu> -->
             </el-submenu>
             <el-menu-item index="3">考试管理</el-menu-item>
             <el-menu-item index="4">学员管理</el-menu-item>
@@ -86,7 +89,8 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
-      userName: ""
+      userName: "",
+      MajorCustomData:''
     };
   },
   methods: {
@@ -136,10 +140,21 @@ export default {
           });
         }
       });
-    }
+    },
+    //获取该教师的专业
+			getMajorCustom(userId){
+				var app = this;
+				this.$http
+					.get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
+					.then(function(res) {
+						app.MajorCustomData=res.data[0];
+						console.log(res.data[0])
+					});
+			}
   },
   created() {
     this.userName = window.localStorage.getItem("userName");
+    this.getMajorCustom(this.userId);
   }
 };
 </script>
