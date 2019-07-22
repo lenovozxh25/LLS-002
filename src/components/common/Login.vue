@@ -121,7 +121,7 @@ export default {
         password: this.password,
         validCode:'123456'
       }).then(function(response){  
-            app.$http.get("http://10.119.167.182:9090/v2.0/lls/permit/user/currentUserRoleFlag").then(
+            app.$http.get("/permit/user/currentUserRoleFlag").then(
               (res)=>{
                 // console.log(res.data);
                 // debugger
