@@ -101,7 +101,7 @@ export default {
       pages: null, //反馈总页数
       activeNames: ["1", "2", "3", "4", "5"],
       z_p_testName: "first",
-      examsAll: [], //我的全部测验信息
+      examsAll: [], //我的全部测验相关数据
       feedbackAll: [], //我的反馈建议相关数据
       form: {
         name: "",
@@ -134,7 +134,7 @@ export default {
     getExams(src) {
       //获取全部测验数据
       this.$http
-        .post(src, {
+        .post(src,{
           page: this.page,
           pageSize: this.pageSize,
           params: {
