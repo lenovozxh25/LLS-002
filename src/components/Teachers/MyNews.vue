@@ -11,17 +11,46 @@
       </div>
     </div>
     <div class="myNews_main">
-      <el-tabs type="border-card" @tab-click="unReadMsg">
-        <el-tab-pane label="未读消息">
+      <el-tabs type="border-card" @tab-click="ReadMsgList($event)">
+        <!-- <el-tab-pane label="未读消息">
           <i class="el-icon-info"></i>
           暂无未读消息{{unMsg}}
         </el-tab-pane>
         <el-tab-pane label="已读消息">
           <i class="el-icon-info"></i>暂无消息
-        </el-tab-pane>
+        </el-tab-pane> -->
         <el-tab-pane label="全部消息">
-          <i class="el-icon-info"></i>
-          暂无消息{{allMsg}}
+          <template v-if="tableData!=''">
+            <el-table
+              border
+              :data="tableData"
+              style="width: 100%"
+            >
+              <el-table-column type="selection" width="35"></el-table-column>
+              <el-table-column prop="id" label="序号" width="50"></el-table-column>
+              <el-table-column prop="shortDesc" label="简短描述" width="340"></el-table-column>
+              <el-table-column prop="receiveTime" label="接收时间" width="160"></el-table-column>
+              <el-table-column prop="timingSendTime" label="发送时间" width="160"></el-table-column>
+              <el-table-column prop="isRead" label="消息状态" width="80" align="center"></el-table-column>
+              <el-table-column label="操作">
+                <a href="#">阅读</a>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="total"
+              :page-size="pageSize"
+              :current-page="1"
+              @current-change="current_change"
+            ></el-pagination>
+          </template>
+          <template v-else>
+            <div>
+              <i class="el-icon-info"></i>
+              暂无消息
+            </div>
+          </template>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -33,34 +62,35 @@ export default {
   data() {
     return {
       unMsg: [],
-      allMsg: []
+      allMsg: [],
+      tableData: [],
+      total: undefined,
+      pageSize: 10,
+      currentPage: 1
     };
   },
   created() {
-    this.unReadMsg();
+    this.ReadMsgList(this.currentPage, this.pageSize);
   },
   methods: {
     //未读消息
-    unReadMsg(event) {
-      console.log(event.index);
+    ReadMsgList(page, pageSize, params,event) {
+      //  console.log(event.index);
+     // debugger
       var app = this;
-      if (event.index == 0) {
-        this.$http
-          .get("/message/sysMessageReading/noHaveReadDataCount")
-          .then(res => {
-            console.log(res.data);
-            app.unMsg = res.data;
-          });
-      } else if (event.index == 1) {
-        console.log("已读消息");
-      } else {
-        this.$http
-          .post("/message/sysMessageReading/page", { page, pageSize, params })
-          .then(res => {
-            console.log(res.data);
-            app.allMsg = res.data;
-          });
-      }
+      this.$http
+        .post("/message/sysMessageReading/page", { page, pageSize, params })
+        .then(res => {
+          console.log(res.data);
+          app.tableData = res.data.data;
+          app.pageSize = res.data.pageSize;
+          app.total = res.data.recordsTotal;
+        });
+    },
+    current_change(currentPage) {
+     // debugger
+      this.currentPage = currentPage;
+      this.ReadMsgList(this.currentPage, this.pageSize);
     }
   }
 };

@@ -55,6 +55,7 @@ html,body{
     margin-top: 0 !important;
 }
 #editor{
+	width: 100% !important;
     height: 200px !important;
 	width: 100% !important;
 }
