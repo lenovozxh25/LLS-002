@@ -58,7 +58,9 @@
         <div class="grid-content bg-purple">
           <ul class="loginUser">
             <li>
-              <i class="el-icon-message-solid" style="cursor:pointer" @click="myNews"></i>
+              <el-badge :value="count" :max="10" class="item">
+                 <i class="el-icon-message-solid" style="cursor:pointer;font-size:20px;" @click="myNews"></i>
+              </el-badge>
               <span
                 v-if="userName"
                 v-on:click="mymessage"
@@ -86,7 +88,8 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
-      userName: ""
+      userName: "",
+      count:0
     };
   },
   methods: {
@@ -136,10 +139,20 @@ export default {
           });
         }
       });
+    },
+    //未读消息
+    noReadMsg (){
+       var app = this;
+      this.$http
+          .get("/message/sysMessageReading/noHaveReadDataCount")
+          .then(res => {
+            app.count = res.data;
+          });
     }
   },
   created() {
     this.userName = window.localStorage.getItem("userName");
+    this.noReadMsg()
   }
 };
 </script>
@@ -194,5 +207,11 @@ export default {
 }
 .ask_title:hover {
   cursor: pointer;
+}
+.el-badge__content.is-fixed{
+  top:11px;
+  line-height: 13px;
+  padding: 0px 3px;
+  height: 13px;
 }
 </style>

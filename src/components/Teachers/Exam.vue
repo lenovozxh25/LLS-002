@@ -243,7 +243,7 @@
 					major: '移动互联(web前端方向)',
 					course: '前端框架(Vue)'
 				}, {
-					number: 10,
+					number: 20,
 					name: '0616每日练习',
 					source: '私有',
 					major: '移动互联(web前端方向)',
