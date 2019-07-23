@@ -20,7 +20,7 @@
 				 <!-- <span>{{item}}</span> -->
 				 <el-collapse-item :title="item.name" :name="index">
 					<div v-for='(itemMajor,index) in item.childList' :key='index'>
-						<a href="#">{{itemMajor.name}}</a>
+						<a href="#" @click.prevent="toMyCourse()">{{itemMajor.name}}</a>
 					</div>
 				</el-collapse-item>
 			 </div>
@@ -46,8 +46,13 @@
 					.get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
 					.then(function(res) {
 						app.MajorCustomData=res.data[0];
-						console.log(res.data[0])
+						// console.log(res.data[0])
 					});
+			},
+			toMyCourse(){
+				 this.$router.push({  
+				   path:'/teacher/MyCourse'
+				 })
 			}
 			
 		},

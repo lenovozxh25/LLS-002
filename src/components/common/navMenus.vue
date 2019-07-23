@@ -17,16 +17,19 @@
             <el-menu-item index="1">我教的专业</el-menu-item>
             <el-submenu index="2">
               <template slot="title">我教的课程</template>
-              <el-submenu v-for=''>
-
+               <el-submenu :index="'2-'+xiabiao" v-for='(item,xiabiao) in MajorCustomData.majorCustomItemTreeAdapterList' :key='xiabiao'>
+                  <template slot="title">{{item.name}}</template>                  
+                  <el-menu-item index="2-1-1" v-for='(itemMajor,index) in item.childList' :key='index'>
+                    {{itemMajor.name}}
+                  </el-menu-item>
               </el-submenu>
-              <!-- <el-submenu index="2-1">
+               <!-- <el-submenu index="2-1">
                 <template slot="title">第一学期</template>
                 <el-menu-item index="2-1-1">web前端基础</el-menu-item>
                 <el-menu-item index="2-1-2">web前端高级</el-menu-item>
                 <el-menu-item index="2-1-3">脚本语言基础</el-menu-item>
-              </el-submenu>
-              <el-submenu index="2-2">
+              </el-submenu> -->
+              <!--<el-submenu index="2-2">
                 <template slot="title">第二学期</template>
                 <el-menu-item index="2-2-1">脚本语言高级</el-menu-item>
                 <el-menu-item index="2-2-2">响应式设计</el-menu-item>
@@ -61,9 +64,7 @@
         <div class="grid-content bg-purple">
           <ul class="loginUser">
             <li>
-              <el-badge :value="count" :max="10" class="item">
-                 <i class="el-icon-message-solid" style="cursor:pointer;font-size:20px;" @click="myNews"></i>
-              </el-badge>
+              <i class="el-icon-message-solid" style="cursor:pointer" @click="myNews"></i>
               <span
                 v-if="userName"
                 v-on:click="mymessage"
@@ -92,8 +93,7 @@ export default {
       activeIndex: "1",
       activeIndex2: "1",
       userName: "",
-      MajorCustomData:'',
-      count:0
+      MajorCustomData:''
     };
   },
   methods: {
@@ -151,24 +151,14 @@ export default {
 					.get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
 					.then(function(res) {
 						app.MajorCustomData=res.data[0];
-						console.log(res.data[0])
+						// console.log(app.MajorCustomData.majorCustomItemTreeAdapterList)
 					});
-      },
-      
-       //未读消息
-    noReadMsg (){
-       var app = this;
-      this.$http
-          .get("/message/sysMessageReading/noHaveReadDataCount")
-          .then(res => {
-            app.count = res.data;
-          });
-    }
+			}
   },
   created() {
     this.userName = window.localStorage.getItem("userName");
+    this.userId = window.localStorage.getItem("userId");
     this.getMajorCustom(this.userId);
-    this.noReadMsg()
   }
 };
 </script>
@@ -223,11 +213,5 @@ export default {
 }
 .ask_title:hover {
   cursor: pointer;
-}
-.el-badge__content.is-fixed{
-  top:11px;
-  line-height: 13px;
-  padding: 0px 3px;
-  height: 13px;
 }
 </style>

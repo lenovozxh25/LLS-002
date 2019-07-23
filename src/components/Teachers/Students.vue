@@ -17,7 +17,19 @@
 				<template>
 					<p class="stuMsg top"><span class="redSquare"></span><span>学员管理</span></p>
 					<el-tabs tab-position="left" >
-						<el-tab-pane label="山东劳动职业技术学院17级01班">
+                        <el-tab-pane :label="item.name" v-for="(item,index) in CurrentClassList" :key='index'>
+							<div class="semester">
+								<ul>
+									<li class="oneT active">第一学期</li>
+									<li>第二学期</li>
+									<li>第三学期</li>
+									<li>第四学期</li>
+									<li>第五学期</li>
+								</ul>
+							</div>
+						</el-tab-pane>
+					   
+						<!-- <el-tab-pane label="山东劳动职业技术学院17级01班">
 							<div class="semester">
 								<ul>
 									<li class="oneT active">第一学期</li>
@@ -133,13 +145,6 @@
 						</el-tab-pane>
 						<el-tab-pane label="山东劳动职业技术学院18级01班">
 							<div class="semester">
-								<!--<ul>
-									<li class="oneT active">第一学期</li>
-									<li>第二学期</li>
-									<li>第三学期</li>
-									<li>第四学期</li>
-									<li>第五学期</li>
-								</ul>-->
 								<ul>
 									<li v-for="(index,item) in tabs" :class="[{active:index == num},{oneT:item==0}]" @click="tab(index)">
 										{{index}}
@@ -252,12 +257,6 @@
 						</el-tab-pane>
 						<el-tab-pane label="山东劳动职业技术学院16级01班">
 							<div class="semester">
-								<!--<ul>
-									<li class="oneT">第一学期</li>
-									<li>第二学期</li>
-									<li class="active">第三学期</li>
-									<li>第四学期</li>
-								</ul>-->
 								<ul>
 									<li v-for="(index,item) in tabs2" :class="[{active:index == num},{oneT:item==0}]" @click="tab(index)">
 										{{index}}
@@ -370,14 +369,9 @@
 						</el-tab-pane>
 						<el-tab-pane label="南京金陵中专学校01班">
 							<div class="semester">
-								<!--<ul>
-									<li class="oneT">第一学期</li>
-									<li class="active">第二学期</li>
-									<li>第三学期</li>
-									<li>第四学期</li>
-								</ul>-->
+							
 								<ul>
-									<li v-for="(index,item) in tabs2" :class="[{active:index == num},{oneT:item==0}]" @click="tab(index)">
+									<li v-for="(index,item) in tabs2" :key='index' :class="[{active:index == num},{oneT:item==0}]" @click="tab(index)">
 										{{index}}
 									</li>
 								</ul>
@@ -485,7 +479,7 @@
 									</el-table>
 								</template>
 							</div>
-						</el-tab-pane>
+						</el-tab-pane> -->
 					</el-tabs>
 				</template>
 			</div>
@@ -498,6 +492,8 @@
 		name: 'students',
 		data() {
 			return {
+				// 讲师所带过的所有班级
+				CurrentClassList:[],
 				tabs:["第一学期","第二学期","第三学期","第四学期","第五学期"],
 				num:'',
 				tabs2:["第一学期","第二学期","第三学期","第四学期"],
@@ -601,16 +597,6 @@
 					checkScore: 100,
 					qqCount: '--',
 					interview: '--',
-				}, {
-					name: '欧阳小',
-					sno: '201809193244',
-					lenovoAvgScore: 0,
-					rpScore: 0,
-					schoolAvgScore: 0,
-					zhScore: 0,
-					checkScore: 100,
-					qqCount: '--',
-					interview: '--',
 				}]
 			}
 		},
@@ -619,10 +605,25 @@
 				return row.address;
 			},
 			
-        tab:function (index) {
-            this.num = index;
-        }
+			tab:function (index) {
+				this.num = index;
+			},
+
+			// 获取讲师所带过的所有班级
+			getCurrentClass(userId){
+				var app = this;
+				this.$http
+					.get(`/business/organClassUser/allClassListByTeacherId/${userId}`)
+					.then(function(res) {
+						app.CurrentClassList=res.data;
+						console.log(app.CurrentClassList);
+					});
+			}
    
+		},
+		created(){
+			this.userId = window.localStorage.getItem("userId");
+			this.getCurrentClass(this.userId);
 		}
 	}
 </script>
