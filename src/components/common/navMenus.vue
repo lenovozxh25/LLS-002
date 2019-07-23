@@ -208,7 +208,7 @@ export default {
 .ask_title:hover {
   cursor: pointer;
 }
-.el-badge__content.is-fixed{
+#navMenus .el-badge__content.is-fixed{
   top:11px;
   line-height: 13px;
   padding: 0px 3px;
