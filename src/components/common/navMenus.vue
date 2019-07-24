@@ -143,7 +143,7 @@ export default {
     },
     //未读消息
     noReadMsg (){
-       var app = this;
+      var app = this;
       this.$http
           .get("/message/sysMessageReading/noHaveReadDataCount")
           .then(res => {
