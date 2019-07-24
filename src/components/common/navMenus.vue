@@ -95,7 +95,8 @@ export default {
       activeIndex: "1",
       activeIndex2: "1",
       userName: "",
-      MajorCustomData:''
+      MajorCustomData:'',
+      count:0
     };
   },
   methods: {
