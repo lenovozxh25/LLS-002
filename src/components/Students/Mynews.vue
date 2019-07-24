@@ -1,200 +1,284 @@
 <template>
-	
-	<div id="myStuMajor">
-		<div class="mahorTitle">
-			<div>
-				<div>
-					<span style="display:block;">消息中心</span>
-                    <span style="font-size:16px;">记录我在联想班课程的消息提示 已读未读状态等
-积极参与 主动贡献 养成习惯 成长为未来社会的栋梁</span>
-				</div>
-			</div>
-		</div>
-         <p class="major" style="height:50px;line-height:50px;overflow:hidden;margin-bottom:6px;
-    margin-left:140px;">
-                        <span class="redSquare"></span>
-                        <span style="margin-top:20px;">消息中心</span>
-		</p>
-        <el-tabs class="z_p_tab" style="height:400px" type="border-card" v-model="z_p_testName" @tab-click="handleClick">
-            <el-tab-pane label="未读消息" name="first">
-                
-                <span style="margin-left:140px;">
-                    <i style="color:skyblue;font-size:26px;font-style: italic" class="el-icon-bell"></i>
-                    暂无未读消息
-                </span>
-            </el-tab-pane>
-            <el-tab-pane label="已读消息" name="second">
-                <span style="margin-left:140px;">
-                    <i style="color:skyblue;font-size:26px;font-style: italic" class="el-icon-bell"></i>
-                    暂无已读消息
-                </span>
-            </el-tab-pane>
-            <el-tab-pane label="全部消息" name="third">
-                <span style="margin-left:140px;">
-                    <i style="color:skyblue;font-size:26px;font-style: italic" class="el-icon-bell"></i>
-                    暂无消息
-                </span>
-            </el-tab-pane>
-        </el-tabs>
-	</div>
+  <div id="myStuNews" style="background: #f5f5f7;padding-bottom: 20px;">
+    <div class="myStuNews">
+      <div>
+        <div>消息中心</div>
+        <ul>
+          <li>记录消息通知内容</li>
+          <li>展示问题状态</li>
+          <li>在线提问答疑</li>
+        </ul>
+      </div>
+    </div>
+    <div class="myNews_main">
+      <el-tabs type="border-card">
+        <el-tab-pane v-for="(item,index) in messageTab" :key="index" :label="item">
+          <el-button type="primary" plain @click="badgeReaded" style="margin-bottom:20px">标记为已读</el-button>
+          <template v-if="tableData!=''">
+            <el-table
+              border
+              :data="tableData"
+              style="width: 100%"
+              @selection-change="handleSelectionChange"
+            >
+              <el-table-column type="selection" width="35"></el-table-column>
+              <!-- <el-table-column prop="id" label="序号" width="50" align="center">
+              </el-table-column>-->
+              <el-table-column
+                type="index"
+                :index="indexMethod"
+                label="序号"
+                width="50"
+                align="center"
+              ></el-table-column>
+              <el-table-column prop="shortDesc" label="简短描述" width="390">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.isRead == 'Y'">{{scope.row.shortDesc}}</span>
+                  <span v-else @click="readDetailMessage(scope.row)">
+                    <el-badge :is-dot="scope.row.isRead == 'N'?true:false" class="item">
+                      <el-link type="primary">{{scope.row.shortDesc}}</el-link>
+                    </el-badge>
+                  </span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="type"
+                label="公告/私信"
+                width="100"
+                align="center"
+                :filters="[{ text: '公告', value: 1 }, { text: '私信', value: 2 }]"
+                :filter-method="filterTag"
+                :filter-multiple="false"
+              >
+                <template slot-scope="scope">
+                  <span v-if="scope.row.type == 1">公告</span>
+                  <span v-else>私信</span>
+                </template>
+              </el-table-column>
+              <el-table-column prop="receiveTime" label="接收时间" width="160"></el-table-column>
+              <el-table-column prop="timingSendTime" label="发送时间" width="160"></el-table-column>
+              <el-table-column
+                prop="isRead"
+                label="消息状态"
+                width="90"
+                align="center"
+                :filters="[{text: '已读', value: 'Y'}, {text: '未读', value: 'N'}]"
+                :filter-method="filterHandler"
+                :filter-multiple="false"
+              >
+                <template slot-scope="scope">
+                  <span v-if="scope.row.isRead == 'Y'">已读</span>
+                  <span v-else>未读</span>
+                </template>
+              </el-table-column>
+              <el-table-column label="操作">
+                <template slot-scope="scope">
+                  <el-button @click="readDetailMessage(scope.row)" type="text" size="small">阅读</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+            <el-pagination
+              style="float:right"
+              background
+              layout="prev, pager, next"
+              :total="total"
+              :page-size="pageSize"
+              :current-page="1"
+              @current-change="current_change"
+            ></el-pagination>
+          </template>
+          <template v-else>
+            <div>
+              <i class="el-icon-info"></i>
+              暂无消息
+            </div>
+          </template>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+
+    <!-- 阅读详情 -->
+    <el-dialog
+      title="消息详情"
+      :visible.sync="dialogVisible"
+      width="56%"
+      :before-close="handleClose"
+      style="margin:0"
+    >
+      <div class="shortDesc">
+        <div style="overflow:hidden;font-size:12px;margin-bottom:10px">
+          <span style="float:right">发送时间：{{detailMessage.timingSendTime}}</span>
+        </div>
+        <div class="readP">
+          <h4>简短描述:</h4>
+          <p style="height:80px;">{{detailMessage.shortDesc}}</p>
+        </div>
+        <div class="readP" style="margin:20px 0">
+          <h4>消息内容：</h4>
+          <p style="height:160px;">{{detailMessage.content}}</p>
+        </div>
+        <div class="readShow" style="overflow:hidden">
+          <div>
+            <span style="float:left">消息发送：{{detailMessage.userName}}</span>
+            <span style="float:right">接收时间：{{detailMessage.receiveTime}}</span>
+          </div>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="handleClose">关闭</el-button>
+      </span>
+    </el-dialog>
+  </div>
 </template>
-
 <script>
-	export default {
-		name: 'myStuMajor',
-		data() {
-			return {
-                activeNames: ['1', '2', '3', '4', '5'],
-                z_p_testName: 'first',
-                tableData: [{
-                    proName: 'WEB前端基础(HTML+CSS)',
-                    testName: 'Web前端基础期末',
-                    testNumber: '100',
-                    detail: 'https://element.eleme.cn/#/zh-CN/component/link'
-                    }, {
-                    proName: 'WEB前端基础(HTML+CSS)',
-                    testName: 'Web前端基础期末',
-                    testNumber: '100',
-                    detail: 'https://element.eleme.cn/#/zh-CN/component/link'
-                    }]
-			};
-		},
-		methods: {
-			handleChange(val) {
-				console.log(val);
-            },
-            handleClick(tab, event) {
-                console.log(tab, event);
-            },
-            edit(){
-                console.log("1")
-            },
-            dele(){
-                console.log("2")
-            },
-            a(){
-               console.log("a") 
-            }
-		}
-	}
+export default {
+  name: "myStuNews",
+  data() {
+    return {
+      messageTab: ["全部消息"],
+      allMsg: [],
+      tableData: [],
+      dialogVisible: false,
+      detailMessage: {},
+      multipleSelection: [],
+      newArr:[],
+      total: undefined,
+      pageSize: 10,
+      currentPage: 1,
+      page: 1,
+      isRead: "N"
+    };
+  },
+  created() {
+    this.ReadMsgList(this.currentPage, this.pageSize);
+  },
+  methods: {
+    //过滤筛选
+    filterHandler(value, row, column) {
+      const property = column["property"];
+      return row[property] === value;
+    },
+    filterTag(value, row) {
+      return row.type === value;
+    },
+    //消息列表
+    ReadMsgList(page, pageSize, params) {
+      //  debugger;
+      var app = this;
+      this.$http
+        .post("/message/sysMessageReading/page", { page, pageSize, params })
+        .then(res => {
+          // console.log(res.data);
+          app.tableData = res.data.data;
+          app.pageSize = res.data.pageSize;
+          app.total = res.data.recordsTotal;
+          app.page = res.data.page;
+        });
+    },
+    //指定消息详情
+    readDetailMessage(row) {
+      // debugger
+      var app = this;
+      this.dialogVisible = true;
+      var readId = row.readId;
+      console.log(row.readId);
+      this.$http
+        .get(`/message/sysMessageReading/detail/${readId}`)
+        .then(res => {
+          console.log(res.data);
+          app.detailMessage = res.data;
+        });
+    },
+    //标记已读
+    badgeReaded() {
+       var readArr=this.newArr
+      // console.log(readArr)
+      var app = this;
+      debugger
+      if (readArr.length === 0) {
+        this.$message.error("请勾选要标记已读的消息");
+      } else if (confirm("您确定要标记为已读吗？")) {
+        this.$http
+          .post("/message/sysMessageReading/updateIsReads", readArr)
+          .then(() => {
+            app.$message.success("已标记为已读");
+            app.ReadMsgList(this.currentPage, this.pageSize);
+          });
+      }
+    },
+    //标记已读选项
+    handleSelectionChange(val) {
+      var readArr=[]
+      this.multipleSelection = val;
+      this.multipleSelection.map((item) => {
+        readArr.push(item.readId)
+      });
+      this.newArr=readArr
+      console.log(this.newArr)
+    },
+    //关闭模态框
+    handleClose() {
+      this.dialogVisible = false;
+      this.ReadMsgList(this.currentPage, this.pageSize);
+    },
+    //分页
+    current_change(currentPage) {
+      // debugger
+      this.currentPage = currentPage;
+      this.ReadMsgList(this.currentPage, this.pageSize);
+    },
+    //消息排序
+    indexMethod(index) {
+      return index + 1 + (this.page - 1) * this.pageSize;
+    }
+  }
+};
 </script>
-
 <style scoped>
-	
-	ul li{list-style: none;}
-	#myStuMajor .el-collapse-item .el-collapse-item__header {
-		background: skyblue;
-		padding-left: 50px;
-		color: white;
-		font-size: 23px;
-	}
-	
-	#myStuMajor a {
-		color: #6c6868;
-		font-size: 16px;
-	}
-	
-	#myStuMajor a:hover {
-		color: skyblue;
-	}
-	
-	#myStuMajor .el-main {
-		text-align: left;
-		/*line-height: 30px;*/
-	}
-	#myStuMajor .el-collapse{
-		width: 1100px;
-		margin: auto;
-	}
-	#myStuMajor .el-collapse-item__content {
-		padding-left: 50px;
-		padding-top: 20px;
-	}
-	#myStuMajor .mahorTitle{
-        text-align: center;
-		width: 100%;
-		height: 144px;
-		background:#65AEF2
-	}
-	#myStuMajor .mahorTitle>div{
-		width: 1100px;
-		height: 144px;
-		margin: auto;
-		background: url(../../images/download.png) no-repeat right -20px;
-		padding: 45px 50px 0px 110px;
-	}
-	#myStuMajor .mahorTitle div div{
-		min-width: 400px;
-	    color: #fff;
-	    font-size: 25px;
-	}
-	#myStuMajor .mahorTitle div ul{
-		overflow: hidden;
-		/*margin-top: 10px;*/
-	}
-	#myStuMajor .mahorTitle ul li{
-		float: left;
-		padding-right: 10px;
-    	color: #fff;
-    	font-size: 14px;
-	}
-	#myStuMajor .major{
-		overflow: hidden;
-	    /*height:16px;*/
-	    font-family:HiraginoSansGB-W6;
-	    color:rgba(64,64,64,1);
-	    margin-bottom: 10px;
-	}
-	.top{
-		margin: 30px 0;
-	}
-	.major span{
-      float: left;
-      height: 18px;
-      line-height: 1;
-	  
-    }
-	.redSquare{
-	  margin-top:20px;
-      width:6px;
-      /*height:16px;*/
-      background:skyblue;
-      margin-right: 10px;
-    }
+.myStuNews {
+  width: 100%;
+  height: 144px;
+  background: linear-gradient(60deg, rgb(59, 219, 247), rgb(101, 194, 218));
+}
 
-    /* ------------------------------- */
-    .z_p_title{
-        background: #E4E9EC;
-        height: 24px;;
-        color:#303030;
-        font-size: 16px;
-        line-height: 24px;
-        padding-left: 122px;
-    }
-    .z_p_test{
-        margin-right: 20px;
-    }
-    .el-tabs /deep/ .el-tabs__nav{
-        margin-left: 140px;
-    }
+.myStuNews > div {
+  width: 1100px;
+  height: 144px;
+  margin: 0 auto;
+  background: url(../../images/back03.png) no-repeat right 0px;
+  background-size: 235px 140px;
+}
 
-    .mydiv{
-        height: 40px;
-        margin-bottom: 20px;
-    }
-    .mydiv div{
-        width: 20%;
-        height: 40px;
-        float: left;
-        line-height: 40px;
-    }
-    .mydiv .div1{
-        margin-left: 24%;
-    }
-    .mydiv span{
-        font-size:26px;
-        font-style:oblique;
-    }
-    
+.myStuNews div div {
+  min-width: 400px;
+  color: #fff;
+  font-size: 25px;
+  margin-left: 40px;
+  padding-top: 40px;
+}
+
+.myStuNews div ul {
+  overflow: hidden;
+  margin-left: 40px;
+  margin-top: 10px;
+}
+
+.myStuNews ul li {
+  float: left;
+  padding-right: 10px;
+  color: #fff;
+  font-size: 14px;
+}
+.myNews_main {
+  background: white;
+  width: 1100px;
+  margin: 10px auto;
+  overflow: hidden;
+}
+.myNews_main .el-icon-info {
+  font-size: 24px;
+  color: #49c0e0;
+}
+
 
 </style>

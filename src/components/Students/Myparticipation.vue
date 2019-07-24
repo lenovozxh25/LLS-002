@@ -23,8 +23,9 @@
                         <el-table-column prop="testName" label="发起时间" width="180"></el-table-column>
                         <el-table-column prop="testNumber" label="状态"></el-table-column>
                         <el-table-column prop="detail" label="操作">
-                              <i class="el-icon-edit"></i><el-tag v-on:click="edit" size="medium">编辑</el-tag>
-                              <i class="el-icon-delete"></i><el-tag v-on:click="dele" size="medium" type="danger">删除</el-tag>
+                              <el-tag v-on:click="edit" size="medium"><i class="el-icon-edit"></i>
+                                  编辑</el-tag>
+                              <el-tag v-on:click="dele" size="medium" type="danger"><i class="el-icon-delete"></i>删除</el-tag>
                         </el-table-column>
                     </el-table>
 		        </el-collapse>
