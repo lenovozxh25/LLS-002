@@ -64,14 +64,10 @@
         <div class="grid-content bg-purple">
           <ul class="loginUser">
             <li>
-<<<<<<< HEAD
-              <i class="el-icon-message-solid" style="cursor:pointer" @click="myNews"></i>
-=======
               <el-badge :value="count" :max="10" class="item">
                  <i class="el-icon-message-solid" style="cursor:pointer;font-size:20px;" @click="myNews"></i>
              
               </el-badge>
->>>>>>> ljp
               <span
                 v-if="userName"
                 v-on:click="mymessage"
