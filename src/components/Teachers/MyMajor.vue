@@ -18,9 +18,10 @@
 			 <p class="major"><span class="redSquare"></span><span>专业章节</span></p>
 			 <div v-for="(item,index) in MajorCustomData.majorCustomItemTreeAdapterList" :key='index'>
 				 <!-- <span>{{item}}</span> -->
+				 <!-- {{index}} -->
 				 <el-collapse-item :title="item.name" :name="index">
 					<div v-for='(itemMajor,index) in item.childList' :key='index'>
-						<a href="#" @click.prevent="toMyCourse()">{{itemMajor.name}}</a>
+						<a href="#" @click.prevent="toMyCourseList(itemMajor.id,itemMajor.name)">{{itemMajor.name}}</a>
 					</div>
 				</el-collapse-item>
 			 </div>
@@ -34,7 +35,7 @@
 		name: 'myMajor',
 		data() {
 			return {
-				activeNames: ['0','1', '2', '3', '4', '5','6','7'],
+				activeNames: [0,1,2,3,4,5,6,7],
 				MajorCustomData:''
 			};
 		},
@@ -46,12 +47,17 @@
 					.get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
 					.then(function(res) {
 						app.MajorCustomData=res.data[0];
-						// console.log(res.data[0])
+						console.log(res.data[0])
 					});
 			},
-			toMyCourse(){
+			toMyCourseList(itemId,name){
 				 this.$router.push({  
-				   path:'/teacher/MyCourse'
+					 name:'myCourseList',
+					//  path:'/teacher/MyCourseList',
+					 params:{
+							 itemId:itemId,
+							 name:name
+					 }
 				 })
 			}
 			

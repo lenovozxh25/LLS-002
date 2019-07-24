@@ -20,7 +20,7 @@
                <el-submenu :index="'2-'+xiabiao" v-for='(item,xiabiao) in MajorCustomData.majorCustomItemTreeAdapterList' :key='xiabiao'>
                   <template slot="title">{{item.name}}</template>                  
                   <el-menu-item index="2-1-1" v-for='(itemMajor,index) in item.childList' :key='index'>
-                    {{itemMajor.name}}
+                    <a href="" @click.prevent="toMyCourseList(itemMajor.id,itemMajor.name)">{{itemMajor.name}}</a>
                   </el-menu-item>
               </el-submenu>
                <!-- <el-submenu index="2-1">
@@ -165,8 +165,25 @@ export default {
           .then(res => {
             app.count = res.data;
           });
-    }
+    },
+      toMyCourseList(itemId,name){    
+				 this.$router.push({  
+					 name:'myCourseList',
+					//  path:'/teacher/MyCourseList',
+					 params:{
+							 itemId:itemId,
+							 name:name
+					 }
+				 })
+      }
   },
+  // watch:{
+  //     $route: function(to, from) {
+  //     // from表示上一个动态路由信息对象
+  //     // to表示当前转向到的动态路由信息对象
+      
+  //     }
+  // },
   created() {
     this.userName = window.localStorage.getItem("userName");
     this.userId = window.localStorage.getItem("userId");
@@ -177,6 +194,10 @@ export default {
 </script>
 
 <style>
+a{
+   color: #6c6868;
+		font-size: 12px;
+}
 .el-row:last-child {
   margin-bottom: 0;
 }

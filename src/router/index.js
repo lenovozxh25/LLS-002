@@ -12,6 +12,7 @@ import MyMeage from '@/components/Teachers/MyMeage.vue'
 import MyTeacherMyNews from '@/components/Teachers/MyNews.vue'
 import CourseManagement from '@/components/Teachers/CourseManagement.vue'
 import OnlineAsk from '@/components/Teachers/OnlineAsk.vue'
+import MyCourseList from '@/components/Teachers/MyCourseList.vue'
 
 import Myproject from '@/components/Students/Myproject.vue'
 import Mytest from '@/components/Students/Mytest.vue'
@@ -49,7 +50,12 @@ const routes = [
 			{
 				path: 'myCourse',
 				component: MyCourse,
-				name: '我教的课程'
+				name: 'myCourse'
+			},
+			{
+				path: 'myCourseList',
+				component: MyCourseList,
+				name: 'myCourseList'
 			},
 			{
 				path: 'myMajor',
