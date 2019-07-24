@@ -11,11 +11,16 @@
       </div>
     </div>
     <div class="myNews_main">
-      <el-tabs type="border-card" @tab-click="tabClick" >
-        <el-tab-pane v-for="(item,index) in messageTab" :key="index" :label="item" >
+      <el-tabs type="border-card">
+        <el-tab-pane v-for="(item,index) in messageTab" :key="index" :label="item">
           <el-button type="primary" plain @click="badgeReaded" style="margin-bottom:20px">标记为已读</el-button>
           <template v-if="tableData!=''">
-            <el-table border :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
+            <el-table
+              border
+              :data="tableData"
+              style="width: 100%"
+              @selection-change="handleSelectionChange"
+            >
               <el-table-column type="selection" width="35"></el-table-column>
               <!-- <el-table-column prop="id" label="序号" width="50" align="center">
               </el-table-column>-->
@@ -26,18 +31,25 @@
                 width="50"
                 align="center"
               ></el-table-column>
-              <el-table-column prop="shortDesc" label="简短描述" width="410">
+              <el-table-column prop="shortDesc" label="简短描述" width="390">
                 <template slot-scope="scope">
                   <span v-if="scope.row.isRead == 'Y'">{{scope.row.shortDesc}}</span>
                   <span v-else @click="readDetailMessage(scope.row)">
-                    <el-badge
-                      :is-dot="scope.row.isRead == 'N'?true:false"
-                      class="item"
-                    ><el-link type="primary" >{{scope.row.shortDesc}}</el-link></el-badge>
+                    <el-badge :is-dot="scope.row.isRead == 'N'?true:false" class="item">
+                      <el-link type="primary">{{scope.row.shortDesc}}</el-link>
+                    </el-badge>
                   </span>
                 </template>
               </el-table-column>
-              <el-table-column prop="type" label="公告/私信" width="90" align="center">
+              <el-table-column
+                prop="type"
+                label="公告/私信"
+                width="100"
+                align="center"
+                :filters="[{ text: '公告', value: 1 }, { text: '私信', value: 2 }]"
+                :filter-method="filterTag"
+                :filter-multiple="false"
+              >
                 <template slot-scope="scope">
                   <span v-if="scope.row.type == 1">公告</span>
                   <span v-else>私信</span>
@@ -45,7 +57,15 @@
               </el-table-column>
               <el-table-column prop="receiveTime" label="接收时间" width="160"></el-table-column>
               <el-table-column prop="timingSendTime" label="发送时间" width="160"></el-table-column>
-              <el-table-column prop="isRead" label="消息状态" width="80" align="center">
+              <el-table-column
+                prop="isRead"
+                label="消息状态"
+                width="90"
+                align="center"
+                :filters="[{text: '已读', value: 'Y'}, {text: '未读', value: 'N'}]"
+                :filter-method="filterHandler"
+                :filter-multiple="false"
+              >
                 <template slot-scope="scope">
                   <span v-if="scope.row.isRead == 'Y'">已读</span>
                   <span v-else>未读</span>
@@ -116,12 +136,13 @@ export default {
   data() {
     return {
       messageTab: ["消息中心"],
-    //  activeName: "未读消息",
+      //  activeName: "未读消息",
       allMsg: [],
       tableData: [],
       dialogVisible: false,
       detailMessage: {},
-      multipleSelection:[],
+      multipleSelection: [],
+      newArr:[],
       total: undefined,
       pageSize: 10,
       currentPage: 1,
@@ -133,16 +154,14 @@ export default {
     this.ReadMsgList(this.currentPage, this.pageSize);
   },
   methods: {
-    tabClick(tab, event) {
-      if (tab.label == "未读消息") {
-        console.log("未读");
-      } else if (tab.label == "已读消息") {
-        console.log("已读");
-      } else {
-        console.log("全部");
-      }
+    //过滤筛选
+    filterHandler(value, row, column) {
+      const property = column["property"];
+      return row[property] === value;
     },
-
+    filterTag(value, row) {
+      return row.type === value;
+    },
     //消息列表
     ReadMsgList(page, pageSize, params) {
       //  debugger;
@@ -172,8 +191,11 @@ export default {
         });
     },
     //标记已读
-    badgeReaded(readArr) {
+    badgeReaded() {
+       var readArr=this.newArr
+      // console.log(readArr)
       var app = this;
+      debugger
       if (readArr.length === 0) {
         this.$message.error("请勾选要标记已读的消息");
       } else if (confirm("您确定要标记为已读吗？")) {
@@ -181,18 +203,21 @@ export default {
           .post("/message/sysMessageReading/updateIsReads", readArr)
           .then(() => {
             app.$message.success("已标记为已读");
-            app.ReadMsgList(1, 10);
+            app.ReadMsgList(this.currentPage, this.pageSize);
           });
       }
     },
+    //标记已读选项
     handleSelectionChange(val) {
-       this.multipleSelection = val;
-        console.log(this.multipleSelection)
-        this.multipleSelection.forEach((item ,index)=>{
-            console.log(index)
-        })
-      },
-      //关闭模态框
+      var readArr=[]
+      this.multipleSelection = val;
+      this.multipleSelection.map((item) => {
+        readArr.push(item.readId)
+      });
+      this.newArr=readArr
+      console.log(this.newArr)
+    },
+    //关闭模态框
     handleClose() {
       this.dialogVisible = false;
       this.ReadMsgList(this.currentPage, this.pageSize);
@@ -255,5 +280,4 @@ export default {
   font-size: 24px;
   color: #49c0e0;
 }
-
 </style>

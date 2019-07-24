@@ -18,7 +18,14 @@
       <div class="ask_content">
         <div>
           <span>*</span>问题
-          <el-input v-model="input" style="margin-top:5px" placeholder="请在这里输入你的问题(120个字符内)" maxlength="120" show-word-limit></el-input>
+          <el-input
+            v-model="input"
+            name="subject"
+            style="margin-top:5px"
+            placeholder="请在这里输入你的问题(120个字符内)"
+            maxlength="120"
+            show-word-limit
+          ></el-input>
         </div>
         <div class="text_box" style="width: 100%;height:auto">
           <span>*</span>问题说明
@@ -26,18 +33,25 @@
             ref="editor"
             style="width: 100%;margin-top:5px"
             id="editor"
-            v-model="initContent"
+            v-model="editorContent"
+            :value="editorContent"
             :menus="meaus"
+            name="question"
           ></vue-egdit>
         </div>
         <div>
           <p>问题标签</p>
-          <el-input style="margin-top:5px;width:65%" v-model="inputTag" placeholder="html,css,javascript"></el-input>
+          <el-input
+            style="margin-top:5px;width:65%"
+            v-model="inputTag"
+            placeholder="html,css,javascript"
+          ></el-input>
           <span style="font-size:12px;margin-left:10px">* 用逗号分开，不超过五个，且每个标签长度不超过九个字符</span>
         </div>
         <div>当前标签</div>
         <div>
-          <el-button type="primary">提交问题</el-button>
+          <el-button type="primary" @click="getContent">获取富文本内容</el-button>
+          <el-button type="primary" @click="submitAsk(input,editorContent)">提交问题</el-button>
         </div>
       </div>
     </div>
@@ -50,7 +64,7 @@ export default {
   data() {
     return {
       input: "",
-      initContent: "",
+      editorContent: "",
       inputTag: "",
       meaus: [
         "source", // 源码模式
@@ -90,14 +104,40 @@ export default {
   },
   components: {
     vueEgdit
-  }
+  },
+  methods: {
+    //提交问题
+    submitAsk(subject, question) {
+      debugger
+      var app = this;
+      if (!question || !subject) {
+        this.$message.error("请填写你的疑问？");
+      } else {
+        this.$http
+          .post("/business/studentQuestion/submitQuestion", {
+            subject,
+            question
+          })
+          .then(this.$message.success("提交成功！"));
+      }
+    },
+    getContent() {
+      this.editorContent = this.$refs.editor.getHtml(this.editorContent);
+      console.log(this.editorContent)
+    },
+  },
+   mounted() {
+
+      console.log(this.$refs.editor, '富文本实例')
+   },
+ 
 };
 </script>
 <style scoped>
 .onlineAsk_title {
   width: 100%;
   height: 144px;
-  background: linear-gradient(60deg, rgb(139, 157, 238), rgb(105, 118, 233));
+  background: linear-gradient(60deg, rgb(83, 186, 245), rgb(54, 164, 228));
 }
 
 .onlineAsk_title > div {
@@ -153,20 +193,20 @@ export default {
   background: skyblue;
   margin-right: 10px;
 }
-.ask_content{
-    padding: 0px 20px;
+.ask_content {
+  padding: 0px 20px;
 }
-.ask_content>div{
-    font-size: 14px;
-    margin: 15px 0px;
+.ask_content > div {
+  font-size: 14px;
+  margin: 15px 0px;
 }
-.ask_content>div span{
-   color: red;
+.ask_content > div span {
+  color: red;
 }
-#editor{
-    height: 200px !important;
+#editor {
+  height: 200px !important;
 }
-.text_box>div{
-    height: auto !important;
+.text_box > div {
+  height: auto !important;
 }
 </style>

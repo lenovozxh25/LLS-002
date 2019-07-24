@@ -15,10 +15,11 @@ const store = new Vuex.Store({
         //登录用户名
         loginName:'',
         //登录密码
-        password:''
+        password:'',
+        count:0
     },
     getters:{
-
+        
     },
     mutations,
     actions

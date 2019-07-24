@@ -1,5 +1,5 @@
 <template>
-  <div id="navMenus">
+  <div id="navStuMenus">
     <el-row :gutter="20">
       <el-col :span="4">
         <div class="grid-content bg-purple">
@@ -26,13 +26,19 @@
         <div class="grid-content bg-purple">
           <ul>
             <li>
-              <i v-on:click="mynews" class="el-icon-message-solid" style="cursor:pointer"></i>
+              <el-badge :value="count" :max="10" class="item">
+                <i
+                  class="el-icon-message-solid"
+                  style="cursor:pointer;font-size:20px;"
+                  @click="myNews"
+                ></i>
+              </el-badge>
               <span
                 v-if="userName"
                 v-on:click="mymessage"
                 style="cursor:pointer;color:#A3A3A4;font-size:14px;"
               >{{userName}}</span>
-			   <span @click="onlineAsk" class="ask_title">
+              <span @click="onlineAsk" class="ask_title">
                 <i class="el-icon-question"></i>在线提问
               </span>
               <span
@@ -54,7 +60,8 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
-      userName: ""
+      userName: "",
+      count: 0
     };
   },
   methods: {
@@ -82,11 +89,11 @@ export default {
     mymessage() {
       this.$router.push("/student/Mymessage");
     },
-    mynews() {
+    myNews() {
       this.$router.push("/student/Mynews");
-	},
-	onlineAsk() {
-      this.$router.push("/student/stuOnlineAsk");
+    },
+    onlineAsk() {
+      this.$router.push("/student/onlineAsk");
     },
     //退出
     logOut() {
@@ -101,10 +108,20 @@ export default {
           });
         }
       });
+    },
+    //未读消息
+    noReadMsg() {
+      var app = this;
+      this.$http
+        .get("/message/sysMessageReading/noHaveReadDataCount")
+        .then(res => {
+          app.count = res.data;
+        });
     }
   },
   created() {
     this.userName = window.localStorage.getItem("userName");
+   // this.noReadMsg();
   }
 };
 </script>
@@ -141,14 +158,22 @@ export default {
   padding: 10px 0;
   background-color: #f9fafc;
 }
-#navMenus .ask_title {
+
+.ask_title {
   background: #49c0e0;
   font-size: 14px;
   color: white;
-  padding: 15px 5px;
-      margin: 0 10px;
+  padding: 15px 10px;
+  margin: 0px 5px 0px 10px;
 }
 .ask_title:hover {
   cursor: pointer;
+}
+
+#navStuMenus .el-badge__content.is-fixed {
+  top: 11px;
+  line-height: 13px;
+  padding: 0px 3px;
+  height: 13px;
 }
 </style>

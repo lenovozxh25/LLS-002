@@ -14,6 +14,7 @@ import CourseManagement from '@/components/Teachers/CourseManagement.vue'
 import OnlineAsk from '@/components/Teachers/OnlineAsk.vue'
 import MyCourseList from '@/components/Teachers/MyCourseList.vue'
 
+
 import Myproject from '@/components/Students/Myproject.vue'
 import Mytest from '@/components/Students/Mytest.vue'
 import Mymessage from '@/components/Students/Mymessage.vue'
@@ -26,7 +27,7 @@ import MyStudentMytest from '@/components/Students/Mytest.vue'
 import MyStudentMyparticipation from '@/components/Students/Myparticipation.vue'
 import MyStudentMynews from '@/components/Students/Mynews.vue'
 import MyStudentMygrowup from '@/components/Students/Mygrowup.vue'
-import StuOnlineAsk from '@/components/Students/OnlineAsk.vue'
+import OnlineAsk from '@/components/Students/OnlineAsk.vue'
 
 import Logined from '@/components/common/Login.vue'
 
@@ -102,11 +103,7 @@ const routes = [
 				component: MyTeacherMyNews,
 				name: '老师消息中心',
 			},
-			{
-				path: 'onlineAsk',
-				component: OnlineAsk,
-				name: '老师在线提问',
-			},
+			
 		]
 	},
 	{
@@ -148,8 +145,8 @@ const routes = [
 				name: '学生我的成长',
 			},
 			{
-				path: 'stuOnlineAsk',
-				component: StuOnlineAsk,
+				path: 'onlineAsk',
+				component: OnlineAsk,
 				name: '学生在线提问',
 			},
 		]

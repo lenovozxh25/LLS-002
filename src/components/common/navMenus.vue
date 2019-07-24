@@ -6,7 +6,7 @@
           <img src="../../images/lenovo.png" />
         </div>
       </el-col>
-      <el-col :span="14">
+      <el-col :span="16">
         <div class="grid-content bg-purple">
           <el-menu
             :default-active="activeIndex"
@@ -60,7 +60,7 @@
           </el-menu>
         </div>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="4">
         <div class="grid-content bg-purple">
           <ul class="loginUser">
             <li>
@@ -72,9 +72,9 @@
                 v-on:click="mymessage"
                 style="cursor:pointer;color:#A3A3A4;font-size:14px;"
               >{{userName}}</span>
-              <span @click="onlineAsk" class="ask_title">
+              <!-- <span @click="onlineAsk" class="ask_title">
                 <i class="el-icon-question"></i>在线提问
-              </span>
+              </span> -->
               <span
                 style="cursor:pointer;color:#A3A3A4;font-size:14px;margin-left:15px"
                 @click="logOut"
@@ -129,9 +129,6 @@ export default {
     },
     myNews() {
       this.$router.push("/teacher/myNews");
-    },
-    onlineAsk() {
-      this.$router.push("/teacher/onlineAsk");
     },
     //退出
     logOut() {
