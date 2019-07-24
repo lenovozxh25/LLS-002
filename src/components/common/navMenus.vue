@@ -66,7 +66,6 @@
             <li>
               <el-badge :value="count" :max="10" class="item">
                  <i class="el-icon-message-solid" style="cursor:pointer;font-size:20px;" @click="myNews"></i>
-             
               </el-badge>
               <span
                 v-if="userName"
