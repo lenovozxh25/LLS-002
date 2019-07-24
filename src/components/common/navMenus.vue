@@ -155,12 +155,22 @@ export default {
 						app.MajorCustomData=res.data[0];
 						// console.log(app.MajorCustomData.majorCustomItemTreeAdapterList)
 					});
-			}
+			},
+    //未读消息
+    noReadMsg (){
+      var app = this;
+      this.$http
+          .get("/message/sysMessageReading/noHaveReadDataCount")
+          .then(res => {
+            app.count = res.data;
+          });
+    }
   },
   created() {
     this.userName = window.localStorage.getItem("userName");
     this.userId = window.localStorage.getItem("userId");
     this.getMajorCustom(this.userId);
+    this.noReadMsg ()
   }
 };
 </script>
