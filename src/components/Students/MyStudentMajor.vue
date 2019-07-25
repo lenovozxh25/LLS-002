@@ -53,8 +53,9 @@
 			}
 		},
 		created:function(){
+			// /product/majorCustom/getMajorCustomForCurrentUser
 			this.$http.get('/product/userMajorCustom/getStudentMajorCustomAdapter').then(function(response) {
-					// console.log(response);
+					console.log(response);
 				})
 		}
 	}
