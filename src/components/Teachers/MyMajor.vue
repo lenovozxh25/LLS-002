@@ -47,7 +47,7 @@
 					.get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
 					.then(function(res) {
 						app.MajorCustomData=res.data[0];
-						console.log(res.data[0])
+						// console.log(res.data[0])
 					});
 			},
 			toMyCourseList(itemId,name){

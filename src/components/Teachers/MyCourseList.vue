@@ -45,7 +45,7 @@ export default {
 					.get(`/product/majorCustomCourse/getListByItemId/${itemId}`)
 					.then(function(res) {
 						app.MyCourseList=res.data;
-						console.log(app.MyCourseList);
+						// console.log(app.MyCourseList);
 					});
             },
         //获取对应课程

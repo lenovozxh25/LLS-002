@@ -19,8 +19,16 @@
 		<div class="courseTest">
 			<div>
 				<template>
-					<el-tabs :tab-position="tabPosition" style="height: 800px;" type="border-card">
-						<el-tab-pane label="我要上课">我要上课</el-tab-pane>
+				  
+					<el-tabs tab-position="border-card" style="height: 800px;" type="border-card">
+						<el-tab-pane label="我要上课">
+							视频播放列表
+							<div v-for="(item,index) in MyCourseNow" :key='index'>
+								<P>{{item.content}}</P>
+								<video :src="item.fileUrl"></video>
+							</div>
+							<!-- {{this.$route.params.courseId}} -->
+						</el-tab-pane>
 						<el-tab-pane label="查看教案">查看教案</el-tab-pane>
 						<el-tab-pane label="我要备课">我要备课</el-tab-pane>
 						<el-tab-pane label="添加练习题">
@@ -61,6 +69,7 @@
 		name: 'myCourse',
 		data() {
 			return {
+				MyCourseNow:[],
 				tabPosition: 'right',
 				majorVal:'',
 				courseVal:'',
@@ -84,15 +93,12 @@
 			getNowMyCourse(courseId,typeId){
 				var app = this;
 				this.$http
-					.post(`/product/customMaterial/listForCourseIdAndTypeId?courseId=${courseId?courseId:9}&typeId=${typeId?typeId:1}`
-						// ,{
-						// 	courseId,
-						// 	typeId:typeId?typeId:1
-						// }
+					.post(`/product/customMaterial/listForCourseIdAndTypeId?courseId=${courseId}&typeId=${typeId?typeId:1}`
+		
 					)
 					// courseId typeId
 					.then(function(res) {
-						// app.MyCourseList=res.data;
+						app.MyCourseNow=res.data;
 						console.log(res.data);
 					});
 			}
