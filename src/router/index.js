@@ -11,7 +11,6 @@ import MasterSetting from '@/components/Teachers/MasterSetting.vue'
 import MyMeage from '@/components/Teachers/MyMeage.vue'
 import MyTeacherMyNews from '@/components/Teachers/MyNews.vue'
 import CourseManagement from '@/components/Teachers/CourseManagement.vue'
-import OnlineAsk from '@/components/Teachers/OnlineAsk.vue'
 import MyCourseList from '@/components/Teachers/MyCourseList.vue'
 
 
