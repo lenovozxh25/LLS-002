@@ -13,6 +13,7 @@ import MyTeacherMyNews from '@/components/Teachers/MyNews.vue'
 import CourseManagement from '@/components/Teachers/CourseManagement.vue'
 import MyCourseList from '@/components/Teachers/MyCourseList.vue'
 
+import OnlineAnswer from '@/components/Teachers/OnlineAnswer.vue'
 
 import Myproject from '@/components/Students/Myproject.vue'
 import Mytest from '@/components/Students/Mytest.vue'
@@ -101,6 +102,11 @@ const routes = [
 				path: 'myNews',
 				component: MyTeacherMyNews,
 				name: '老师消息中心',
+			},
+			{
+				path: 'onlineAnswer',
+				component: OnlineAnswer,
+				name: '老师在线答疑',
 			},
 			
 		]

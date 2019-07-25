@@ -113,5 +113,7 @@ ul {
   top: 5px ;
 }
 
-
+#onStulineAsk .el-badge__content, #onlineAnswer .el-badge__content{
+  background: #409EFF;
+}
 </style>
