@@ -1,5 +1,5 @@
 <template>
-  <div id="onlineAsk" style="background: #f5f5f7;padding-bottom: 20px;">
+  <div id="onStulineAsk" style="background: #f5f5f7;padding-bottom: 20px;">
     <div class="onlineAsk_title">
       <div>
         <div>在线提问</div>
@@ -29,107 +29,84 @@
         </div>
         <div class="text_box" style="width: 100%;height:auto">
           <span>*</span>问题说明
-          <vue-egdit
-            ref="editor"
-            style="width: 100%;margin-top:5px"
-            id="editor"
-            v-model="editorContent"
-            :value="editorContent"
-            :menus="meaus"
-            name="question"
-          ></vue-egdit>
+          <div ref="editor" style="text-align:left;margin-top:5px"></div>
         </div>
         <div>
           <p>问题标签</p>
           <el-input
-            style="margin-top:5px;width:65%"
+            style="width:65%"
             v-model="inputTag"
             placeholder="html,css,javascript"
           ></el-input>
           <span style="font-size:12px;margin-left:10px">* 用逗号分开，不超过五个，且每个标签长度不超过九个字符</span>
         </div>
-        <div>当前标签</div>
+        <div>当前标签<el-badge :value="inputTag" class="item" ></el-badge></div>
         <div>
-          <el-button type="primary" @click="getContent">获取富文本内容</el-button>
-          <el-button type="primary" @click="submitAsk(input,editorContent)">提交问题</el-button>
+          <el-button type="primary" @click="submitAsk(inputTag,input,editorContent,103)">提交问题</el-button>
         </div>
       </div>
     </div>
+    
+
   </div>
 </template>
 <script>
-import vueEgdit from "vue-wangeditor";
+//import vueEgdit from "vue-wangeditor";
+import E from "wangeditor";
 export default {
-  name: "onlineAsk",
+  name: "onStulineAsk",
   data() {
     return {
       input: "",
+      editor:"",
       editorContent: "",
-      inputTag: "",
-      meaus: [
-        "source", // 源码模式
-        "|",
-        "bold", // 粗体
-        "underline", // 下划线
-        "italic", // 斜体
-        "strikethrough", // 中线
-        "eraser", // 清空格式
-        "forecolor", // 文字颜色
-        "bgcolor", // 背景颜色
-        "|",
-        "quote", // 引用
-        "fontfamily", // 字体
-        "fontsize", // 字号
-        "head", // 标题
-        "unorderlist", // 无序列表
-        "orderlist", // 有序列表
-        "alignleft", // 左对齐
-        "aligncenter", // 居中
-        "alignright", // 右对齐
-        "|",
-        "link", // 链接
-        "unlink", // 取消链接
-        "table", // 表格
-        "emotion", // 表情
-        "|",
-        "img", // 图片
-        "video", // 视频
-        "insertcode", // 插入代码
-        "|",
-        "undo", // 撤销
-        "redo", // 重做
-        "fullscreen" // 全屏
-      ]
+      inputTag: ""
     };
   },
   components: {
-    vueEgdit
+    // vueEgdit
   },
   methods: {
     //提交问题
-    submitAsk(subject, question) {
-      debugger
+    submitAsk(typeName,subject, question,proposeStudentId) {
+      var arr=typeName.split(",");
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].length>10 || arr.length>5){
+          this.$message.error("请正确书写问题标签")
+          return;
+        }
+      }
+      typeName=arr.join(",");
       var app = this;
       if (!question || !subject) {
         this.$message.error("请填写你的疑问？");
       } else {
         this.$http
           .post("/business/studentQuestion/submitQuestion", {
+            typeName,
             subject,
-            question
+            question,
+            proposeStudentId
           })
-          .then(this.$message.success("提交成功！"));
+          .then((res)=>{
+            console.log(res)
+            if(res.data == ''){
+                this.$message.success("提交成功！");
+                app.input= "";
+                app.inputTag= "";
+                this.editor.txt.clear()
+            }
+          });
       }
-    },
-    getContent() {
-      this.editorContent = this.$refs.editor.getHtml(this.editorContent);
-      console.log(this.editorContent)
-    },
+    }
   },
-   mounted() {
-
-      console.log(this.$refs.editor, '富文本实例')
-   },
+  mounted() {
+        this.editor = new E(this.$refs.editor)
+        this.editor.customConfig.onchange = (html) => {
+          this.editorContent = html
+        }
+        this.editor.create()
+  }
  
 };
 </script>
@@ -209,4 +186,9 @@ export default {
 .text_box > div {
   height: auto !important;
 }
+.item{
+  opacity: 0.5;
+  margin-left: 5px;
+}
+
 </style>
