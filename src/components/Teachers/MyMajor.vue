@@ -53,7 +53,6 @@
 			toMyCourseList(itemId,name){
 				 this.$router.push({  
 					 name:'myCourseList',
-					//  path:'/teacher/MyCourseList',
 					 params:{
 							 itemId:itemId,
 							 name:name

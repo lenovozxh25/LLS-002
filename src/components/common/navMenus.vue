@@ -23,35 +23,7 @@
                     <a href="" @click.prevent="toMyCourseList(itemMajor.id,itemMajor.name)">{{itemMajor.name}}</a>
                   </el-menu-item>
               </el-submenu>
-               <!-- <el-submenu index="2-1">
-                <template slot="title">第一学期</template>
-                <el-menu-item index="2-1-1">web前端基础</el-menu-item>
-                <el-menu-item index="2-1-2">web前端高级</el-menu-item>
-                <el-menu-item index="2-1-3">脚本语言基础</el-menu-item>
-              </el-submenu> -->
-              <!--<el-submenu index="2-2">
-                <template slot="title">第二学期</template>
-                <el-menu-item index="2-2-1">脚本语言高级</el-menu-item>
-                <el-menu-item index="2-2-2">响应式设计</el-menu-item>
-                <el-menu-item index="2-2-3">编程语言基础</el-menu-item>
-              </el-submenu>
-              <el-submenu index="2-3">
-                <template slot="title">第三学期</template>
-                <el-menu-item index="2-3-1">服务端应用开发</el-menu-item>
-                <el-menu-item index="2-3-2">数据库基础</el-menu-item>
-                <el-menu-item index="2-3-3">编程语言高级</el-menu-item>
-              </el-submenu>
-              <el-submenu index="2-4">
-                <template slot="title">第四学期</template>
-                <el-menu-item index="2-4-1">前端框架(Vue)</el-menu-item>
-                <el-menu-item index="2-4-2">Vue项目实战</el-menu-item>
-                <el-menu-item index="2-4-3">Node.js</el-menu-item>
-              </el-submenu>
-              <el-submenu index="2-5">
-                <template slot="title">第五学期</template>
-                <el-menu-item index="2-5-1">就业岗前冲刺</el-menu-item>
-                <el-menu-item index="2-5-2">全真项目实训</el-menu-item>
-              </el-submenu> -->
+              
             </el-submenu>
             <el-menu-item index="3">考试管理</el-menu-item>
             <el-menu-item index="4">学员管理</el-menu-item>
