@@ -21,7 +21,7 @@
             <ul>
               <li v-for="(course,index) in MyCourseList" :key='index'>
                 <a href="#" @click.prevent="getMyCourse(course.id,course.name)">1.{{index+1}}   {{course.name}}</a>
-                {{course.id}}
+                <!-- {{course.id}} -->
               </li>
             </ul>
             
