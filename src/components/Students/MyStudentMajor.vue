@@ -22,7 +22,7 @@
 			 <p class="major" style="height:50px;line-height:50px;overflow:hidden">
 				 <span class="redSquare"></span>
 			     <span style="margin-top:20px;">专业章节</span>
-				 <span style="float:right"><el-button type="primary">课表下载</el-button></span>	 
+				 <!-- <span style="float:right"><el-button type="primary">课表下载</el-button></span>	  -->
 			 </p>
 			<el-collapse-item title="第一学期" name="1">
 				<div>
@@ -54,7 +54,7 @@
 		},
 		created:function(){
 			// /product/majorCustom/getMajorCustomForCurrentUser
-			this.$http.get('/product/userMajorCustom/getStudentMajorCustomAdapter').then(function(response) {
+			this.$http.get('/product/majorCustom/getMajorCustomForCurrentUser').then(function(response) {
 					console.log(response);
 				})
 		}
