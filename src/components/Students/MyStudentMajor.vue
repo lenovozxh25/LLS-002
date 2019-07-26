@@ -3,18 +3,13 @@
 		<div class="mahorTitle">
 			<div>
 				<div>
-					<span>移动互联(web前端方向)</span>
+					<span>{{studentMyMajorData.majorTypeName}}</span>
 				</div>
 				<ul>
 					<li>
-						共<span>5</span>个学期
+						共<span>{{majorCustomItemTreeAdapterListleng}}</span>个学期
 					</li>
-					<li>
-						<span>5</span>门课程
-					</li>
-					<li>
-						<span>5</span>节课时
-					</li>
+				
 				</ul>
 			</div>
 		</div>
@@ -22,19 +17,17 @@
 			 <p class="major" style="height:50px;line-height:50px;overflow:hidden">
 				 <span class="redSquare"></span>
 			     <span style="margin-top:20px;">专业章节</span>
-				 <span style="float:right"><el-button type="primary">课表下载</el-button></span>	 
-			 </p>
-			<el-collapse-item title="第一学期" name="1">
-				<div>
-					<a href="#">WEB前端基础(HTML+CSS)</a>
-				</div>
-				<div>
-					<a href="#">操作系统应用(Linux)</a>
-				</div>
-				<div>
-					<a href="#">编程语言基础(PHP)</a>
-				</div>
-			</el-collapse-item>
+				</p>
+				<div v-for="(item,index) in studentMyMajorData.majorCustomItemTreeAdapterList" :key='index'>
+				 <!-- <span>{{item}}</span> -->
+				 <!-- {{index}} -->
+				 <el-collapse-item :title="item.name" :name="index">
+					<div v-for='(itemMajor,index) in item.childList' :key='index'>
+						<a href="#" @click.prevent="toMyCourseList(itemMajor.id,itemMajor.name)">{{itemMajor.name}}</a>
+					</div>
+				</el-collapse-item>
+			 </div>
+			
 		</el-collapse>
 	</div>
 </template>
@@ -44,18 +37,36 @@
 		name: 'myStuMajor',
 		data() {
 			return {
-				activeNames: ['1', '2', '3', '4', '5']
+				activeNames: [0,1,2,3,4,5,6,7],
+				studentMyMajorData:[],
+				majorCustomItemTreeAdapterListleng:''
 			}
 		},
 		methods: {
-			handleChange(val) {
-				console.log(val);
+			// handleChange(val) {
+			// 	console.log(val);
+			// }
+			getStudentMyMajor(){
+				  var app=this;
+					this.$http.get('/product/majorCustom/getMajorCustomForCurrentUser').then(function(response) {
+								console.log(response.data);
+								app.studentMyMajorData=response.data[0]
+								app.majorCustomItemTreeAdapterListleng=response.data[0].majorCustomItemTreeAdapterList.length
+					})
+			},
+			toMyCourseList(itemId,name){
+				 this.$router.push({  
+					 name:'myStudentCourseList',
+					//  path:'/teacher/MyCourseList',
+					 params:{
+							 itemId:itemId,
+							 name:name
+					 }
+				 })
 			}
 		},
 		created:function(){
-			this.$http.get('/product/userMajorCustom/getStudentMajorCustomAdapter').then(function(response) {
-					// console.log(response);
-				})
+			this.getStudentMyMajor()
 		}
 	}
 </script>

@@ -51,7 +51,7 @@ export default {
         //获取对应课程
         getMyCourse(courseId,name){
             this.$router.push({  
-					 name:'myCourse',
+					 name:'myStudentCourse',
 					 params:{
 							 courseId:courseId,
 							 name:name

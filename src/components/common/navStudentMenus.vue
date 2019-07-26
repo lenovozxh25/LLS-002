@@ -15,7 +15,16 @@
             @select="handleSelect"
           >
             <el-menu-item index="1">我的专业</el-menu-item>
-            <el-menu-item index="2">我的课程</el-menu-item>
+            <el-submenu index="2">
+              <template slot="title">我的课程</template>
+               <el-submenu :index="'2-'+xiabiao" v-for='(item,xiabiao) in MajorCustomData.majorCustomItemTreeAdapterList' :key='xiabiao'>
+                  <template slot="title">{{item.name}}</template>                  
+                  <el-menu-item index="2-1-1" v-for='(itemMajor,index) in item.childList' :key='index'>
+                    <a href="" @click.prevent="toMyCourseList(itemMajor.id,itemMajor.name)">{{itemMajor.name}}</a>
+                  </el-menu-item>
+              </el-submenu>
+              
+            </el-submenu>
             <el-menu-item index="3">我的成长</el-menu-item>
             <el-menu-item index="4">我的参与</el-menu-item>
             <el-menu-item index="5">我的考试</el-menu-item>
@@ -61,7 +70,8 @@ export default {
       activeIndex: "1",
       activeIndex2: "1",
       userName: "",
-      count: 0
+      MajorCustomData:'',
+      count:0
     };
   },
   methods: {
@@ -73,7 +83,7 @@ export default {
           this.$router.push("/student/myStudentMajor");
           break;
         case "2":
-          this.$router.push("/student/Myproject");
+          this.$router.push("/student/myStudentCourse");
           break;
         case "3":
           this.$router.push("/student/Mygrowup");
@@ -109,6 +119,16 @@ export default {
         }
       });
     },
+    //获取该学生的专业
+			getMajorCustom(userId){
+				var app = this;
+				this.$http
+					.get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
+					.then(function(res) {
+						app.MajorCustomData=res.data[0];
+						// console.log(app.MajorCustomData.majorCustomItemTreeAdapterList)
+					});
+			},
     //未读消息
     noReadMsg() {
       var app = this;
@@ -117,16 +137,32 @@ export default {
         .then(res => {
           app.count = res.data;
         });
-    }
+    },
+      toMyCourseList(itemId,name){    
+				 this.$router.push({  
+					 name:'myStudentCourseList',
+					//  path:'/teacher/MyCourseList',
+					 params:{
+							 itemId:itemId,
+							 name:name
+					 }
+				 })
+      }
   },
   created() {
     this.userName = window.localStorage.getItem("userName");
-   // this.noReadMsg();
+    this.userId = window.localStorage.getItem("userId");
+    this.getMajorCustom(this.userId);
+   this.noReadMsg();
   }
 };
 </script>
 
 <style>
+a{
+   color: #6c6868;
+		font-size: 12px;
+}
 .el-row:last-child {
   margin-bottom: 0;
 }

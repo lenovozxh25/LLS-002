@@ -15,19 +15,18 @@ import MyCourseList from '@/components/Teachers/MyCourseList.vue'
 
 import OnlineAnswer from '@/components/Teachers/OnlineAnswer.vue'
 
-import Myproject from '@/components/Students/Myproject.vue'
 import Mytest from '@/components/Students/Mytest.vue'
 import Mymessage from '@/components/Students/Mymessage.vue'
-
 import SHome from '@/components/Students/Home.vue'
 import MyStudentMajor from '@/components/Students/MyStudentMajor.vue'
 import MyStudentMymessage from '@/components/Students/Mymessage.vue'
-import MyStudentMyproject from '@/components/Students/Myproject.vue'
+import myStudentCourse from '@/components/Students/MyStudentCourse.vue'
 import MyStudentMytest from '@/components/Students/Mytest.vue'
 import MyStudentMyparticipation from '@/components/Students/Myparticipation.vue'
 import MyStudentMynews from '@/components/Students/Mynews.vue'
 import MyStudentMygrowup from '@/components/Students/Mygrowup.vue'
 import OnlineAsk from '@/components/Students/OnlineAsk.vue'
+import myStudentCourseList from '@/components/students/myStudentCourseList.vue'
 
 import Logined from '@/components/common/Login.vue'
 
@@ -73,11 +72,6 @@ const routes = [
 				component: MyContribute,
 				name: '我的贡献'
 			},
-			{ 
-				path: 'myProject', 
-				component: Myproject, 
-				name: '我的课程' 
-			},
         	{ 
 				path: 'myTest', 
 				component: Mytest, 
@@ -120,9 +114,14 @@ const routes = [
 				name: '学生我的专业',
 			},
 			{
-				path: 'Myproject',
-				component: MyStudentMyproject,
-				name: '学生我的课程',
+				path: 'myStudentCourseList',
+				component: myStudentCourseList,
+				name: 'myStudentCourseList'
+			},
+			{
+				path: 'myStudentCourse',
+				component: myStudentCourse,
+				name: 'myStudentCourse',
 			},
 			{
 				path: 'Mymessage',

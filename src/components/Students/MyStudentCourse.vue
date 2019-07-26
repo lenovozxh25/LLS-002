@@ -1,6 +1,6 @@
 <template>
-    <div id='MyCourseList'>
-        <div class="courseTitle">
+	<div id="myCourse">
+		<div class="courseTitle">
 			<div>
 				<div class="title1">
 					<svg class="bookSvg" viewBox="0 0 1024 1024" width="30" height="30">
@@ -16,54 +16,76 @@
 				<div class="title2">{{this.$route.params.name}}</div>
 			</div>
 		</div>
-        <div class="courseTest"> 
-            <p class="major top"><span class="redSquare"></span><span>专业介绍</span></p>
-            <ul>
-              <li v-for="(course,index) in MyCourseList" :key='index'>
-                <a href="#" @click.prevent="getMyCourse(course.id,course.name)">1.{{index+1}}   {{course.name}}</a>
-                <!-- {{course.id}} -->
-              </li>
-            </ul>
-            
-        </div>
-    </div>
+		<div class="courseTest">
+			<div>
+				<template>
+				  
+					<el-tabs tab-position="border-card" style="height: 800px;" type="border-card">
+						<el-tab-pane :label='item.name' v-for="(item,index) in MyMaterialData" :key='index'>
+							{{item.name}}
+						</el-tab-pane>
+
+					</el-tabs>
+				</template>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-export default {
-    name: 'myCourseList',
-    data(){
-        return{
-            MyCourseList:''
-        }
-    },
-    methods:{
-        // 获取对应列表
-        getMyCourseList(itemId){
+	export default {
+		name: 'myCourse',
+		data() {
+			return {
+				MyMaterialData:[],
+				MyCourseNow:[],
+				tabPosition: 'right',
+				majorVal:'',
+				courseVal:'',
+				periodVal:'',
+				major: [{
+					value: '1',
+					label: '移动互联(web前端方向)'
+				}],
+				course:[{
+					value: '1',
+					label: '脚本语言高级'
+				}],
+				period:[{
+					value: '1',
+					label: '错误处理'
+				}]
+			}
+		},
+		methods:{
+			// 对应课程详情
+			getNowMyCourse(courseId,typeId){
 				var app = this;
 				this.$http
-					.get(`/product/majorCustomCourse/getListByItemId/${itemId}`)
+					.get(`/product/customMaterial/getListByCourseIdAndTypeId/${courseId}/${typeId?typeId:1}`)
+					// courseId typeId
 					.then(function(res) {
-						app.MyCourseList=res.data;
-						// console.log(app.MyCourseList);
+						app.MyCourseNow=res.data;
+						console.log(res.data);
 					});
-            },
-        //获取对应课程
-        getMyCourse(courseId,name){
-            this.$router.push({  
-					 name:'myCourse',
-					 params:{
-							 courseId:courseId,
-							 name:name
-					 }
-				 })
-        }
-    },
-    created(){
-
-        this.getMyCourseList(this.$route.params.itemId);
-    }
-}
+			},
+			//获取课程资料列表
+			getMyMaterial(){
+				var app = this;
+				this.$http
+					.get('/product/materialType/listForAble')
+					// courseId typeId
+					.then(function(res) {
+						app.MyMaterialData=res.data;
+						console.log(res.data);
+					});
+			}
+		},
+		created(){
+			this.getNowMyCourse(this.$route.params.courseId);
+			this.getMyMaterial();
+		}
+	}
 </script>
 
 <style>
@@ -110,25 +132,4 @@ export default {
 		width: 1100px;
 		margin: auto;
 	}
-    .courseTest li{
-        background: #F5F4F9;
-        color: #606060;
-        height: 32px;
-        background: #f5f4f9;
-        margin-bottom: 4px;
-        text-indent: 20px;
-        line-height: 32px;
-    }
-    .courseTest li>a {
-        color: #606060;
-        width: 270px;
-        display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: 32px;
-        text-indent: 0px;
-    }
 </style>
-
-

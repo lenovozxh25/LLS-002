@@ -7,9 +7,7 @@
 					{{MajorCustomData.majorTypeName}}
 				</div>
 				<ul>
-					<li>共8个学期</li>
-					<li>14门课程</li>
-					<li>514节课时</li>
+					<li>共 {{majorCustomItemTreeAdapterList}} 个学期</li>
 				</ul>
 			</div>
 		</div>
@@ -36,7 +34,8 @@
 		data() {
 			return {
 				activeNames: [0,1,2,3,4,5,6,7],
-				MajorCustomData:''
+				MajorCustomData:[],
+				majorCustomItemTreeAdapterList:''
 			};
 		},
 		methods: {
@@ -47,13 +46,13 @@
 					.get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
 					.then(function(res) {
 						app.MajorCustomData=res.data[0];
-						// console.log(res.data[0])
+                        app.majorCustomItemTreeAdapterList=res.data[0].majorCustomItemTreeAdapterList.length
+						// console.log(res.data[0].majorCustomItemTreeAdapterList.length)
 					});
 			},
 			toMyCourseList(itemId,name){
 				 this.$router.push({  
 					 name:'myCourseList',
-					//  path:'/teacher/MyCourseList',
 					 params:{
 							 itemId:itemId,
 							 name:name
