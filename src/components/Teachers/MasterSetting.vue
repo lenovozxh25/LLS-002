@@ -49,22 +49,29 @@
         </el-menu>
       </div>
       <div class="master_right">
-        <ul class="sourceTabs">
+        <!-- <ul class="sourceTabs">
           <li
             :class="{tabItem:true, active:item.id==cur}"
             v-for="item in sourceTabs"
             :key="item.id"
             @click="tabsClick(item.id)"
           >{{item.name}}</li>
-        </ul>
-        <el-button icon="el-icon-plus" @click="dialogVisible = true">新增</el-button>
+        </ul> -->
+        <div>
+          <el-row>
+            <el-button type="info" size="medium">添加课程</el-button>
+            <el-button size="medium">删除课程</el-button>
+          </el-row>
+        </div>
         <template>
           <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="date" label="序号" width="80"></el-table-column>
-            <el-table-column prop="name" label="资源名称" width="230"></el-table-column>
-            <el-table-column prop="address" label="作者" width="80"></el-table-column>
-            <el-table-column prop="address" label="上传时间" width="230"></el-table-column>
-            <el-table-column prop="address" label="操作"></el-table-column>
+            <el-table-column prop="id" label="序号" width="80"></el-table-column>
+            <el-table-column prop="name" label="课程名称" width="230"></el-table-column>
+            <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
+            <el-table-column prop="updateTime" label="最后更新时间" width="150"></el-table-column>
+            <el-table-column label="操作">
+              <el-button icon="el-icon-plus" @click="dialogVisible = true">上传资源</el-button>
+            </el-table-column>
           </el-table>
         </template>
       </div>
@@ -123,16 +130,16 @@ export default {
     return {
       dialogVisible: false,
       cur: 1,
-      typeId:1,
+      typeId: 1,
       masterTree: [],
       sourceTabs: [],
-      itemChildId:1,
-      file:"",
-      imgFile:"",
-      fileName:"",
-      fileAuthor:"",
-      shortDescVal:"",
-      content:"",
+      itemChildId: 1,
+      file: "",
+      imgFile: "",
+      fileName: "",
+      fileAuthor: "",
+      shortDescVal: "",
+      content: "",
       tableData: []
     };
   },
@@ -144,47 +151,53 @@ export default {
       console.log(key, keyPath);
     },
     //文件上传
-    onChangeFile(e){
-        debugger
-        let file=e.target.files[0];
-        this.file=file;
-        let index=file.name.lastIndexOf(".");
-        this.fileName=file.name.substring(0,index);
+    onChangeFile(e) {
+      debugger;
+      let file = e.target.files[0];
+      this.file = file;
+      let index = file.name.lastIndexOf(".");
+      this.fileName = file.name.substring(0, index);
     },
-    onChangeImgFile(e){
-        let imgFile=e.target.files[0];
-        this.imgFile=imgFile
+    onChangeImgFile(e) {
+      let imgFile = e.target.files[0];
+      this.imgFile = imgFile;
     },
     //新增课程资源
-    submitCourse(){
-        var app=this;
-        debugger
-        this.dialogVisible = false;
-        var formData = new window.FormData();
-        let config = {headers: {"Content-Type": "multipart/form-data"}}
-        formData.append("file", this.file)
-        formData.append("showImageFile", this.imgFile)
-        this.$http.post(`/product/customMaterial/save?customItemId=${this.itemChildId}&typeId=${this.typeId}&name=${this.fileName}&shortDescribe=${this.shortDescVal}&fileAuthor=${this.fileAuthor}&content=${this.content}`, formData, config).then((res) => {
-            if(res.data==""){
-                app.$message.success("新增成功！")
-                app.fileName=""
-                app.fileAuthor=""
-                app.shortDescVal=""
-                app.content=""
-            }else{
-                app.$message.error("新增失败！")
-            }
-        }) // 发送请求
+    submitCourse() {
+      var app = this;
+      debugger;
+      this.dialogVisible = false;
+      var formData = new window.FormData();
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      formData.append("file", this.file);
+      formData.append("showImageFile", this.imgFile);
+      this.$http
+        .post(
+          `/product/customMaterial/save?customItemId=${this.itemChildId}&typeId=${this.typeId}&name=${this.fileName}&shortDescribe=${this.shortDescVal}&fileAuthor=${this.fileAuthor}&content=${this.content}`,
+          formData,
+          config
+        )
+        .then(res => {
+          if (res.data == "") {
+            app.$message.success("新增成功！");
+            app.fileName = "";
+            app.fileAuthor = "";
+            app.shortDescVal = "";
+            app.content = "";
+          } else {
+            app.$message.error("新增失败！");
+          }
+        }); // 发送请求
     },
     //tabs切换
     tabsClick(index) {
       this.cur = index;
-      this.typeId=index;
-       this.getCustom(this.itemChildId)
+      this.typeId = index;
+      this.getCustom(this.itemChildId);
     },
-    menuItem(itemChildId){
-        this.itemChildId=itemChildId;
-        this.getCustom(this.itemChildId)
+    menuItem(itemChildId) {
+      this.itemChildId = itemChildId;
+      this.getCustom(this.itemChildId);
     },
     //通过课程节点和类型获取资源
     // getCustom (itemChildId,typeId){
@@ -196,37 +209,30 @@ export default {
     //   });
     // },
     //通过课程节点和类型获取资源
-    getCustom (itemChildId){
-      debugger
-        var app = this;
-      this.$http.get(`/product/majorCustomCourse/getListByItemId/${itemChildId}`).then(function(res) {
-        console.log(res.data);
-        app.tableData = res.data;
-      });
+    getCustom(itemId) {
+     // debugger;
+      var app = this;
+      this.$http
+        .get(`/product/majorCustomCourse/getListByItemId/${itemId}`)
+        .then(function(res) {
+          console.log(res.data);
+          app.tableData = res.data;
+        });
     },
-    //获取资源类型接口
-    // getMasterSourceTabList() {
-    //   var app = this;
-    //   this.$http.get("/product/materialType/listForAble").then(function(res) {
-    //     console.log(res.data);
-    //     app.sourceTabs = res.data;
-    //   });
-    // },
     //获取学期列表
     getMasterTree(customId) {
       var app = this;
       this.$http
         .get(`/product/majorCustomItem/listByCustomIdForAble/${customId}`)
         .then(function(res) {
-          console.log(res.data);
           app.masterTree = res.data;
         });
     },
 
     //新增窗口关闭
     handleCloses(done) {
-            done();
-      }
+      done();
+    }
   },
   created() {
     this.getMasterTree(this.$route.params.customId);
@@ -278,16 +284,21 @@ export default {
 .master_left,
 .master_right {
   float: left;
-  padding: 10px 20px;
   height: 1000px;
+}
+.master_left{
+  padding: 10px 5px 10px 20px;
+}
+.master_right{
+   padding: 10px 5px;
 }
 .master_left {
   width: 256px;
 }
 .master_right {
-  width: 750px;
+  width: 800px;
 }
-.master_right>.el-button{
+.master_right > .el-button {
   float: right;
   margin-bottom: 10px;
 }
@@ -311,6 +322,6 @@ export default {
   color: white;
 }
 #masterSetting .el-submenu__title i {
-    color: #49c0e0;
+  color: #49c0e0;
 }
 </style>
