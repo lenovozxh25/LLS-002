@@ -24,7 +24,7 @@
                 <el-table-column prop="proposeTime" label="发起时间" width="220"></el-table-column>
                 <el-table-column prop="isSolution" label="状态" width="120">
                   <template slot-scope="scope">
-                    <span v-if="scope.row.isSolution == 'Y'" style="color:black">已解答</span>
+                    <span v-if="scope.row.explanation != null || scope.row.isSolution =='Y'" style="color:black">已解答</span>
                     <span v-else>未解答</span>
                   </template>
                 </el-table-column>
@@ -164,6 +164,7 @@ export default {
              if(res.data==""){
                 app.$message.success("提交成功！")
                 app.textarea="";
+                app.getStuQuestionList(this.currentPage, this.pageSize, {"isSolution":"Y"})
              }else{
                app.$message.error("提交失败")
              }

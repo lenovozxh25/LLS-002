@@ -26,7 +26,8 @@
       </div>
       <div class="master_left">
         <el-menu
-          default-active="2"
+          default-active="0"
+          :unique-opened="true"
           class="el-menu-vertical-demo"
           @open="handleOpen"
           @close="handleClose"
@@ -56,21 +57,22 @@
             :key="item.id"
             @click="tabsClick(item.id)"
           >{{item.name}}</li>
-        </ul> -->
-        <div>
+        </ul>-->
+        <div style="margin-bottom:20px">
           <el-row>
-            <el-button type="info" size="medium">添加课程</el-button>
-            <el-button size="medium">删除课程</el-button>
+            <el-button type="info" size="medium" @click="addRowCourse">添加课程</el-button>
+            <el-button size="medium" :disabled="selectionData.length==0" @click="deleteCourse">删除课程</el-button>
           </el-row>
         </div>
         <template>
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="id" label="序号" width="80"></el-table-column>
+          <el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column label="序号" width="80" type="index" :index="indexMethod"></el-table-column>
             <el-table-column prop="name" label="课程名称" width="230"></el-table-column>
-            <el-table-column prop="createTime" label="创建时间" width="150"></el-table-column>
-            <el-table-column prop="updateTime" label="最后更新时间" width="150"></el-table-column>
-            <el-table-column label="操作">
-              <el-button icon="el-icon-plus" @click="dialogVisible = true">上传资源</el-button>
+            <el-table-column prop="createTime" label="创建时间" width="150" :formatter="dateFormat"></el-table-column>
+            <el-table-column prop="updateTime" label="最后更新时间" width="150" :formatter="dateFormat"></el-table-column>
+            <el-table-column>
+              <el-button @click="dialogVisible = true">上传资源</el-button>
             </el-table-column>
           </el-table>
         </template>
@@ -84,6 +86,16 @@
       :before-close="handleCloses"
       style="margin:0"
     >
+      <div>
+        <el-select v-model="value" placeholder="选择资源类型">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </div>
       <div>
         上传文件：
         <input type="file" id="file" name="file" required @change="onChangeFile($event)" />
@@ -140,7 +152,9 @@ export default {
       fileAuthor: "",
       shortDescVal: "",
       content: "",
-      tableData: []
+      tableData: [],
+      selectionData: [],
+      newDelArr: []
     };
   },
   methods: {
@@ -199,18 +213,17 @@ export default {
       this.itemChildId = itemChildId;
       this.getCustom(this.itemChildId);
     },
-    //通过课程节点和类型获取资源
-    // getCustom (itemChildId,typeId){
-    //   debugger
-    //     var app = this;
-    //   this.$http.post(`/product/customMaterial/listForItemIdAndTypeId?itemId=${itemChildId}&typeId=${typeId}`).then(function(res) {
-    //     console.log(res.data);
-    //     app.sourceTabs = res.data;
-    //   });
-    // },
+    //时间格式处理
+    dateFormat: function(row, column) {
+      var date = row[column.property];
+      if (date == undefined) {
+        return "";
+      }
+      return this.$moment(date).format("YYYY-MM-DD");
+    },
     //通过课程节点和类型获取资源
     getCustom(itemId) {
-     // debugger;
+      // debugger;
       var app = this;
       this.$http
         .get(`/product/majorCustomCourse/getListByItemId/${itemId}`)
@@ -228,10 +241,47 @@ export default {
           app.masterTree = res.data;
         });
     },
-
+    //保存课程资源
+    saveCustomCourse(itemId, name) {
+      var app = this;
+      this.$http
+        .post("/product/majorCustomCourse/save", { itemId, name })
+        .then(function(res) {});
+    },
+    addRowCourse() {},
+    //删除课程资源
+    deleteCourse() {
+      var delArr = this.newDelArr;
+      var app = this;
+      if (confirm("您确定要删除此条课程资源吗？")) {
+        this.$http
+          .post("/product/majorCustomCourse/deletes", delArr)
+          .then(res => {
+            if (res.data == true) {
+              app.$message.success("删除成功！");
+            } else {
+              app.$message.error("删除失败！");
+            }
+          });
+      }
+    },
+    handleSelectionChange(val) {
+      //数据选项
+      //console.log(val)
+      var delArr = [];
+      this.selectionData = val;
+      this.selectionData.map(item => {
+        delArr.push(item.id);
+      });
+      this.newDelArr = delArr;
+    },
     //新增窗口关闭
     handleCloses(done) {
       done();
+    },
+    //课程资源排序
+    indexMethod(index) {
+      return index + 1;
     }
   },
   created() {
@@ -286,11 +336,11 @@ export default {
   float: left;
   height: 1000px;
 }
-.master_left{
+.master_left {
   padding: 10px 5px 10px 20px;
 }
-.master_right{
-   padding: 10px 5px;
+.master_right {
+  padding: 10px 5px;
 }
 .master_left {
   width: 256px;
@@ -323,5 +373,12 @@ export default {
 }
 #masterSetting .el-submenu__title i {
   color: #49c0e0;
+}
+.el-button--info {
+  background-color: #49c0e0;
+  border-color: #49c0e0;
+}
+.el-button--info:hover {
+  opacity: 0.6;
 }
 </style>
