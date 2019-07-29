@@ -53,7 +53,7 @@ const routes = [
 				name: 'myCourse'
 			},
 			{
-				path: 'myCourseList',
+				path: 'myCourseList/:itemId',
 				component: MyCourseList,
 				name: 'myCourseList'
 			},

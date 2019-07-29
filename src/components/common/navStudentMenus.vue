@@ -1,4 +1,5 @@
 <template>
+
   <div id="navStuMenus">
     <el-row :gutter="20">
       <el-col :span="4">
@@ -19,8 +20,8 @@
               <template slot="title">我的课程</template>
                <el-submenu :index="'2-'+xiabiao" v-for='(item,xiabiao) in MajorCustomData.majorCustomItemTreeAdapterList' :key='xiabiao'>
                   <template slot="title">{{item.name}}</template>                  
-                  <el-menu-item index="2-1-1" v-for='(itemMajor,index) in item.childList' :key='index'>
-                    <a href="" @click.prevent="toMyCourseList(itemMajor.id,itemMajor.name)">{{itemMajor.name}}</a>
+                  <el-menu-item @click="toMyCourseList(itemMajor.id,itemMajor.name)" :data-a="itemMajor.id" index="2-1-1" v-for='(itemMajor,index) in item.childList' :key='index'>
+                    {{itemMajor.name}}
                   </el-menu-item>
               </el-submenu>
               
@@ -75,16 +76,16 @@ export default {
     };
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+    handleSelect(key, keyPath,$event) {
+      console.log(keyPath);
       //debugger
       switch (key) {
         case "1":
           this.$router.push("/student/myStudentMajor");
           break;
-        case "2":
-          this.$router.push("/student/myStudentCourse");
-          break;
+        // case "2":
+        //   this.$router.push("/student/myStudentCourse");
+        //   break;
         case "3":
           this.$router.push("/student/Mygrowup");
           break;
@@ -94,6 +95,11 @@ export default {
         case "5":
           this.$router.push("/student/Mytest");
           break;
+      }
+      if(keyPath.length!=1){
+        console.log(this);
+        // this.$router.push("/student/myStudentCourseList");
+        // this.toMyCourseList()
       }
     },
     mymessage() {
@@ -138,6 +144,7 @@ export default {
           app.count = res.data;
         });
     },
+    
       toMyCourseList(itemId,name){    
 				 this.$router.push({  
 					 name:'myStudentCourseList',
@@ -146,15 +153,30 @@ export default {
 							 itemId:itemId,
 							 name:name
 					 }
-				 })
+         })
+         console.log(itemId)
       }
   },
   created() {
     this.userName = window.localStorage.getItem("userName");
     this.userId = window.localStorage.getItem("userId");
     this.getMajorCustom(this.userId);
-   this.noReadMsg();
-  }
+    this.noReadMsg();
+  },
+  // beforeRouteEnter:function(to,from,next){
+  //     var app=this;
+  //     app.toMyCourseList(to.params.itemId)
+  // },
+  // beforeRouteUpdate:function(to,from,next){
+  //     var app=this;
+  //     app.toMyCourseList(to.params.itemId)
+  // }
+  // watch:{
+  //     $params:function(to,from){
+  //       console.log(to.params)
+  //       // this.toMyCourseList()
+  //     }
+  // }
 };
 </script>
 

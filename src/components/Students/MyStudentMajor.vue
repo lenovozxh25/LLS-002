@@ -43,13 +43,10 @@
 			}
 		},
 		methods: {
-			// handleChange(val) {
-			// 	console.log(val);
-			// }
 			getStudentMyMajor(){
 				  var app=this;
 					this.$http.get('/product/majorCustom/getMajorCustomForCurrentUser').then(function(response) {
-								console.log(response.data);
+								// console.log(response.data);
 								app.studentMyMajorData=response.data[0]
 								app.majorCustomItemTreeAdapterListleng=response.data[0].majorCustomItemTreeAdapterList.length
 					})
@@ -57,7 +54,6 @@
 			toMyCourseList(itemId,name){
 				 this.$router.push({  
 					 name:'myStudentCourseList',
-					//  path:'/teacher/MyCourseList',
 					 params:{
 							 itemId:itemId,
 							 name:name

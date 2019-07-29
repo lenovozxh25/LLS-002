@@ -21,8 +21,10 @@
 				<template>
 				  
 					<el-tabs tab-position="border-card" style="height: 800px;" type="border-card">
-						<el-tab-pane :label='item.name' v-for="(item,index) in MyMaterialData" :key='index'>
+						 <!-- v-on:click="getMyMaterialDetails($route.params.courseId,item.id)"  -->
+						<el-tab-pane @click.native="getMyMaterialDetails($route.params.courseId,item.id)" :label='item.name' v-for="(item,index) in MyMaterialData" :key='index'>
 							{{item.name}}
+							{{MyMaterialDetailsData}}
 						</el-tab-pane>
 
 					</el-tabs>
@@ -37,6 +39,8 @@
 		name: 'myCourse',
 		data() {
 			return {
+				
+				MyMaterialDetailsData:[],
 				MyMaterialData:[],
 				MyCourseNow:[],
 				tabPosition: 'right',
@@ -79,11 +83,35 @@
 						app.MyMaterialData=res.data;
 						console.log(res.data);
 					});
+			},
+			//点击教学视频 精品课件 课堂案例 企业问答 其它资料等跳转到相对应的资料
+			getMyMaterialDetails(courseId,typeId){
+				var app = this;
+				this.$http
+					.get(`/product/customMaterial/getListByCourseIdAndTypeId/${courseId}/${typeId}`)
+					.then(function(res) {
+						app.MyMaterialDetailsData=res.data;
+						console.log(res.data);
+					});
 			}
 		},
 		created(){
 			this.getNowMyCourse(this.$route.params.courseId);
 			this.getMyMaterial();
+		},
+		beforeRouteEnter:function(to,from,next){
+			next(function(vm){
+				vm.getMyMaterialDetails(vm.$route.params.courseId,vm.$route.params.typeId?vm.$route.params.typeId:1)
+			})
+		},
+		beforeRouteUpdate:function(to,from,next){
+			console.log(1);
+			console.log(to.$route.params.courseId,to.$route.params.typeId)
+			this.getMyMaterialDetails(
+				to.$route.params.courseId,
+				to.$route.params.typeId
+			);
+			next();
 		}
 	}
 </script>

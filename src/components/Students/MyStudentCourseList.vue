@@ -21,6 +21,11 @@
             <ul>
               <li v-for="(course,index) in MyCourseList" :key='index'>
                 <a href="#" @click.prevent="getMyCourse(course.id,course.name)">1.{{index+1}}   {{course.name}}</a>
+				<div style="float:right">
+					<span @click="getMyMaterialDetails(course.id,item.id)" class="z-study" v-for="(item,index) in MyMaterialData" :key='index'>
+					{{item.name}}
+				</span>
+				</div>
                 <!-- {{course.id}} -->
               </li>
             </ul>
@@ -31,9 +36,10 @@
 
 <script>
 export default {
-    name: 'myCourseList',
+	name: 'myCourseList',
     data(){
         return{
+			MyMaterialData:[],
             MyCourseList:''
         }
     },
@@ -45,7 +51,7 @@ export default {
 					.get(`/product/majorCustomCourse/getListByItemId/${itemId}`)
 					.then(function(res) {
 						app.MyCourseList=res.data;
-						// console.log(app.MyCourseList);
+					
 					});
             },
         //获取对应课程
@@ -57,12 +63,41 @@ export default {
 							 name:name
 					 }
 				 })
-        }
+		},
+		//获取课程资料列表
+			getMyMaterial(){
+				var app = this;
+				this.$http
+					.get('/product/materialType/listForAble')
+					// courseId typeId
+					.then(function(res) {
+						app.MyMaterialData=res.data;
+						// console.log(res.data);
+					});
+			},
+		//点击教学视频 精品课件 课堂案例 企业问答 其它资料等跳转到相对应的资料
+		//跳转到下一个页面，并且传参数
+			getMyMaterialDetails(courseId,typeId){
+            this.$router.push({  
+					 name:'myStudentCourse',
+					 params:{
+							 courseId:courseId,
+							 typeId:typeId?typeId:1
+					 }
+				 })
+		   }
+			
     },
     created(){
-
+        this.getMyMaterial();
         this.getMyCourseList(this.$route.params.itemId);
-    }
+	},
+	  watch:{
+      $params:function(to,from){
+        console.log(to.params)
+        // this.toMyCourseList()
+      }
+     }
 }
 </script>
 
@@ -129,6 +164,20 @@ export default {
         line-height: 32px;
         text-indent: 0px;
     }
+	.z-study {
+    line-height: 32px;
+    /* float: right; */
+    /* border: 1px solid #d4d4d4; */
+    margin-left: 3px;
+    font-size: 14px;
+    text-indent: 0;
+    padding: 0 6px;
+    color: #808080;
+    cursor: pointer;
+    height: 32px;
+    width: 90px;
+    position: relative;
+}
 </style>
 
 
