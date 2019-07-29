@@ -15,21 +15,21 @@
 		<div class="eaxmMain">			
 			<div style="margin-bottom: 20px;">
 				<el-button type="primary">发布考试</el-button>
-				<el-button type="primary">创建试卷</el-button>
+				<el-button type="primary" @click="createExam">创建试卷</el-button>
 			</div>
 			<el-tabs class="z_p_tab" type="border-card" v-model="z_p_testName" @tab-click="handleClick">
-            <el-tab-pane label="全部测验" name="first">
+            <el-tab-pane label="大前端" name="first">
                 <el-collapse v-model="activeNames" >
 			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
                         <span class="redSquare"></span>
-                        <el-tag type="success">全部测验</el-tag>
+                        <el-tag type="success">大前端</el-tag>
 			        </p>
                     <el-table :data="examsAll" stripe style="width: 100%">
                         <el-table-column prop="name" label="试卷名称" width="200">
                         </el-table-column>
                         <el-table-column prop="createTime" width="200" label="创建时间"></el-table-column>
                         <el-table-column prop="remark" label="备注"></el-table-column>
-                        <el-table-column prop="" label="试卷类型">暂无类型</el-table-column>
+                        <el-table-column prop="" label="试卷类型">大前端</el-table-column>
                         <el-table-column prop="question" label="操作">
 							<el-tag>发布考试</el-tag>
 							<el-tag>删除</el-tag>
@@ -39,18 +39,18 @@
                     <el-pagination :current-page="page" style="margin-top:30px;" :page-size="pageSize" background layout="prev, pager, next" :total="nums" @current-change="pageClick" @prev-click="prevClick" @next-click="nextClick"></el-pagination>
 		        </el-collapse>
             </el-tab-pane>
-			<el-tab-pane label="期末测验" name="second">
+			<el-tab-pane label="移动互联" name="second">
                 <el-collapse v-model="activeNames" >
 			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
                         <span class="redSquare"></span>
-                        <el-tag>期末测验</el-tag>
+                        <el-tag>移动互联</el-tag>
 			        </p>
                     <el-table :data="examsAll" stripe style="width: 100%">
                         <el-table-column prop="name" label="试卷名称" width="200">
                         </el-table-column>
                         <el-table-column prop="createTime" width="200" label="创建时间"></el-table-column>
                         <el-table-column prop="remark" label="备注"></el-table-column>
-                        <el-table-column prop="" label="试卷类型">暂无类型</el-table-column>
+                        <el-table-column prop="" label="试卷类型">移动互联</el-table-column>
                         <el-table-column prop="question" label="操作">
 							<el-tag>发布考试</el-tag>
 							<el-tag>删除</el-tag>
@@ -60,18 +60,18 @@
                     <el-pagination :current-page="page" style="margin-top:30px;" :page-size="pageSize" background layout="prev, pager, next" :total="nums" @current-change="pageClick" @prev-click="prevClick" @next-click="nextClick"></el-pagination>
 		        </el-collapse>
             </el-tab-pane>
-			<el-tab-pane label="小测验" name="third">
+			<el-tab-pane label="软件开发" name="third">
                 <el-collapse v-model="activeNames" >
 			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
                         <span class="redSquare"></span>
-                        <el-tag type="warning">小测验</el-tag>
+                        <el-tag type="warning">软件开发</el-tag>
 			        </p>
                     <el-table :data="examsAll" stripe style="width: 100%">
                         <el-table-column prop="name" label="试卷名称" width="200">
                         </el-table-column>
                         <el-table-column prop="createTime" width="200" label="创建时间"></el-table-column>
                         <el-table-column prop="remark" label="备注"></el-table-column>
-                        <el-table-column prop="" label="试卷类型">暂无类型</el-table-column>
+                        <el-table-column prop="" label="试卷类型">软件开发</el-table-column>
                         <el-table-column prop="question" label="操作">
 							<el-tag>发布考试</el-tag>
 							<el-tag>删除</el-tag>
@@ -94,7 +94,7 @@ export default {
     return {
 	  //全部测验数据的数据
 	  src:`/exam/examPage/page`,  //发送ajax的路由地址
-	  typeId:null,
+	  typeId:1,
       page: 1, //当前第几页
       pageSize: 5, //反馈每页的数据条数
       nums: null, //反馈总消息数
@@ -114,18 +114,22 @@ export default {
 	  this.getExams(this.src);
   },
   methods: {
+	//   创建试卷跳转
+	createExam(){
+		this.$router.push("/teacher/mycreateexam");
+	},
     handleClick(tab, event) {
 		if(tab.$el.id=="pane-first"){
 			this.src = `/exam/examPage/page`;
-			this.typeId = null;
+			this.typeId = 1;
 			this.getExams(this.src)
 		}else if(tab.$el.id=="pane-second"){
 			this.src = `/exam/examPage/page`;
-			this.typeId = 1;
+			this.typeId = 2;
 			this.getExams(this.src)
 		}else if(tab.$el.id=="pane-third"){
 			this.src = `/exam/examPage/page`;
-			this.typeId = 2;
+			this.typeId = 3;
 			this.getExams(this.src)
 		}
 	},

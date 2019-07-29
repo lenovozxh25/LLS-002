@@ -12,6 +12,7 @@ import MyMeage from '@/components/Teachers/MyMeage.vue'
 import MyTeacherMyNews from '@/components/Teachers/MyNews.vue'
 import CourseManagement from '@/components/Teachers/CourseManagement.vue'
 import MyCourseList from '@/components/Teachers/MyCourseList.vue'
+import MyCreateExam from '@/components/Teachers/CreateExam.vue'
 
 import OnlineAnswer from '@/components/Teachers/OnlineAnswer.vue'
 
@@ -88,7 +89,7 @@ const routes = [
 				name: '课程管理' ,
 			},
 			{
-				path:'/masterSetting',
+				path:'masterSetting',
 				component:MasterSetting,
 				name:'masterSetting'
 			},
@@ -101,6 +102,11 @@ const routes = [
 				path: 'onlineAnswer',
 				component: OnlineAnswer,
 				name: '老师在线答疑',
+			},
+			{
+				path: 'mycreateexam',
+				component: MyCreateExam,
+				name: '老师创建创建试卷',
 			},
 			
 		]
