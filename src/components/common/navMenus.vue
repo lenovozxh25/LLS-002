@@ -136,16 +136,19 @@ export default {
     //退出
     logOut() {
       var app = this;
-      this.$http.get("/permit/logout").then(res => {
-        if (!!res.data === false) {
-          app.$router.push({
-            path: "/logined",
-            query: {
-              r: true
-            }
-          });
-        }
-      });
+      if(confirm("确定要退出吗？")){
+        this.$http.get("/permit/logout").then(res => {
+          if (!!res.data === false) {
+            app.$message.success("退出成功！")
+            app.$router.push({
+              path: "/logined",
+              query: {
+                r: true
+              }
+            });
+          }
+        });
+      }
     },
     //获取该教师的专业
 			getMajorCustom(userId){
