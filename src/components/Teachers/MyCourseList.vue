@@ -12,6 +12,7 @@
 						<path d="M791.0464 295.095467c-4.187733-3.3728-44.878933-8.0448-110.3936-8.0448s-106.208 4.672-110.3936 8.0448c0.16-0.130133 0.618667-0.701867 0.618667-1.602134h-6.8864c0-3.965867 2.730667-7.488 36.305066-10.417066 21.480533-1.8752 50.016-2.907733 80.356267-2.907734 30.338133 0 58.8736 1.032533 80.356267 2.907734 33.570133 2.9312 36.302933 6.4512 36.302933 10.417066h-6.884267c0 0.900267 0.456533 1.474133 0.618667 1.602134zM791.0464 362.8608c-4.187733-3.3728-44.878933-8.0448-110.3936-8.0448s-106.208 4.672-110.3936 8.0448c0.16-0.130133 0.618667-0.701867 0.618667-1.604267h-6.8864c0-3.965867 2.730667-7.485867 36.305066-10.417066 21.480533-1.8752 50.016-2.907733 80.356267-2.907734 30.338133 0 58.8736 1.032533 80.356267 2.907734 33.570133 2.9312 36.302933 6.4512 36.302933 10.417066h-6.884267c0 0.9024 0.456533 1.474133 0.618667 1.604267zM791.0464 430.624c-4.187733-3.3728-44.878933-8.0448-110.3936-8.0448s-106.208 4.672-110.3936 8.0448c0.16-0.130133 0.618667-0.701867 0.618667-1.602133h-6.8864c0-3.965867 2.730667-7.488 36.305066-10.417067 21.480533-1.8752 50.016-2.909867 80.356267-2.909867 30.338133 0 58.8736 1.032533 80.356267 2.909867 33.570133 2.929067 36.302933 6.4512 36.302933 10.417067h-6.884267c0 0.9024 0.456533 1.474133 0.618667 1.602133zM791.0464 498.389333c-4.187733-3.3728-44.878933-8.0448-110.3936-8.0448s-106.208 4.672-110.3936 8.0448c0.16-0.130133 0.618667-0.701867 0.618667-1.602133h-6.8864c0-3.965867 2.730667-7.488 36.305066-10.417067 21.480533-1.8752 50.016-2.907733 80.356267-2.907733 30.338133 0 58.8736 1.032533 80.356267 2.907733 33.570133 2.9312 36.302933 6.4512 36.302933 10.417067h-6.884267c0 0.900267 0.456533 1.474133 0.618667 1.602133zM791.0464 566.154667c-4.187733-3.3728-44.878933-8.0448-110.3936-8.0448s-106.208 4.672-110.3936 8.0448c0.16-0.132267 0.618667-0.701867 0.618667-1.604267h-6.8864c0-3.963733 2.730667-7.485867 36.305066-10.417067 21.480533-1.8752 50.016-2.907733 80.356267-2.907733 30.338133 0 58.8736 1.032533 80.356267 2.907733 33.570133 2.9312 36.302933 6.4512 36.302933 10.417067h-6.884267c0 0.9024 0.456533 1.472 0.618667 1.604267zM791.0464 633.92c-4.187733-3.374933-44.878933-8.0448-110.3936-8.0448s-106.208 4.669867-110.3936 8.0448c0.16-0.132267 0.618667-0.704 0.618667-1.6064h-6.8864c0-3.963733 2.730667-7.485867 36.305066-10.414933 21.480533-1.879467 50.016-2.907733 80.356267-2.907734 30.338133 0 58.8736 1.028267 80.356267 2.907734 33.570133 2.929067 36.302933 6.449067 36.302933 10.414933h-6.884267c0 0.9024 0.456533 1.476267 0.618667 1.6064zM791.0464 701.681067c-4.187733-3.3728-44.878933-8.0448-110.3936-8.0448s-106.208 4.669867-110.3936 8.0448c0.16-0.130133 0.618667-0.699733 0.618667-1.604267h-6.8864c0-3.963733 2.730667-7.485867 36.305066-10.414933 21.480533-1.877333 50.016-2.909867 80.356267-2.909867 30.338133 0 58.8736 1.032533 80.356267 2.909867 33.570133 2.929067 36.302933 6.449067 36.302933 10.414933h-6.884267c0 0.904533 0.456533 1.476267 0.618667 1.604267z" fill="#FFDDD9" p-id="23758"></path>
 					</svg>
 					{{this.$route.params.name}}
+				
 				</div>
 				<div class="title2">{{this.$route.params.name}}</div>
 			</div>
@@ -20,7 +21,12 @@
             <p class="major top"><span class="redSquare"></span><span>专业介绍</span></p>
             <ul>
               <li v-for="(course,index) in MyCourseList" :key='index'>
-                <a href="#" @click.prevent="getMyCourse(course.id,course.name)">1.{{index+1}}   {{course.name}}</a>
+                <a href="#" @click.prevent="getMyCourse(course.id,course.name)">1.{{index+1}}&nbsp;&nbsp;&nbsp;&nbsp;{{course.name}}</a>
+				<div style="float:right">
+					<span @click="toMyStudentCourse(course.id,item.id,course.name,item.name)" class="z-study" v-for="(item,index) in MyMaterialData" :key='index'>
+					{{item.name}}
+				</span>
+				</div>
                 <!-- {{course.id}} -->
               </li>
             </ul>
@@ -31,9 +37,10 @@
 
 <script>
 export default {
-    name: 'myCourseList',
+	name: 'myCourseList',
     data(){
         return{
+			MyMaterialData:[],
             MyCourseList:''
         }
     },
@@ -45,24 +52,58 @@ export default {
 					.get(`/product/majorCustomCourse/getListByItemId/${itemId}`)
 					.then(function(res) {
 						app.MyCourseList=res.data;
-						// console.log(app.MyCourseList);
 					});
             },
         //获取对应课程
-        getMyCourse(courseId,name){
+        getMyCourse(courseId,typeId,name,itemName){
             this.$router.push({  
-					 name:'myCourse',
+					 name:'myStudentCourse',
 					 params:{
 							 courseId:courseId,
-							 name:name
+							 typeId:typeId?typeId:1,
+							 name:name,
+							 itemName:itemName?itemName:'教学视频'
 					 }
 				 })
-        }
+		},
+		//获取课程资料列表
+			getMyMaterial(){
+				var app = this;
+				this.$http
+					.get('/product/materialType/listForAble')
+					// courseId typeId
+					.then(function(res) {
+						app.MyMaterialData=res.data;
+						// console.log(res.data);
+					});
+			},
+		//点击教学视频 精品课件 课堂案例 企业问答 其它资料等跳转到相对应的资料
+		//跳转到下一个页面，并且传参数
+			toMyStudentCourse(courseId,name,typeId,itemName){
+            this.$router.push({  
+					 name:'myStudentCourse',
+					 params:{
+							 courseId:courseId,
+							 
+							 name:name,
+							 typeId:typeId?typeId:1,
+							 itemName:itemName
+					 }
+				 })
+		   }
+			
     },
     created(){
-
+        this.getMyMaterial();
         this.getMyCourseList(this.$route.params.itemId);
-    }
+	},
+	watch:{
+      $route:function(to,from){
+		console.log(to.params)
+		this.getMyCourseList(to.params.itemId)
+        
+      }
+     }
 }
 </script>
 
@@ -129,6 +170,20 @@ export default {
         line-height: 32px;
         text-indent: 0px;
     }
+	.z-study {
+    line-height: 32px;
+    /* float: right; */
+    /* border: 1px solid #d4d4d4; */
+    margin-left: 3px;
+    font-size: 14px;
+    text-indent: 0;
+    padding: 0 6px;
+    color: #808080;
+    cursor: pointer;
+    height: 32px;
+    width: 90px;
+    position: relative;
+}
 </style>
 
 

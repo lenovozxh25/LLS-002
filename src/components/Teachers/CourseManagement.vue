@@ -23,7 +23,7 @@
             <li v-for="items in item.majorCustomAdapterList" :key="items.id" class="master">
               <div class="left_main">
                 <div class="introduce_title">
-                  <img src="https://img.alicdn.com/tfs/TB1vPp1rScqBKNjSZFgXXX_kXXa-560-240.png" alt />
+                  <img src="https://img.alicdn.com/tfs/TB1vPp1rScqBKNjSZFgXXX_kXXa-560-240.png" alt>
                   <span class="edits">
                     <i class="el-icon-edit-outline"></i>
                   </span>
@@ -44,7 +44,7 @@
                       @click="insertBtn(items.id,$event)"
                     >{{pres && currentId == items.id ? "保存修改" : "课程定制"}}</el-button>
                     <el-button plain style="margin-left:23px" @click="pushChange(items.id)">内容维护</el-button>
-                  <p>{{items.id}}</p>
+                    <p>{{items.id}}</p>
                   </div>
                 </div>
               </div>
@@ -73,7 +73,7 @@
                           placeholder="添加课程"
                           :key="itemChildList.customId"
                           @change="changeEvent($event)"
-                        />
+                        >
                         <button
                           class="inputBtn"
                           @click="insertCourse(itemChildList.customId,itemChildList.id,input2)"
@@ -93,7 +93,7 @@
                       placeholder="添加学期"
                       :key="items.customId"
                       @change="changeEvent($event)"
-                    />
+                    >
                     <button class="inputBtn" @click="insertCourse(items.id,0,input3)">添加</button>
                     <!-- <el-input placeholder="添加学期" v-model="input3">
                         <el-button slot="append"  @click="insertCourse(items.id,0,input3)">添加</el-button>
@@ -143,12 +143,11 @@ export default {
     },
     //母版定制
     insertBtn(id, event) {
-     // debugger;
-      console.log(this.currentId)
+      // debugger;
+      console.log(this.currentId);
       if (id == this.currentId || this.currentId === "") {
-          this.pres= !this.pres,
-          this.currentId=!this.pres ? id : ""
-           event.target.textContent = "保存修改";
+        (this.pres = !this.pres), (this.currentId = !this.pres ? id : "");
+        event.target.textContent = "保存修改";
       } else {
         this.$message.error("请先保存正在编辑的母版");
       }

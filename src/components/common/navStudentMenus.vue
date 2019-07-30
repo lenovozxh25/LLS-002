@@ -96,11 +96,6 @@ export default {
           this.$router.push("/student/Mytest");
           break;
       }
-      if(keyPath.length!=1){
-        console.log(this);
-        // this.$router.push("/student/myStudentCourseList");
-        // this.toMyCourseList()
-      }
     },
     mymessage() {
       this.$router.push("/student/Mymessage");
@@ -154,7 +149,7 @@ export default {
 							 name:name
 					 }
          })
-         console.log(itemId)
+        //  console.log(itemId)
       }
   },
   created() {
@@ -162,21 +157,9 @@ export default {
     this.userId = window.localStorage.getItem("userId");
     this.getMajorCustom(this.userId);
     this.noReadMsg();
-  },
-  // beforeRouteEnter:function(to,from,next){
-  //     var app=this;
-  //     app.toMyCourseList(to.params.itemId)
-  // },
-  // beforeRouteUpdate:function(to,from,next){
-  //     var app=this;
-  //     app.toMyCourseList(to.params.itemId)
-  // }
-  // watch:{
-  //     $params:function(to,from){
-  //       console.log(to.params)
-  //       // this.toMyCourseList()
-  //     }
-  // }
+  }
+
+
 };
 </script>
 

@@ -49,7 +49,7 @@ const routes = [
 				name: '考试管理'
 			},
 			{
-				path: 'myCourse',
+				path: 'myCourse/:courseId',
 				component: MyCourse,
 				name: 'myCourse'
 			},
@@ -120,12 +120,12 @@ const routes = [
 				name: '学生我的专业',
 			},
 			{
-				path: 'myStudentCourseList',
+				path: 'myStudentCourseList/:itemId',
 				component: myStudentCourseList,
 				name: 'myStudentCourseList'
 			},
 			{
-				path: 'myStudentCourse',
+				path: 'myStudentCourse/:courseId',
 				component: myStudentCourse,
 				name: 'myStudentCourse',
 			},
