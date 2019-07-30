@@ -25,12 +25,7 @@
         </div>
       </div>
       <div class="master_left">
-        <el-menu
-          default-active="0"
-          :unique-opened="true"
-          class="el-menu-vertical-demo"
-         
-        >
+        <el-menu default-active="0" :unique-opened="true" class="el-menu-vertical-demo">
           <el-submenu :index="`${indexs}`" v-for="(item,indexs) in masterTree" :key="item.id">
             <template slot="title">
               <i class="el-icon-menu"></i>
@@ -100,15 +95,19 @@
         <el-table :data="customCourseList" style="width: 100%">
           <el-table-column label="序号" width="60" type="index" :index="indexMethod"></el-table-column>
           <el-table-column prop="typeId" label="文件类型" width="120"></el-table-column>
-          <el-table-column prop="name" label="文件名称" width="180"></el-table-column>
+          <el-table-column prop="fileUrl" label="文件名称" width="220">
+            <template slot-scope="scope">
+              <div >{{scope.row.fileUrl.substr(scope.row.fileUrl.lastIndexOf("\\")+1)}}</div>
+            </template>
+          </el-table-column>
           <el-table-column prop="fileAuthor" label="作者" width="120"></el-table-column>
           <el-table-column prop="updateTime" label="最后更新时间" :formatter="dateFormat" width="150"></el-table-column>
           <el-table-column prop="userName" label="上传人姓名" width="100"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-link type="primary" :underline="false" @click="editSourseDetail(scope.row.id)">属性</el-link>|
-              <el-link type="primary" :underline="false">删除</el-link>|
-              <el-link type="primary" :underline="false">下载</el-link>
+              <el-link type="primary"  @click="editSourseDetail(scope.row.id)">属性</el-link><span class="bar">|</span>
+              <el-link type="primary"  @click="deleteDetail(scope.row.id)">删除</el-link><span class="bar">|</span>
+              <el-link type="primary"  @click="downloadFile(scope.row.id)">下载</el-link>
             </template>
           </el-table-column>
         </el-table>
@@ -123,9 +122,9 @@
       </div>
       <div style="overflow:hidden">
         <span style="float:left">上传文件：</span>
-        <!-- <input type="file" id="file" name="file" required @change="onChangeFile($event)" /> -->
+        <input type="file" id="file" name="file" required @change="onChangeFile($event)" />
 
-        <el-upload
+        <!-- <el-upload
           class="upload-demo"
           drag
           action="doUpload"
@@ -137,29 +136,11 @@
             将文件拖到此处，或
             <em>点击上传</em>
           </div>
-        </el-upload>
+        </el-upload>-->
       </div>
-      <!-- <div style="margin:15px 0">
-        上传图片：
-        <input
-          type="file"
-          id="showImageFile"
-          name="showImageFile"
-          required
-          @change="onChangeImgFile($event)"
-        />
-      </div>-->
-      <!-- <div>
-        资源名称：
-        <el-input type="text" :value="fileName" placeholder="资源名称" v-model="fileName"></el-input>
-      </div>
-      <div style="margin:15px 0">
-        作者：
-        <el-input type="text" placeholder="作者" v-model="fileAuthor"></el-input>
-      </div>
-      -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="submitCourse" type="primary">确定</el-button>
       </span>
     </el-dialog>
     <!-- 属性下得详情 -->
@@ -171,36 +152,37 @@
         </div>
         <div style="margin:20px 0px">
           描述：
-          <el-input type="textarea" rows="4" placeholder="请输入内容" v-model="shortDescVal"></el-input>
+          <el-input
+            type="textarea"
+            rows="4"
+            placeholder="请输入内容"
+            v-model="shortDescVal"
+            :value="shortDescVal"
+          ></el-input>
         </div>
         <div>
           内容：
-          <el-input type="textarea" rows="4" placeholder="请输入内容"></el-input>
+          <el-input type="textarea" rows="4" placeholder="请输入内容" :value="content" v-model="content"></el-input>
         </div>
         <div style="margin-top:20px">
           上传图片：
-          <el-upload
-            class="avatar-uploader"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :show-file-list="false"
-            :on-success="handleAvatarSuccess"
-            :before-upload="beforeAvatarUpload"
-          >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          <input
+          type="file"
+          id="showImageFile"
+          name="showImageFile"
+          required
+          @change="onChangeImgFile($event)"
+        />
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="detailVisible = false">取 消</el-button>
-        <el-button type="primary" @click="detailVisible = false">确 定</el-button>
+        <el-button type="primary" @click="updateDetail">更新</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
-import { Message } from "element-ui";
-// import baseUrl from "../Teachers/components/ajax.js";
 export default {
   name: "masterSetting",
   data() {
@@ -227,37 +209,23 @@ export default {
       customCourseId: 1,
       customCourseList: [],
       imageUrl: '',
-      editDetail:[]
+      detailId:''    //属性详情id
     };
   },
   methods: {
-    // handleOpen(key, keyPath) {
-    //   console.log(key, keyPath);
-    // },
-    // handleClose(key, keyPath) {
-    //   console.log(key, keyPath);
-    // },
     //文件上传
     onChangeFile(e) {
-      debugger;
       let file = e.target.files[0];
       this.file = file;
       let index = file.name.lastIndexOf(".");
       this.fileName = file.name.substring(0, index);
     },
-    onChangeImgFile(e) {
-      let imgFile = e.target.files[0];
-      this.imgFile = imgFile;
-    },
-    //新增课程资源
+    //新增课程资源--上传文件
     submitCourse() {
       var app = this;
-      debugger;
-      this.dialogVisible = false;
       var formData = new window.FormData();
       let config = { headers: { "Content-Type": "multipart/form-data" } };
       formData.append("file", this.file);
-      // formData.append("showImageFile", this.imgFile);
       this.$http
         .post(
           `/product/customMaterial/uploadFile?customCourseId=${this.customCourseId}&typeId=${this.typeId}`,
@@ -268,9 +236,7 @@ export default {
           if (res.data == "") {
             app.$message.success("新增成功！");
             app.fileName = "";
-            app.fileAuthor = "";
-            app.shortDescVal = "";
-            app.content = "";
+            app.dialogVisible = false;
           } else {
             app.$message.error("新增失败！");
           }
@@ -317,7 +283,6 @@ export default {
     //保存课程资源
     saveCustomCourse(name, id) {
       var itemId = this.itemChildId;
-      debugger;
       var app = this;
       if(name==null){
         this.$message.error("请填写课程名称！");
@@ -375,7 +340,6 @@ export default {
     },
     //鼠标移入编辑
     handleEdit(row, column, cell, event) {
-      // debugger
       this.showEdit[row.id] = true;
       this.$set(this.showEdit, row, true);
     },
@@ -416,39 +380,53 @@ export default {
     },
     //属性详情
     editSourseDetail(id) {
+      this.detailId=id;
       this.detailVisible = true;
-      debugger;
       var app = this;
       this.$http.get(`/product/customMaterial/detail/${id}`).then(res => {
-        console.log(res.data.fileAuthor);
-          app.editDetail=res.data;
           app.fileAuthor=res.data.fileAuthor;
-          app.shortDescVal= res.data.shortDescVal;
+          app.shortDescVal= res.data.shortDescribe;
           app.content= res.data.content;
       });
     },
-    //图片上传
-    handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
+      onChangeImgFile(e) {
+        let imgFile = e.target.files[0];
+        this.imgFile = imgFile;
       },
       //修改属性详情
       updateDetail(){
         var app=this;
-        this.$http.post("/product/customMaterial/update",{detailId,fileAuthor,shortDescVal,content}).then(res=>{
-          console.log(res);
+        var formData = new window.FormData();
+        let config = { headers: { "Content-Type": "multipart/form-data" } };
+        formData.append("showImageFile", this.imgFile);
+        this.$http.post(`/product/customMaterial/update?id=${this.detailId}&fileAuthor=${this.fileAuthor}&shortDescribe=${this.shortDescVal}&content=${this.content}`,formData,
+          config).then(res=>{
+          if(res.data==""){
+              app.$message.success("更新成功！");
+              app.detailVisible = false;
+              app.handleOpens(this.customCourseId)  //重新加载数据列表
+          }else{
+            app.$message.error("更新失败，请重试！")
+          }
+          
         })
+      },
+      //删除课时资源
+      deleteDetail(id){
+        var app=this;
+        if(confirm("此操作将永久删除该文件, 是否继续?")){
+          this.$http.get(`/product/customMaterial/delete/${id}`).then(res=>{
+              app.$message.success("删除成功！")
+              app.handleOpens(this.customCourseId)
+          })
+        }else{
+          this.$message.info("已取消删除操作！");
+        }
+       
+      },
+      //下载课时资料
+      downloadFile(id){
+          window.location.href=`http://10.119.129.135:9090/v2.0/lls/product/customMaterial/downLoadFile/${id}`
       },
     //课程资源排序
     indexMethod(index) {
@@ -555,5 +533,9 @@ export default {
 .el-button--info:hover {
   opacity: 0.6;
 }
-
+.bar{
+  color: #cccccc;
+  margin-left: 15px;
+  margin-right: 10px;
+}
 </style>
