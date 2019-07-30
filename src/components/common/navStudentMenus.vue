@@ -76,7 +76,7 @@ export default {
     };
   },
   methods: {
-    handleSelect(key, keyPath,$event) {
+    handleSelect(key, keyPath) {
       console.log(keyPath);
       //debugger
       switch (key) {

@@ -116,4 +116,35 @@ ul {
 #onStulineAsk .el-badge__content, #onlineAnswer .el-badge__content{
   background: #409EFF;
 }
+
+#masterSetting .el-dialog__header{
+  border: 1px solid #f2f2f2;
+}
+#masterSetting .el-dialog__footer{
+  border: 1px solid #f2f2f2;
+}
+
+#masterSetting .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  #masterSetting .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+ #masterSetting .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 140px;
+    height: 140px;
+    line-height: 140px;
+    text-align: center;
+  }
+ #masterSetting .avatar {
+    width: 140px;
+    height: 140px;
+    display: block;
+  }
 </style>
