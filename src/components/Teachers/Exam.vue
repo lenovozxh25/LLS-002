@@ -14,7 +14,7 @@
 		</div>
 		<div class="eaxmMain">			
 			<div style="margin-bottom: 20px;">
-				<el-button type="primary">发布考试</el-button>
+				<el-button type="primary" @click="issueExam">发布考试</el-button>
 				<el-button type="primary" @click="createExam">创建试卷</el-button>
 			</div>
 			<el-tabs class="z_p_tab" type="border-card" v-model="z_p_testName" @tab-click="handleClick">
@@ -114,6 +114,10 @@ export default {
 	  this.getExams(this.src);
   },
   methods: {
+	//   发布考试
+	issueExam(){
+		this.$router.push("/teacher/issueeexam");
+	},
 	//   创建试卷跳转
 	createExam(){
 		this.$router.push("/teacher/mycreateexam");
