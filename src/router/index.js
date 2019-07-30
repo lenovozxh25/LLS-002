@@ -94,7 +94,7 @@ const routes = [
 				name: '课程管理' ,
 			},
 			{
-				path:'/masterSetting',
+				path:'masterSetting/:customId',
 				component:MasterSetting,
 				name:'masterSetting'
 			},
