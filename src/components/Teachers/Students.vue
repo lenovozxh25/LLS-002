@@ -46,7 +46,31 @@
 								</el-table-column>
 							</el-table>
 						</el-tab-pane>
-					     <el-button type="success">新增学生</el-button>
+					     <el-button type="success"  @click="dialogVisible = true">新增学生</el-button>
+						 <el-dialog
+							title="新增学生"
+							:visible.sync="dialogVisible"
+							width="30%"
+							:before-close="handleClose">
+							<el-form ref="form" :model="form" label-width="80px">
+								<el-form-item label="姓名:">
+									<el-input v-model="form.name"></el-input>
+								</el-form-item>
+								<el-form-item label="电话:">
+									<el-input v-model="form.mobile"></el-input>
+								</el-form-item>
+								<el-form-item label="邮箱:">
+									<el-input v-model="form.email"></el-input>
+								</el-form-item>
+								<el-form-item label="身份证号:">
+									<el-input v-model="form.sysUserDetail"></el-input>
+								</el-form-item>
+							</el-form>
+							<span slot="footer" class="dialog-footer">
+								<el-button @click="dialogVisible = false">取 消</el-button>
+								<el-button type="primary" @click="classMemberSave(form.name,form.mobile,form.email,form.sysUserDetail,tabId)">确 定</el-button>
+							</span>
+						 </el-dialog>
 					</el-tabs>
 				</template>
 			</div>
@@ -59,6 +83,16 @@
 		name: 'students',
 		data() {
 			return {
+				form:{
+					name:'',
+					mobile:'',
+					email:'',
+					sysUserDetail:''
+				},
+				// 班级id
+				tabId:'',
+				//新增弹框默认隐藏
+				 dialogVisible: false,
 				activeName:'37',
 				// 讲师所带过的所有班级
 				CurrentClassList:[],
@@ -76,8 +110,8 @@
 		methods: {
 			handleClick(tab){
 				// console.log(tab.name);
-				var tabId=parseInt(tab.name)
-				this.getCurrentStudent(tabId)
+				this.tabId=parseInt(tab.name)
+				this.getCurrentStudent(this.tabId)
 			},
 			formatter(row, column) {
 				return row.address;
@@ -106,7 +140,33 @@
 						app.CurrentStudentList=res.data;
 						console.log(app.CurrentStudentList);
 					});
+			},
+			//新增学生弹框确认关闭事件
+			  handleClose(done) {
+					this.$confirm('确认关闭？')
+					.then(_ => {
+						done();
+					})
+					.catch(_ => {});
+				},
+			//新增学生
+			classMemberSave(userName,email,mobile,sysUserDetail,classId){
+				console.log(userName,email,mobile,sysUserDetail,classId)
+				console.log(classId);
+				var app = this;
+				 if (!userName || !email || !mobile || !sysUserDetail) {
+					this.$message.error('信息填写不完整')
+				}else{
+					this.$http
+					.post('/business/organClassUser/save', {userName,email,mobile,classId, sysUserDetail
+					})
+					.then(function(res) {
+							
+							console.log(res.data);
+					});
+				}	
 			}
+			
    
 		},
 		created(){
@@ -319,4 +379,7 @@
 		margin-left: 40px;
 		color: #1890ff;
 	}
+	/* .el-form-item__label{
+		text-align: left;
+	} */
 </style>
