@@ -49,10 +49,9 @@
                                 </el-radio-group>
                             </template>
                         </el-form-item>
-                        
+                        <el-button type="primary">提交试卷</el-button>
                     </el-form>
-						
-				</template>
+				</template>            
 			</div>
 		</div>
 	</div>
