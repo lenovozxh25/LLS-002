@@ -21,85 +21,6 @@
         >
           <ul class="ul">
             <li v-for="items in item.majorCustomAdapterList" :key="items.id" class="master">
-<<<<<<< HEAD
-              <div class="left_main">
-                <div class="introduce_title">
-                  <img src="https://img.alicdn.com/tfs/TB1vPp1rScqBKNjSZFgXXX_kXXa-560-240.png" alt>
-                  <span class="edits">
-                    <i class="el-icon-edit-outline"></i>
-                  </span>
-                  <span class="delete">
-                    <i class="el-icon-delete"></i>
-                  </span>
-                </div>
-                <div class="major_item">
-                  <h4>{{items.name}}</h4>
-                  <span>{{items.majorDescribe}}</span>
-                  <div class="describe">
-                    13门课，57个小时， 567在学
-                    <p>所学校已定制</p>
-                  </div>
-                  <div>
-                    <el-button
-                      plain
-                      @click="insertBtn(items.id,$event)"
-                    >{{pres && currentId == items.id ? "保存修改" : "课程定制"}}</el-button>
-                    <el-button plain style="margin-left:23px" @click="pushChange(items.id)">内容维护</el-button>
-                    <p>{{items.id}}</p>
-                  </div>
-                </div>
-              </div>
-              <ul class="right_courses">
-                <li
-                  v-for="itemChildList in items.majorCustomItemTreeAdapterList"
-                  :key="itemChildList.id"
-                >
-                  <ul class="course">
-                    <li class="course_title">{{itemChildList.name}}</li>
-                    <li
-                      class="course_item"
-                      v-for="(i ,index) in itemChildList.childList"
-                      :key="index"
-                    >
-                      {{i.name}}
-                      <span :class="{hide:pres}">
-                        <i class="el-icon-error" @click="deleteCourseItem(i.id)"></i>
-                      </span>
-                    </li>
-                    <template>
-                      <li style="margin-top: 10px;" id="aaa" :class="{hide:pres}">
-                        <input
-                          type="text"
-                          class="inputVal"
-                          placeholder="添加课程"
-                          :key="itemChildList.customId"
-                          @change="changeEvent($event)"
-                        >
-                        <button
-                          class="inputBtn"
-                          @click="insertCourse(itemChildList.customId,itemChildList.id,input2)"
-                        >添加</button>
-                        <!-- <el-input placeholder="添加课程" :key="itemChildList.customId" @change="changeEvent($event)"> 
-                          <el-button slot="append"  @click="insertCourse(itemChildList.customId,itemChildList.id,input2)">添加</el-button>
-                        </el-input>-->
-                      </li>
-                    </template>
-                  </ul>
-                </li>
-                <template>
-                  <li style="width:190px" :class="{hide:pres}">
-                    <input
-                      type="text"
-                      class="inputVal"
-                      placeholder="添加学期"
-                      :key="items.customId"
-                      @change="changeEvent($event)"
-                    >
-                    <button class="inputBtn" @click="insertCourse(items.id,0,input3)">添加</button>
-                    <!-- <el-input placeholder="添加学期" v-model="input3">
-                        <el-button slot="append"  @click="insertCourse(items.id,0,input3)">添加</el-button>
-                    </el-input>-->
-=======
               <template v-if="items.id==3">
                 <div class="left_main">
                   <div class="introduce_title">
@@ -163,7 +84,6 @@
                         </li>
                       </template>
                     </ul>
->>>>>>> 0560bc6783fa55db2a2ba0f22d255c1b15e9862f
                   </li>
                   <template>
                     <li style="width:190px" :class="{hide:pres}">
@@ -220,14 +140,6 @@ export default {
       this.input3 = e.target.value;
     },
     //母版定制
-<<<<<<< HEAD
-    insertBtn(id, event) {
-      // debugger;
-      console.log(this.currentId);
-      if (id == this.currentId || this.currentId === "") {
-        (this.pres = !this.pres), (this.currentId = !this.pres ? id : "");
-        event.target.textContent = "保存修改";
-=======
     insertBtn(event) {
       // debugger;
       console.log(this.currentId);
@@ -235,7 +147,6 @@ export default {
         (this.pres = !this.pres),
           // this.currentId=!this.pres ? id : ""
           (event.target.textContent = "保存修改");
->>>>>>> 0560bc6783fa55db2a2ba0f22d255c1b15e9862f
       } else {
         this.pres = true;
         event.target.textContent = "课程定制";
