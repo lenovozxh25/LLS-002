@@ -110,7 +110,8 @@ export default {
       var app = this;
       if(confirm("确定要退出吗？")){
         this.$http.get("/permit/logout").then(res => {
-          if (!!res.data === false) {
+          console.log(res)
+          if (res.data === "") {
             app.$message.success("退出成功！")
             app.$router.push({
               path: "/logined",
