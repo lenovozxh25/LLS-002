@@ -55,27 +55,35 @@
             :data="tableData"
             style="width: 100%"
             @selection-change="handleSelectionChange"
-            @cell-mouse-enter="handleEdit"
-            @cell-mouse-leave="handelCancel"
-            @cell-click="handelClick"
+            @cell-mouse-enter="cellEnter"
+            @cell-mouse-leave="cellLeave"
           >
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="序号" width="60" type="index" :index="indexMethod"></el-table-column>
-            <el-table-column prop="name" label="课程名称" width="250" @focus="handleEdit">
+            <el-table-column prop="name" label="课程名称" width="270" type="index">
               <template slot-scope="{row}">
-                <span :class="{hide:!pres}">
+                <div style="display:inline-block;width:90%">
+                <span v-if="showEdit[row.id]">
                   <el-input
-                  ref="input"
+                    ref="input"
+                    id="input"
                     v-model="row.name"
                     placeholder="输入课程名称"
                     @keyup.enter.native="saveCustomCourse(row.name,row.id)"
                   ></el-input>
                 </span>
-                <span :class="{hide:pres}">{{row.name}}</span>
+                <span v-if="!showEdit[row.id]">{{row.name}}</span>
+                </div>
+                <div style="display:inline-block">
+                  <i id="edit" class="el-icon-edit" @click="handleEdit(row)" v-if="!showBtn[row.id]"></i>
+                  <i id="check" class="el-icon-check" @click="handelCancel(row)" v-if="showBtn[row.id]"></i>
+                </div>
+                
               </template>
+              
             </el-table-column>
-            <el-table-column prop="createTime" label="创建时间" width="150" :formatter="dateFormat"></el-table-column>
-            <el-table-column prop="updateTime" label="最后更新时间" width="150" :formatter="dateFormat"></el-table-column>
+            <el-table-column prop="createTime" label="创建时间" width="140" :formatter="dateFormat"></el-table-column>
+            <el-table-column prop="updateTime" label="最后更新时间" width="140" :formatter="dateFormat"></el-table-column>
             <el-table-column>
               <template slot-scope="scope">
                 <el-button @click="handleOpens(scope.row.id)">上传资源</el-button>
@@ -125,20 +133,6 @@
       <div style="overflow:hidden">
         <span style="float:left">上传文件：</span>
         <input type="file" id="file" name="file" required @change="onChangeFile($event)" />
-
-        <!-- <el-upload
-          class="upload-demo"
-          drag
-          action="doUpload"
-          :before-upload="submitCourse"
-          multiple
-        >
-          <i class="el-icon-upload"></i>
-          <div class="el-upload__text">
-            将文件拖到此处，或
-            <em>点击上传</em>
-          </div>
-        </el-upload>-->
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -190,7 +184,9 @@ export default {
   data() {
     return {
       pres:false,
-      showEdit: [],
+      showEdit: [], //显示编辑框
+      showBtn: [],
+      row:'',
       dialogVisible: false,
       detailVisible: false, //属性弹窗
       cur: 1,
@@ -287,6 +283,7 @@ export default {
     saveCustomCourse(name, id) {
       var itemId = this.itemChildId;
       var app = this;
+     // debugger
       if(name==null){
         this.$message.error("请填写课程名称！");
         return;
@@ -297,6 +294,8 @@ export default {
           console.log(res);
           if (res.data == "") {
             app.$message.success("保存成功！");
+            app.showEdit[app.row.id] = false;
+            app.showBtn[app.row.id] = false;
             app.getCustom(itemId);
           } else {
             app.$message.error("保存失败！");
@@ -342,22 +341,45 @@ export default {
       this.tableData.push(list);
     },
 
-    //单元格单击
-    handelClick(event){
-      this.$refs.input.focus()
-      this.pres=!this.pres
-    },
+
+
     //鼠标移入编辑
-    handleEdit(row, column, cell, event) {
-      this.showEdit[row.id] = true;
-      this.$set(this.showEdit, row, true);
+    cellEnter(){
+      
     },
-    //取消编辑
-    handelCancel(row, column, cell, event) {
-      //sdebugger;
-      // this.showEdit[row.id] = false;
-      this.$set(this.showEdit, row, false);
+    cellLeave(){
+      
     },
+    //点击编辑
+    handleEdit(row) {
+     // debugger
+     var app=this;
+     this.row=row   
+     this.$nextTick(function(){
+         app.showEdit[row.id] = true;
+        app.$set(app.showEdit,row,true)
+        app.showBtn[row.id] = true;
+        app.$set(app.showBtn,row,true)
+     })
+     
+      
+    },
+    //保存编辑
+    handelCancel(row) {
+     // debugger;
+     var app=this;
+      this.$nextTick(()=>{
+         app.showEdit[row.id] = false;
+         app.showBtn[row.id] = false;
+      })
+      this.saveCustomCourse(row.name,row.id)
+    },
+
+
+
+
+
+
     //获取上传资源得类型
     getMaterialType() {
       var app = this;
@@ -549,5 +571,18 @@ export default {
 }
 .hide{
   display:none;
+}
+
+
+.el-icon-edit, .el-icon-check{
+  margin-top: 10px;
+}
+.el-icon-edit:hover{
+  color:#409EFF;
+  cursor: pointer;
+}
+.el-icon-check:hover{
+  color:#409EFF;
+  cursor: pointer;
 }
 </style>

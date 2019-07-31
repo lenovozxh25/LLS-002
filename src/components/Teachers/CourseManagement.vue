@@ -91,6 +91,7 @@
                         type="text"
                         class="inputVal"
                         placeholder="添加学期"
+                        :value="input3"
                         :key="items.customId"
                         @change="changeEvent($event)"
                       />
@@ -165,14 +166,12 @@ export default {
     },
     //新增课程
     insertCourse: function(customId, parentId, name) {
-      // console.log(e);
-     // debugger;
       var app = this;
       this.$http
         .post("/product/majorCustomItem/insert", { customId, parentId, name })
         .then(function(res) {
-          //debugger
-          if (res) {
+         // console.log(res)
+          if (res.data=="") {
             app.getContainCustomList();
             app.$message.success("新增成功！");
             app.input3 = "";
@@ -185,16 +184,18 @@ export default {
     //删除课程
     deleteCourseItem(id) {
       var app = this;
-      this.$http
-        .get(`/product/majorCustomItem/delete/${id}`)
-        .then(function(res) {
-          if (res.data==true) {
-            app.$message.success("删除成功！");
-            app.getContainCustomList();
-          } else {
-            app.$message.error("删除失败！");
-          }
-        });
+      if(confirm("确定要删除此课程吗？")){
+        this.$http
+          .get(`/product/majorCustomItem/delete/${id}`)
+          .then(function(res) {
+            if (res.data==true) {
+              app.$message.success("删除成功！");
+              app.getContainCustomList();
+            } else {
+              app.$message.error("删除失败！");
+            }
+          });
+      }
     }
   },
   created: function() {
