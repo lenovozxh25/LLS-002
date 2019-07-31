@@ -57,19 +57,21 @@
             @selection-change="handleSelectionChange"
             @cell-mouse-enter="handleEdit"
             @cell-mouse-leave="handelCancel"
+            @cell-click="handelClick"
           >
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="序号" width="60" type="index" :index="indexMethod"></el-table-column>
             <el-table-column prop="name" label="课程名称" width="250" @focus="handleEdit">
               <template slot-scope="{row}">
-                <span>
+                <span :class="{hide:!pres}">
                   <el-input
+                  ref="input"
                     v-model="row.name"
                     placeholder="输入课程名称"
                     @keyup.enter.native="saveCustomCourse(row.name,row.id)"
                   ></el-input>
                 </span>
-                <!-- <span v-else>{{row.name}}</span> -->
+                <span :class="{hide:pres}">{{row.name}}</span>
               </template>
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间" width="150" :formatter="dateFormat"></el-table-column>
@@ -187,6 +189,7 @@ export default {
   name: "masterSetting",
   data() {
     return {
+      pres:false,
       showEdit: [],
       dialogVisible: false,
       detailVisible: false, //属性弹窗
@@ -337,6 +340,12 @@ export default {
         updateTime: this.updateTime
       };
       this.tableData.push(list);
+    },
+
+    //单元格单击
+    handelClick(event){
+      this.$refs.input.focus()
+      this.pres=!this.pres
     },
     //鼠标移入编辑
     handleEdit(row, column, cell, event) {
@@ -537,5 +546,8 @@ export default {
   color: #cccccc;
   margin-left: 15px;
   margin-right: 10px;
+}
+.hide{
+  display:none;
 }
 </style>
