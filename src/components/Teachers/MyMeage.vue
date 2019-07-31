@@ -173,10 +173,10 @@
        },
        created(){
            var userId = window.localStorage.getItem('userId');
-           console.log(userId);
+        //    console.log(userId);
            this.$http.post(`/permit/user/detail/${userId}`).then(
               (res)=>{
-                // console.log(res)
+                  console.log(res);
                 this.userInfo = res.data; 
               }
 			); 
