@@ -29,6 +29,7 @@ import MyStudentMynews from '@/components/Students/Mynews.vue'
 import MyStudentMygrowup from '@/components/Students/Mygrowup.vue'
 import OnlineAsk from '@/components/Students/OnlineAsk.vue'
 import myStudentCourseList from '@/components/students/myStudentCourseList.vue'
+import myStudentStartTest from '@/components/students/myStartTest.vue'
 
 import Logined from '@/components/common/Login.vue'
 
@@ -164,6 +165,11 @@ const routes = [
 				path: 'onlineAsk',
 				component: OnlineAsk,
 				name: '学生在线提问',
+			},			
+			{
+				path: 'StartTest',
+				component: myStudentStartTest,
+				name: '学生开始考试',
 			},
 		]
 	},

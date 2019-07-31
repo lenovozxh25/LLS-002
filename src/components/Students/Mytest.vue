@@ -11,71 +11,22 @@
 			</div>
 		</div>
         <el-tabs class="z_p_tab" type="border-card" v-model="z_p_testName" @tab-click="handleClick">
-            <el-tab-pane label="期末测验" name="first">
+            <el-tab-pane v-for="item in testType" :key="item.id" :label="item.name" :name="item.name">
                 <el-collapse v-model="activeNames" >
 			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
                         <span class="redSquare"></span>
-                        <span style="margin-top:20px;">期末测试</span>
+                        <span style="margin-top:20px;">考试列表</span>
 			        </p>
-                    <el-table :data="tableData" stripe style="width: 100%">
-                        <el-table-column prop="proName" label="课时名称" width="250"></el-table-column>
-                        <el-table-column prop="testName" label="考试名称" width="180"></el-table-column>
-                        <el-table-column prop="testNumber" label="满分"></el-table-column>
-                        <el-table-column prop="detail" label="详情"></el-table-column>
-                        <el-table-column prop="detail" label="操作">
-                              <i class="el-icon-view"></i><el-tag v-on:click="edit" size="medium">查看试卷</el-tag>                           
-                        </el-table-column>
-                    </el-table>
-		        </el-collapse>
-            </el-tab-pane>
-            <el-tab-pane label="每周测验" name="second">
-                <el-collapse v-model="activeNames" >
-			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
-                        <span class="redSquare"></span>
-                        <span style="margin-top:20px;">每周测验</span>
-			        </p>
-                    <el-table :data="tableData" stripe style="width: 100%">
-                        <el-table-column prop="proName" label="课时名称" width="250"></el-table-column>
-                        <el-table-column prop="testName" label="考试名称" width="180"></el-table-column>
-                        <el-table-column prop="testNumber" label="满分"></el-table-column>
-                        <el-table-column prop="detail" label="详情"></el-table-column>
-                        <el-table-column prop="detail" label="操作">
-                              <i class="el-icon-view"></i><el-tag v-on:click="edit" size="medium">查看试卷</el-tag>                           
-                        </el-table-column>
-                    </el-table>
-		        </el-collapse>
-            </el-tab-pane>
-            <el-tab-pane label="小测验" name="third">
-                <el-collapse v-model="activeNames" >
-			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
-                        <span class="redSquare"></span>
-                        <span style="margin-top:20px;">小测验</span>
-			        </p>
-                    <el-table :data="tableData" stripe style="width: 100%">
-                        <el-table-column prop="proName" label="课时名称" width="250"></el-table-column>
-                        <el-table-column prop="testName" label="考试名称" width="180"></el-table-column>
-                        <el-table-column prop="testNumber" label="满分"></el-table-column>
-                        <el-table-column prop="detail" label="详情"></el-table-column>
-                        <el-table-column prop="detail" label="操作">
-                              <i class="el-icon-view"></i><el-tag v-on:click="edit" size="medium">查看试卷</el-tag>                           
-                        </el-table-column>
-                    </el-table>
-		        </el-collapse>
-            </el-tab-pane>
-            <el-tab-pane label="每日练习" name="fourth">
-                <el-collapse v-model="activeNames" >
-			        <p class="major" style="height:50px;line-height:50px;overflow:hidden">
-                        <span class="redSquare"></span>
-                        <span style="margin-top:20px;">每日练习</span>
-			        </p>
-                    <el-table :data="tableData" stripe style="width: 100%">
-                        <el-table-column prop="proName" label="课时名称" width="250"></el-table-column>
-                        <el-table-column prop="testName" label="考试名称" width="180"></el-table-column>
-                        <el-table-column prop="testNumber" label="满分"></el-table-column>
-                        <el-table-column prop="detail" label="详情"></el-table-column>
-                        <el-table-column prop="detail" label="操作">
-                              <i class="el-icon-view"></i><el-tag v-on:click="edit" size="medium">查看试卷</el-tag>                           
-                        </el-table-column>
+                    <el-table v-if="testData" :data="testData" stripe style="width: 100%">
+                        <el-table-column prop="className" label="班级名称" width="250"></el-table-column>
+                        <el-table-column prop="name" label="考试名称" width="180"></el-table-column>
+                        <el-table-column prop="startTime" label="开考时间"></el-table-column>
+                        <el-table-column prop="duration" label="考试时长"></el-table-column>
+                        <el-table-column prop="endTime" label="结束时间"></el-table-column>
+                        <el-table-column prop="isTimeOut" label="操作">
+                            <el-tag v-on:click="startTest">开始考试</el-tag>
+							<el-tag>查看试卷</el-tag>
+						</el-table-column>
                     </el-table>
 		        </el-collapse>
             </el-tab-pane>
@@ -89,33 +40,15 @@
 		name: 'myStuMajor',
 		data() {
 			return {
-                activeNames: ['1', '2', '3', '4', '5'],
-                z_p_testName: 'first',
-                tableData: [{
-                    proName: 'WEB前端基础(HTML+CSS)',
-                    testName: 'Web前端基础期末',
-                    testNumber: '100',
-                    detail: '64',
-                    handle: '查看试卷'
-                    }, {
-                    proName: 'WEB前端基础(HTML+CSS)',
-                    testName: 'Web前端基础期末',
-                    testNumber: '100',
-                    detail: '64',
-                    handle: '查看试卷'
-                    },{
-                    proName: 'WEB前端基础(HTML+CSS)',
-                    testName: 'Web前端基础期末',
-                    testNumber: '100',
-                    detail: '64',
-                    handle: '查看试卷'
-                    }, {
-                    proName: 'WEB前端基础(HTML+CSS)',
-                    testName: 'Web前端基础期末',
-                    testNumber: '100',
-                    detail: '64',
-                    handle: '查看试卷'
-                }]
+                nDate: null, //当前系统时间
+                page: 1, //当前第几页
+                pageSize: 5, //反馈每页的数据条数
+                nums: null, //反馈总消息数
+                activeNames: ['1', '2', '3', '4'],
+                z_p_testName: "每日一练",
+                typeId:1,      //考试类型
+                testType:null,  //考试类型
+                testData: []    //考试数据
 			};
 		},
 		methods: {
@@ -127,8 +60,56 @@
 			},
 			edit(){
 				console.log("1");
-			}
-		}
+            },
+            // 获取考试数据
+            getTestData(){
+                //获取考试数据  testData
+                var app = this;
+                app.$http.post("/business/examPlan/studentPage", {
+                    "page": this.page,
+                    "pageSize": this.pageSize,
+                    "params": { 
+                        "typeId": 3
+                    }
+                })
+                .then(function(res){
+                    app.testData = res.data.data;                  
+                    for(var i=0; i<app.testData.length; i++){              
+                        // console.log(Number(app.nDate));
+                        //下面几行是将字符串时间转换成时间戳 再做比较
+                        var endDate = app.testData[i].endTime;
+                        endDate = endDate.substring(0,19);    
+                        endDate = endDate.replace(/-/g,'/'); 
+                        var endDate = new Date(endDate).getTime();
+                        // console.log(endDate);
+                        if(Number(app.nDate) > endDate){
+                            app.testData[i].isTimeOut = true;
+                        }else{
+                            app.testData[i].isTimeOut = false;
+                        } 
+                    }
+                });
+            },
+
+            // 开始考试效果
+            startTest(){
+                this.$router.push("/Student/StartTest");
+            }
+        },
+        created(){
+            var nDate =new Date();
+            this.nDate = nDate;
+            //获取试卷类型集合testType    /business/examType/listAll
+            this.$http.get("/business/examType/listAll").then((res)=>{
+                // console.log(res)
+                this.testType = res.data;
+            });
+
+            // 获取考试数据
+            this.getTestData();
+
+            
+        }
 	}
 </script>
 
