@@ -21,9 +21,12 @@
             <p class="major top"><span class="redSquare"></span><span>专业介绍</span></p>
             <ul>
               <li v-for="(course,index) in MyCourseList" :key='index'>
-                <a href="#" @click.prevent="getMyCourse(course.id,course.name)">1.{{index+1}}&nbsp;&nbsp;&nbsp;&nbsp;{{course.name}}</a>
+				  <!-- courseId,typeId,name,itemName -->
+                <a href="#" @click.prevent="getMyCourse(course.id,1,course.name)">1.{{index+1}}&nbsp;&nbsp;&nbsp;&nbsp;{{course.name}}</a>
 				<div style="float:right">
-					<span @click="toMyStudentCourse(course.id,item.id,course.name,item.name)" class="z-study" v-for="(item,index) in MyMaterialData" :key='index'>
+					
+					<!-- courseId,name,typeId,itemName -->
+					<span @click="toMyStudentCourse(course.id,course.name,item.id,item.name)" class="z-study" v-for="(item,index) in MyMaterialData" :key='index'>
 					{{item.name}}
 				</span>
 				</div>
@@ -57,7 +60,7 @@ export default {
         //获取对应课程
         getMyCourse(courseId,typeId,name,itemName){
             this.$router.push({  
-					 name:'myStudentCourse',
+					 name:'myCourse',
 					 params:{
 							 courseId:courseId,
 							 typeId:typeId?typeId:1,
@@ -81,10 +84,9 @@ export default {
 		//跳转到下一个页面，并且传参数
 			toMyStudentCourse(courseId,name,typeId,itemName){
             this.$router.push({  
-					 name:'myStudentCourse',
+					 name:'myCourse',
 					 params:{
 							 courseId:courseId,
-							 
 							 name:name,
 							 typeId:typeId?typeId:1,
 							 itemName:itemName
