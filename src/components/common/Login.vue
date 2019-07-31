@@ -122,25 +122,30 @@ export default {
           validCode: "123456"
         })
         .then(function(response) {
-          app.$http.get("/permit/user/currentUser").then(res => {
-            app.userId = res.data.id;
-            app.userName = res.data.userName;
-            window.localStorage.setItem("userId", app.userId);
-            window.localStorage.setItem("userName", app.userName);
-            app.$http
-              .get(
-                "http://10.119.167.182:9090/v2.0/lls/permit/user/currentUserRoleFlag"
-              )
-              .then(res => {
-                // console.log(res.data);
-                // debugger
-                if (res.data[0] === "S") {
-                  app.$router.push("/student/myStudentMajor");
-                } else {
-                  app.$router.push("/teacher/myMajor");
-                }
-              });
-          });
+          console.log(response.data);
+            if(response.data === "success"){
+              app.$http.get("/permit/user/currentUser").then(res => {
+              app.userId = res.data.id;
+              app.userName = res.data.userName;
+              window.localStorage.setItem("userId", app.userId);
+              window.localStorage.setItem("userName", app.userName);
+              app.$http
+                .get(
+                  "http://10.119.167.182:9090/v2.0/lls/permit/user/currentUserRoleFlag"
+                )
+                .then(res => {
+                  console.log(res.data);
+                  // debugger
+                  if (res.data[0] === "S") {
+                    app.$router.push("/student/myStudentMajor");
+                  } else {
+                    app.$router.push("/teacher/myMajor");
+                  }
+                });
+            });
+          }else{
+            alert("对不起账号密码错误请重新输入。。")
+          }          
         });
     }
   }
