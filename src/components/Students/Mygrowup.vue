@@ -216,7 +216,6 @@ export default {
   },
   computed:{
       lessGBlist:function(){
-          var len=this.gbList.length
          return this.gbList.filter(function(item){
                 return item.fraction<0 
           })

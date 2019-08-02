@@ -154,4 +154,9 @@ ul {
  #myGrowup .el-card__body{
     padding: 0 20px;
 }
+
+
+#students .el-dialog__header{
+  border: 1px solid #f2f2f2;
+}
 </style>

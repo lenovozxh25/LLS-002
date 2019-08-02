@@ -55,30 +55,29 @@
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="序号" width="60" type="index" :index="indexMethod"></el-table-column>
             <el-table-column prop="name" label="课程名称" width="270" type="index">
-              <template slot-scope="{row}">
+              <template slot-scope="{$index,row}">
                 <div style="display:inline-block;width:90%">
-                  <span v-if="showEdit[row.id]">
+                  <span v-if="showEdit[$index]">
                     <el-input
-                      ref="input"
-                      id="input"
+                      required
                       v-model="row.name"
                       placeholder="输入课程名称"
                       @keyup.enter.native="saveCustomCourse(row.name,row.id)"
                     ></el-input>
                   </span>
-                  <span v-if="!showEdit[row.id]">{{row.name}}</span>
+                  <span v-if="!showEdit[$index]">{{row.name}}</span>
                 </div>
                 <div style="display:inline-block">
                   <i
                     id="edit"
                     class="el-icon-edit"
-                    @click="handleEdit(row)"
+                    @click="handleEdit($index,row)"
                     v-if="!showBtn[row.id]"
                   ></i>
                   <i
                     id="check"
                     class="el-icon-check"
-                    @click="handelCancel(row)"
+                    @click="handelCancel($index,row)"
                     v-if="showBtn[row.id]"
                   ></i>
                 </div>
@@ -191,6 +190,7 @@ export default {
       showEdit: [], //显示编辑框
       showBtn: [],
       row: "",
+      index:"",
       dialogVisible: false,
       detailVisible: false, //属性弹窗
       cur: 1,
@@ -296,7 +296,7 @@ export default {
           .then(function(res) {
             if (res.data == "") {
               app.$message.success("保存成功！");
-              app.showEdit[app.row.id] = false;
+              app.showEdit[app.index] = false;
               app.showBtn[app.row.id] = false;
               app.getCustom(itemId);
             } else {
@@ -342,24 +342,18 @@ export default {
       };
       this.tableData.push(list);
     },
-
-    //鼠标移入编辑
-    cellEnter() {
-       this.showBtn[this.row.id] = false;
-    },
-    cellLeave() {},
     //点击编辑
-    handleEdit(row) {
-      // debugger
+    handleEdit(index,row) {
       this.row = row;
-      this.showEdit[row.id] = true;
-      this.$set(this.showEdit, row.id, true);
+      this.index=index;
+      this.showEdit[index] = true;
+      this.$set(this.showEdit, index, true);
       this.showBtn[row.id] = true;
       this.$set(this.showBtn, row.id, true);
     },
     //保存编辑
-    handelCancel(row) {
-      this.showEdit[row.id] = false;
+    handelCancel(index,row) {
+      this.showEdit[index] = false;
       this.showBtn[row.id] = false;
       this.saveCustomCourse(row.name, row.id);
     },
