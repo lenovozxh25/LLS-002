@@ -96,7 +96,7 @@
 							</el-form>
 							<span slot="footer" class="dialog-footer">
 								<el-button @click="dialogClassVisible = false">取 消</el-button>
-								<el-button type="primary" @click="classMemberSave(form.name,form.email,form.mobile,form.sysUserDetail,form.className)">确 定</el-button>
+								<el-button type="primary" @click="orangClassSave(2,formClass.className,3,'2019')">确 定</el-button>
 							</span>
 						 </el-dialog>
 					</el-tabs>
@@ -187,7 +187,6 @@
 			classMemberSave(userName,email,mobile,sysUserDetail,classId){
 				console.log(userName,email,mobile,sysUserDetail,classId)
 				console.log(classId);
-				debugger
 				var app = this;
 				 if (!userName || !email || !mobile || !sysUserDetail || !classId) {
 					this.$message.error('信息填写不完整')
@@ -203,7 +202,22 @@
 						}
 					});
 				}	
+			},
+			//新增班级
+			orangClassSave(schoolId,name,majorCustomId,year){
+				console.log(schoolId,name,majorCustomId,year);
+					this.$http
+					.post('/business/organClass/save', {schoolId,name,majorCustomId,year})
+					.then(function(res) {
+						if(res.data==''){
+							console.log(1);
+							app.dialogClassVisible = false;
+							// app.$message.success('添加班级成功');
+							// app.getCurrentClass(teacherId);
+						}
+					});
 			}
+			// 新增的班级分配给当前教师
 			
    
 		},
