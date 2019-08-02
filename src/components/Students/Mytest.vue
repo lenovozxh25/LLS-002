@@ -88,19 +88,16 @@
                 })
                 .then(function(res){
                     app.testData = res.data.data;       
-                    console.log(app.testData);           
-                    for(var i=0; i<app.testData.length; i++){              
-                        // console.log(Number(app.nDate));
-                        //下面几行是将字符串时间转换成时间戳 再做比较  判断是否已经考完的考试
-                        var endDate = app.testData[i].endTime;
-                        endDate = endDate.substring(0,19);    
-                        endDate = endDate.replace(/-/g,'/'); 
-                        var endDate = new Date(endDate).getTime();
-                        // console.log(endDate);
-                        if(Number(app.nDate) > endDate){
-                            app.testData[i].isTimeOut = true;
-                        }else{
+                    console.log(app.testData);
+                    if(app.testData.length!==0){
+                        console.log('aaa');
+                        for(var i=0; i<app.testData.length; i++){              
+                       
+                        // app.testData[i].examResultList !== null  如果说明已经提交试卷了  否则说明还没开始
+                        if(app.testData[i].examResultList !== null){
                             app.testData[i].isTimeOut = false;
+                        }else{
+                            app.testData[i].isTimeOut = true;
                         }
 
 
@@ -116,9 +113,11 @@
                         }else{
                             app.testData[i].isStart = false;
                         }
+                        // 判断
                         console.log(app.testData[i].isStart)
-
                     }
+                    }           
+                    
                 });
             },
 
