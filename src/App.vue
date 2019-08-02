@@ -147,4 +147,11 @@ ul {
     height: 140px;
     display: block;
   }
+
+  #myGrowup .el-table td ,#myGrowup .el-table th{
+    padding: 0;
+}
+ #myGrowup .el-card__body{
+    padding: 0 20px;
+}
 </style>

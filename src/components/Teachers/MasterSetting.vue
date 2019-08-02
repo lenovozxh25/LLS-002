@@ -51,36 +51,38 @@
           </el-row>
         </div>
         <template>
-          <el-table
-            :data="tableData"
-            style="width: 100%"
-            @selection-change="handleSelectionChange"
-            @cell-mouse-enter="cellEnter"
-            @cell-mouse-leave="cellLeave"
-          >
+          <el-table :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column label="序号" width="60" type="index" :index="indexMethod"></el-table-column>
             <el-table-column prop="name" label="课程名称" width="270" type="index">
               <template slot-scope="{row}">
                 <div style="display:inline-block;width:90%">
-                <span v-if="showEdit[row.id]">
-                  <el-input
-                    ref="input"
-                    id="input"
-                    v-model="row.name"
-                    placeholder="输入课程名称"
-                    @keyup.enter.native="saveCustomCourse(row.name,row.id)"
-                  ></el-input>
-                </span>
-                <span v-if="!showEdit[row.id]">{{row.name}}</span>
+                  <span v-if="showEdit[row.id]">
+                    <el-input
+                      ref="input"
+                      id="input"
+                      v-model="row.name"
+                      placeholder="输入课程名称"
+                      @keyup.enter.native="saveCustomCourse(row.name,row.id)"
+                    ></el-input>
+                  </span>
+                  <span v-if="!showEdit[row.id]">{{row.name}}</span>
                 </div>
                 <div style="display:inline-block">
-                  <i id="edit" class="el-icon-edit" @click="handleEdit(row)" v-if="!showBtn[row.id]"></i>
-                  <i id="check" class="el-icon-check" @click="handelCancel(row)" v-if="showBtn[row.id]"></i>
+                  <i
+                    id="edit"
+                    class="el-icon-edit"
+                    @click="handleEdit(row)"
+                    v-if="!showBtn[row.id]"
+                  ></i>
+                  <i
+                    id="check"
+                    class="el-icon-check"
+                    @click="handelCancel(row)"
+                    v-if="showBtn[row.id]"
+                  ></i>
                 </div>
-                
               </template>
-              
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间" width="140" :formatter="dateFormat"></el-table-column>
             <el-table-column prop="updateTime" label="最后更新时间" width="140" :formatter="dateFormat"></el-table-column>
@@ -107,7 +109,7 @@
           <el-table-column prop="typeId" label="文件类型" width="120"></el-table-column>
           <el-table-column prop="fileUrl" label="文件名称" width="220">
             <template slot-scope="scope">
-              <div >{{scope.row.fileUrl.substr(scope.row.fileUrl.lastIndexOf("\\")+1)}}</div>
+              <div>{{scope.row.fileUrl.substr(scope.row.fileUrl.lastIndexOf("\\")+1)}}</div>
             </template>
           </el-table-column>
           <el-table-column prop="fileAuthor" label="作者" width="120"></el-table-column>
@@ -115,9 +117,11 @@
           <el-table-column prop="userName" label="上传人姓名" width="100"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-link type="primary"  @click="editSourseDetail(scope.row.id)">属性</el-link><span class="bar">|</span>
-              <el-link type="primary"  @click="deleteDetail(scope.row.id)">删除</el-link><span class="bar">|</span>
-              <el-link type="primary"  @click="downloadFile(scope.row.id)">下载</el-link>
+              <el-link type="primary" @click="editSourseDetail(scope.row.id)">属性</el-link>
+              <span class="bar">|</span>
+              <el-link type="primary" @click="deleteDetail(scope.row.id)">删除</el-link>
+              <span class="bar">|</span>
+              <el-link type="primary" @click="downloadFile(scope.row.id)">下载</el-link>
             </template>
           </el-table-column>
         </el-table>
@@ -163,12 +167,12 @@
         <div style="margin-top:20px">
           上传图片：
           <input
-          type="file"
-          id="showImageFile"
-          name="showImageFile"
-          required
-          @change="onChangeImgFile($event)"
-        />
+            type="file"
+            id="showImageFile"
+            name="showImageFile"
+            required
+            @change="onChangeImgFile($event)"
+          />
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -183,10 +187,10 @@ export default {
   name: "masterSetting",
   data() {
     return {
-      pres:false,
+      pres: false,
       showEdit: [], //显示编辑框
       showBtn: [],
-      row:'',
+      row: "",
       dialogVisible: false,
       detailVisible: false, //属性弹窗
       cur: 1,
@@ -207,8 +211,8 @@ export default {
       radioSel: 1, //类型选项
       customCourseId: 1,
       customCourseList: [],
-      imageUrl: '',
-      detailId:''    //属性详情id
+      imageUrl: "",
+      detailId: "" //属性详情id
     };
   },
   methods: {
@@ -283,25 +287,23 @@ export default {
     saveCustomCourse(name, id) {
       var itemId = this.itemChildId;
       var app = this;
-     // debugger
-      if(name==null){
+      if (name == null) {
         this.$message.error("请填写课程名称！");
         return;
-      }else{
-      this.$http
-        .post("/product/majorCustomCourse/save", { itemId, name, id })
-        .then(function(res) {
-          console.log(res);
-          if (res.data == "") {
-            app.$message.success("保存成功！");
-            app.showEdit[app.row.id] = false;
-            app.showBtn[app.row.id] = false;
-            app.getCustom(itemId);
-          } else {
-            app.$message.error("保存失败！");
-          }
-        });
-        }
+      } else {
+        this.$http
+          .post("/product/majorCustomCourse/save", { itemId, name, id })
+          .then(function(res) {
+            if (res.data == "") {
+              app.$message.success("保存成功！");
+              app.showEdit[app.row.id] = false;
+              app.showBtn[app.row.id] = false;
+              app.getCustom(itemId);
+            } else {
+              app.$message.error("保存失败！");
+            }
+          });
+      }
     },
     //删除课程资源
     deleteCourse() {
@@ -341,45 +343,26 @@ export default {
       this.tableData.push(list);
     },
 
-
-
     //鼠标移入编辑
-    cellEnter(){
-      
+    cellEnter() {
+       this.showBtn[this.row.id] = false;
     },
-    cellLeave(){
-      
-    },
+    cellLeave() {},
     //点击编辑
     handleEdit(row) {
-     // debugger
-     var app=this;
-     this.row=row   
-     this.$nextTick(function(){
-         app.showEdit[row.id] = true;
-        app.$set(app.showEdit,row,true)
-        app.showBtn[row.id] = true;
-        app.$set(app.showBtn,row,true)
-     })
-     
-      
+      // debugger
+      this.row = row;
+      this.showEdit[row.id] = true;
+      this.$set(this.showEdit, row.id, true);
+      this.showBtn[row.id] = true;
+      this.$set(this.showBtn, row.id, true);
     },
     //保存编辑
     handelCancel(row) {
-     // debugger;
-     var app=this;
-      this.$nextTick(()=>{
-         app.showEdit[row.id] = false;
-         app.showBtn[row.id] = false;
-      })
-      this.saveCustomCourse(row.name,row.id)
+      this.showEdit[row.id] = false;
+      this.showBtn[row.id] = false;
+      this.saveCustomCourse(row.name, row.id);
     },
-
-
-
-
-
-
     //获取上传资源得类型
     getMaterialType() {
       var app = this;
@@ -405,60 +388,62 @@ export default {
       this.$http
         .get(`/product/customMaterial/getListByCourseId/${customCourseId}`)
         .then(res => {
-          console.log(res);
           app.customCourseList = res.data;
         });
     },
     //属性详情
     editSourseDetail(id) {
-      this.detailId=id;
+      this.detailId = id;
       this.detailVisible = true;
       var app = this;
       this.$http.get(`/product/customMaterial/detail/${id}`).then(res => {
-          app.fileAuthor=res.data.fileAuthor;
-          app.shortDescVal= res.data.shortDescribe;
-          app.content= res.data.content;
+        app.fileAuthor = res.data.fileAuthor;
+        app.shortDescVal = res.data.shortDescribe;
+        app.content = res.data.content;
       });
     },
-      onChangeImgFile(e) {
-        let imgFile = e.target.files[0];
-        this.imgFile = imgFile;
-      },
-      //修改属性详情
-      updateDetail(){
-        var app=this;
-        var formData = new window.FormData();
-        let config = { headers: { "Content-Type": "multipart/form-data" } };
-        formData.append("showImageFile", this.imgFile);
-        this.$http.post(`/product/customMaterial/update?id=${this.detailId}&fileAuthor=${this.fileAuthor}&shortDescribe=${this.shortDescVal}&content=${this.content}`,formData,
-          config).then(res=>{
-          if(res.data==""){
-              app.$message.success("更新成功！");
-              app.detailVisible = false;
-              app.handleOpens(this.customCourseId)  //重新加载数据列表
-          }else{
-            app.$message.error("更新失败，请重试！")
+    onChangeImgFile(e) {
+      let imgFile = e.target.files[0];
+      this.imgFile = imgFile;
+    },
+    //修改属性详情
+    updateDetail() {
+      var app = this;
+      var formData = new window.FormData();
+      let config = { headers: { "Content-Type": "multipart/form-data" } };
+      formData.append("showImageFile", this.imgFile);
+      this.$http
+        .post(
+          `/product/customMaterial/update?id=${this.detailId}&fileAuthor=${this.fileAuthor}&shortDescribe=${this.shortDescVal}&content=${this.content}`,
+          formData,
+          config
+        )
+        .then(res => {
+          if (res.data == "") {
+            app.$message.success("更新成功！");
+            app.detailVisible = false;
+            app.handleOpens(this.customCourseId); //重新加载数据列表
+          } else {
+            app.$message.error("更新失败，请重试！");
           }
-          
-        })
-      },
-      //删除课时资源
-      deleteDetail(id){
-        var app=this;
-        if(confirm("此操作将永久删除该文件, 是否继续?")){
-          this.$http.get(`/product/customMaterial/delete/${id}`).then(res=>{
-              app.$message.success("删除成功！")
-              app.handleOpens(this.customCourseId)
-          })
-        }else{
-          this.$message.info("已取消删除操作！");
-        }
-       
-      },
-      //下载课时资料
-      downloadFile(id){
-          window.location.href=`http://10.119.129.135:9090/v2.0/lls/product/customMaterial/downLoadFile/${id}`
-      },
+        });
+    },
+    //删除课时资源
+    deleteDetail(id) {
+      var app = this;
+      if (confirm("此操作将永久删除该文件, 是否继续?")) {
+        this.$http.get(`/product/customMaterial/delete/${id}`).then(res => {
+          app.$message.success("删除成功！");
+          app.handleOpens(this.customCourseId);
+        });
+      } else {
+        this.$message.info("已取消删除操作！");
+      }
+    },
+    //下载课时资料
+    downloadFile(id) {
+      window.location.href = `http://10.119.129.135:9090/v2.0/lls/product/customMaterial/downLoadFile/${id}`;
+    },
     //课程资源排序
     indexMethod(index) {
       return index + 1;
@@ -564,25 +549,25 @@ export default {
 .el-button--info:hover {
   opacity: 0.6;
 }
-.bar{
+.bar {
   color: #cccccc;
   margin-left: 15px;
   margin-right: 10px;
 }
-.hide{
-  display:none;
+.hide {
+  display: none;
 }
 
-
-.el-icon-edit, .el-icon-check{
+.el-icon-edit,
+.el-icon-check {
   margin-top: 10px;
 }
-.el-icon-edit:hover{
-  color:#409EFF;
+.el-icon-edit:hover {
+  color: #409eff;
   cursor: pointer;
 }
-.el-icon-check:hover{
-  color:#409EFF;
+.el-icon-check:hover {
+  color: #409eff;
   cursor: pointer;
 }
 </style>
