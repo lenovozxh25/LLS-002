@@ -16,6 +16,10 @@
 			<div>
 				<template>
 					<p class="stuMsg top"><span class="redSquare"></span><span>学员管理</span></p>
+					<div style="overflow:hidden">
+						<el-button type="success" style="float:right;margin-right:20px;"  @click="dialogVisible = true">新增学生</el-button>
+						<el-button type="success" style="float:right;margin-right:20px;"  @click="dialogClassVisible = true">新增班级</el-button>
+					</div>
 					<el-tabs v-model="activeName" @tab-click="handleClick" tab-position="left" >
                         <el-tab-pane :label="'北信息'+item.name" :name='item.id.toString()' v-for="(item,index) in CurrentClassList" :key='index'>
 							 <el-table
@@ -46,20 +50,26 @@
 								</el-table-column>
 							</el-table>
 						</el-tab-pane>
-					     <el-button type="success"  @click="dialogVisible = true">新增学生</el-button>
+					     <!-- 新增学生弹框具体内容 -->
 						 <el-dialog
 							title="新增学生"
 							:visible.sync="dialogVisible"
 							width="30%"
 							:before-close="handleClose">
 							<el-form ref="form" :model="form" label-width="80px">
-								<el-form-item label="姓名:">
+								<el-form-item label="学生班级:">
+									<el-select v-model="form.className" placeholder="请选择学生班级">
+										<el-option :label="item.name" v-for="(item,index) in CurrentClassList" :key='index' :value="item.id"></el-option>
+									
+									</el-select>
+								</el-form-item>
+								<el-form-item label="姓  名:">
 									<el-input v-model="form.name"></el-input>
 								</el-form-item>
-								<el-form-item label="电话:">
+								<el-form-item label="电  话:">
 									<el-input v-model="form.mobile"></el-input>
 								</el-form-item>
-								<el-form-item label="邮箱:">
+								<el-form-item label="邮  箱:">
 									<el-input v-model="form.email"></el-input>
 								</el-form-item>
 								<el-form-item label="身份证号:">
@@ -68,7 +78,25 @@
 							</el-form>
 							<span slot="footer" class="dialog-footer">
 								<el-button @click="dialogVisible = false">取 消</el-button>
-								<el-button type="primary" @click="classMemberSave(form.name,form.mobile,form.email,form.sysUserDetail,tabId)">确 定</el-button>
+								<el-button type="primary" @click="classMemberSave(form.name,form.email,form.mobile,form.sysUserDetail,form.className)">确 定</el-button>
+							</span>
+						 </el-dialog>
+						 <!-- 新增班级弹框具体内容 -->
+						 <el-dialog
+							title="新增班级"
+							:visible.sync="dialogClassVisible"
+							width="30%"
+							:before-close="handleClose">
+							<el-form ref="form" :model="formClass" label-width="80px">
+								
+								<el-form-item label="班级名称:">
+									<el-input v-model="formClass.className"></el-input>
+								</el-form-item>
+		
+							</el-form>
+							<span slot="footer" class="dialog-footer">
+								<el-button @click="dialogVisible = false">取 消</el-button>
+								<el-button type="primary" @click="classMemberSave(form.name,form.email,form.mobile,form.sysUserDetail,form.className)">确 定</el-button>
 							</span>
 						 </el-dialog>
 					</el-tabs>
@@ -87,12 +115,18 @@
 					name:'',
 					mobile:'',
 					email:'',
-					sysUserDetail:''
+					sysUserDetail:'',
+					className:''
+				},
+				formClass:{
+					className:''
 				},
 				// 班级id
 				tabId:'',
 				//新增弹框默认隐藏
 				 dialogVisible: false,
+				//新增班级弹框默认隐藏 
+				dialogClassVisible:false, 
 				activeName:'37',
 				// 讲师所带过的所有班级
 				CurrentClassList:[],
@@ -153,16 +187,20 @@
 			classMemberSave(userName,email,mobile,sysUserDetail,classId){
 				console.log(userName,email,mobile,sysUserDetail,classId)
 				console.log(classId);
+				debugger
 				var app = this;
-				 if (!userName || !email || !mobile || !sysUserDetail) {
+				 if (!userName || !email || !mobile || !sysUserDetail || !classId) {
 					this.$message.error('信息填写不完整')
-				}else{
+				}else{ 
 					this.$http
 					.post('/business/organClassUser/save', {userName,email,mobile,classId, sysUserDetail
 					})
 					.then(function(res) {
-							
-							console.log(res.data);
+						if(res.data==''){
+							app.dialogVisible = false;
+							app.$message.success('添加学生成功');
+							app.getCurrentStudent(classId);
+						}
 					});
 				}	
 			}
