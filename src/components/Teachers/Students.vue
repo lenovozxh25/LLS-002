@@ -203,23 +203,7 @@
 					});
 				}	
 			},
-			//新增班级
-			orangClassSave(schoolId,name,majorCustomId,year){
-				console.log(schoolId,name,majorCustomId,year);
-					this.$http
-					.post('/business/organClass/save', {schoolId,name,majorCustomId,year})
-					.then(function(res) {
-						if(res.data==''){
-							console.log(1);
-							app.dialogClassVisible = false;
-							// app.$message.success('添加班级成功');
-							// app.getCurrentClass(teacherId);
-						}
-					});
-			}
-			// 新增的班级分配给当前教师
-			
-   
+
 		},
 		created(){
 			this.userId = window.localStorage.getItem("userId");
