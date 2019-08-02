@@ -48,7 +48,7 @@ const routes = [
 		children: [{
 				path: 'exam',
 				component: Exam,
-				name: '考试管理'
+				name: 'exam'
 			},
 			{
 				path: 'myCourse/:courseId',
@@ -169,7 +169,7 @@ const routes = [
 			{
 				path: 'StartTest',
 				component: myStudentStartTest,
-				name: '学生开始考试',
+				name: 'StartTest',
 			},
 		]
 	},
