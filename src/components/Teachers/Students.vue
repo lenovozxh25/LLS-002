@@ -47,9 +47,9 @@
                 <el-table-column label="操作" align="center">
                   <template slot-scope="scope">
                     <div>
-                      <el-link type="primary" @click="rewardsNineElements(scope.row.id)">奖励</el-link>
+                      <el-link type="primary" @click="rewardsNineElements(scope.row.id,title1)">奖励</el-link>
                       <span style="color:#ebeef5;margin:0 10px">|</span>
-                      <el-link type="primary" @click="rewardsNineElements(scope.row.id)">待改进</el-link>
+                      <el-link type="primary" @click="rewardsNineElements(scope.row.id,title2)">待改进</el-link>
                     </div>
                   </template>
                 </el-table-column>
@@ -354,7 +354,13 @@
           style="width: 100%; margin-top: 20px"
         >
           <el-table-column prop="name" label="联想9要素" width="180"></el-table-column>
-          <el-table-column prop="" label="待改进细则"></el-table-column>
+          <el-table-column prop="name" label="待改进细则">
+			  <template slot-scope="scope">
+				  <div>
+					  {{scope.row.name}}
+				  </div>
+			  </template>
+		  </el-table-column>
         </el-table>
       </div>
     </el-dialog>
@@ -368,7 +374,9 @@ export default {
     return {
       value1: "",
       input2: "",
-      nineElementsList: [], //九要素内容
+	  nineElementsList: [], //九要素内容
+	  title1:1,
+	  title2:2,
       form: {
         name: "",
         mobile: "",
@@ -472,9 +480,12 @@ export default {
       }
     },
     //奖励九要素内容
-    rewardsNineElements(studentId) {
-	  this.rewardsVisible = true;
-	  this.badVisible=true;
+    rewardsNineElements(studentId,title1) {
+		if(this.title1==title1){
+			this.rewardsVisible = true;
+		}else{
+			this.badVisible=true;
+		}
       var app = this;
       //debugger;
       this.$http
@@ -489,9 +500,9 @@ export default {
 	objectSpanMethod({ row, column, rowIndex, columnIndex }) {
 		console.log({ row, column, rowIndex, columnIndex })
         if (columnIndex === 0) {
-          if (rowIndex % 2 === 0) {
+          if (rowIndex == 0) {
             return {
-              rowspan: 2,
+              rowspan: 3,
               colspan: 1
             };
           } else {
