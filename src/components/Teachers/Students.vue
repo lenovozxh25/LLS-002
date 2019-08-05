@@ -356,8 +356,8 @@
           <el-table-column prop="name" label="联想9要素" width="180"></el-table-column>
           <el-table-column prop="name" label="待改进细则">
 			  <template slot-scope="scope">
-				  <div>
-					  {{scope.row.name}}
+				  <div v-for="item in scope.row.childList" :key="item.id">
+					  {{item.name}}
 				  </div>
 			  </template>
 		  </el-table-column>
