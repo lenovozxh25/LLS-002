@@ -17,18 +17,34 @@
                         <span class="redSquare"></span>
                         <span style="margin-top:20px;">考试列表</span>
 			        </p>
-                    <el-table v-if="testData" :data="testData" stripe style="width: 100%">
-                        <el-table-column prop="className" label="班级名称" width="250"></el-table-column>
-                        <el-table-column prop="name" label="考试名称" width="180"></el-table-column>
-                        <el-table-column prop="startTime" label="开考时间"></el-table-column>
-                        <el-table-column prop="duration" label="考试时长"></el-table-column>
-                        <el-table-column prop="endTime" label="结束时间"></el-table-column>
-                        <el-table-column prop="isTimeOut" label="操作">
-                            <el-tag v-on:click="startTest">开始考试</el-tag>
-							<el-tag>查看试卷</el-tag>
-						</el-table-column>
-                    </el-table>
+                    <el-row>
+                        <el-button style="width:21%;"  type="primary" disabled>班级名称</el-button>
+                        <el-button style="width:15%;"  type="primary" disabled>考试名称</el-button>
+                        <el-button style="width:15%;" type="primary" disabled>开考时间</el-button>
+                        <el-button style="width:9%;" type="primary" disabled>考试时长</el-button>
+                        <el-button style="width:15%;" type="primary" disabled>结束时间</el-button>
+                        <el-button style="width:16%;" type="primary" disabled>操作</el-button>
+                    </el-row>
+                    <el-row style="margin:5px auto" v-if="testData" v-for="item in testData" :key="item.name">
+                        <el-button style="width:21%;" type="info">{{item.className}}</el-button>
+                        <el-button style="width:15%;"  type="info">{{item.name}}</el-button>
+                        <el-button style="width:15%;" type="info">{{item.startTime}}</el-button>
+                        <el-button style="width:9%;" type="info">{{item.duration}}</el-button>
+                        <el-button style="width:15%;" type="info" >{{item.endTime}}</el-button>
+                        <el-button :data-testId="item.id" v-if="item.isTimeOut"  style="width:16%;" type="warning" >
+                            <el-tag v-if="item.isStart">考试还未开始</el-tag>
+                            <el-tag  type="warning" v-else v-on:click="startTest(item.id)">考试已经开始啦</el-tag>
+                        </el-button>
+                        <el-button :data-testId="item.id" v-else style="width:16%;" type="primary" v-on:click="checkTest(item.id,item.name)">
+                            <!-- 将试卷id与试卷名称传过去 -->
+                            查看试卷
+                        </el-button>
+                        
+                    </el-row>
+                     <!-- 分页效果 -->
+                        <el-pagination :current-page="page" style="margin-top:30px;" :page-size="pageSize" background layout="prev, pager, next" :total="nums" @current-change="pageClick" @prev-click="prevClick" @next-click="nextClick"></el-pagination>
 		        </el-collapse>
+                       
             </el-tab-pane>
         </el-tabs>
 		
@@ -55,45 +71,100 @@
 			handleChange(val) {
 				console.log(val);
             },
-            handleClick(tab, event) {
-                console.log(tab, event);
+            handleClick(tab) {
+                var typeId = parseInt(tab.index)
+                typeId++;
+                // console.log(typeId);
+                this.getTestData(typeId);
 			},
 			edit(){
 				console.log("1");
             },
             // 获取考试数据
-            getTestData(){
+            getTestData(typeId){
                 //获取考试数据  testData
                 var app = this;
                 app.$http.post("/business/examPlan/studentPage", {
                     "page": this.page,
                     "pageSize": this.pageSize,
                     "params": { 
-                        "typeId": 3
+                        "typeId": typeId
                     }
                 })
                 .then(function(res){
-                    app.testData = res.data.data;                  
-                    for(var i=0; i<app.testData.length; i++){              
-                        // console.log(Number(app.nDate));
-                        //下面几行是将字符串时间转换成时间戳 再做比较
-                        var endDate = app.testData[i].endTime;
-                        endDate = endDate.substring(0,19);    
-                        endDate = endDate.replace(/-/g,'/'); 
-                        var endDate = new Date(endDate).getTime();
-                        // console.log(endDate);
-                        if(Number(app.nDate) > endDate){
-                            app.testData[i].isTimeOut = true;
+                    app.testData = res.data.data;       
+                    app.nums = res.data.recordsTotal;
+                    console.log(app.nums);
+                    if(app.testData.length!==0){
+                        // console.log('aaa');
+                        for(var i=0; i<app.testData.length; i++){              
+                       
+                        // app.testData[i].examResultList === null 没有答案  说明没有开始考试
+                        // 否则说明已经提交试卷了 有答案了 
+                        if(app.testData[i].examResultList[0] === null){
+                            app.testData[i].isTimeOut = true;   //答案为空 说明考试没有开始
                         }else{
-                            app.testData[i].isTimeOut = false;
-                        } 
+                            app.testData[i].isTimeOut = false;   //答案不为空  说明学生已经提交了试卷
+                        }
+                        console.log(app.testData[i].isTimeOut);
+
+
+
+                        // 判断是显示考试还没开始 还是已经开始去考试
+                        var startTime = app.testData[i].startTime;
+                        startTime = startTime.substring(0,19);    
+                        startTime = startTime.replace(/-/g,'/'); 
+                        var startTime = new Date(startTime).getTime();
+                        // console.log(endDate);
+                        if(Number(app.nDate) < startTime){
+                            app.testData[i].isStart =true;
+                        }else{
+                            app.testData[i].isStart = false;
+                        }
+                        // 判断
+                        // console.log(app.testData[i].isStart)
                     }
+                    }           
+                    
                 });
             },
 
             // 开始考试效果
-            startTest(){
-                this.$router.push("/Student/StartTest");
+            startTest(testid){
+                // console.log(testid);
+                this.$router.push({
+                    name:"StartTest",
+                    params:{
+                        testid:testid
+                    }
+                });
+            },
+            // 开始考试效果
+            checkTest(testid,testname){
+                // console.log(testid);
+                this.$router.push({
+                    name:"CheckTest",
+                    params:{
+                        testid:testid,
+                        testname:testname
+                    }
+                });
+            },
+
+            // 考试的分页效果分页效果
+            pageClick(event) {
+            this.page = event;
+            this.getTestData(this.typeId);
+            },
+            //点击上一页
+            prevClick() {
+            this.page--;
+            this.getTestData(this.typeId);
+            },
+            //点击下一页
+            nextClick() {
+            this.page++;
+            this.getTestData(this.typeId);
             }
         },
         created(){
@@ -106,7 +177,7 @@
             });
 
             // 获取考试数据
-            this.getTestData();
+            this.getTestData(this.typeId);
 
             
         }
