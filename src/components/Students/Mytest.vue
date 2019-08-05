@@ -31,13 +31,14 @@
                         <el-button style="width:15%;" type="info">{{item.startTime}}</el-button>
                         <el-button style="width:9%;" type="info">{{item.duration}}</el-button>
                         <el-button style="width:15%;" type="info" >{{item.endTime}}</el-button>
-                        <el-button data-testId="item.id"  v-if="item.isTimeOut" style="width:16%;" type="primary">
+                        <el-button :data-testId="item.id" v-if="item.isTimeOut"  style="width:16%;" type="warning" >
+                            <el-tag v-if="item.isStart">考试还未开始</el-tag>
+                            <el-tag  type="warning" v-else v-on:click="startTest(item.id)">考试已经开始啦</el-tag>
+                        </el-button>
+                        <el-button :data-testId="item.id" v-else style="width:16%;" type="primary">
                             查看试卷
                         </el-button>
-                        <el-button :data-testId="item.id" v-else style="width:16%;" type="warning" >
-                            <el-tag v-if="item.isStart">考试还未开始</el-tag>
-                            <el-tag v-else type="warning" v-on:click="startTest(item.id)">考试已经开始啦</el-tag>
-                        </el-button>
+                        
                     </el-row>
 		        </el-collapse>
             </el-tab-pane>
@@ -90,15 +91,17 @@
                     app.testData = res.data.data;       
                     console.log(app.testData);
                     if(app.testData.length!==0){
-                        console.log('aaa');
+                        // console.log('aaa');
                         for(var i=0; i<app.testData.length; i++){              
                        
-                        // app.testData[i].examResultList !== null  如果说明已经提交试卷了  否则说明还没开始
-                        if(app.testData[i].examResultList !== null){
-                            app.testData[i].isTimeOut = false;
+                        // app.testData[i].examResultList === null 没有答案  说明没有开始考试
+                        // 否则说明已经提交试卷了 有答案了 
+                        if(app.testData[i].examResultList[0] === null){
+                            app.testData[i].isTimeOut = true;   //答案为空 说明考试没有开始
                         }else{
-                            app.testData[i].isTimeOut = true;
+                            app.testData[i].isTimeOut = false;   //答案不为空  说明学生已经提交了试卷
                         }
+                        console.log(app.testData[i].isTimeOut);
 
 
 
@@ -114,7 +117,7 @@
                             app.testData[i].isStart = false;
                         }
                         // 判断
-                        console.log(app.testData[i].isStart)
+                        // console.log(app.testData[i].isStart)
                     }
                     }           
                     

@@ -19,8 +19,12 @@
 					<p class="stuMsg top">
 						<span class="redSquare"></span>
 						<span>
-                        <i class="el-icon-message-solid"></i>
+                        <i class="el-icon-message-solid" style="color:#DE415A;font-size:20px;"></i>
                             {{testContent.examPlan.name}}
+                        </span>
+                        <span style="margin:0 10px;float:right;">
+                        <i class="el-icon-warning" style="color:#49C0E0;"></i>
+                            剩余时间：{{timeExam.h}} : {{timeExam.m}} : {{timeExam.s}}
                         </span>
 						<span style="float:right;">
                         <el-tag>考试时长为：{{testContent.examPlan.duration}}分钟</el-tag>
@@ -63,6 +67,13 @@ export default {
     name: "StartTest",
     data() {
         return {
+            timeExam:{
+                h:0,
+                m:0,
+                s:0
+            },   //考试剩余时间
+            timer: null,    //倒计时用到的定时器
+            endTime:0,     //考试结束时间
             radio:0,
             sort:1,    //试题的题号
             testid: null,   //要考试的试卷id 通过它找到我们的试卷内容
@@ -72,8 +83,39 @@ export default {
         }
     },
     methods:{ 
+      //页面倒计时效果
+      getTimeExam:function(){
+            //  console.log(this.endTime);
+            //获取当前时间  
+            var date = new Date();  
+            var now = date.getTime();  
+            //设置截止时间  
+            var str=this.endTime;
+            var endDate = new Date(str); 
+            var end = endDate.getTime();  
+            //时间差  
+            var leftTime = end-now;         
+            // this.timer = null;
+            //定义变量 d,h,m,s保存倒计时的时间  
+            var h,m,s;  
+            if (leftTime>0) {  
+                h = Math.floor(leftTime/1000/60/60%24);  
+                m = Math.floor(leftTime/1000/60%60);  
+                s = Math.floor(leftTime/1000%60); 
+                console.log(h,m,s);
+                this.timeExam.h = h;
+                this.timeExam.m = m;
+                this.timeExam.s = s;
+                this.timer = setTimeout(this.getTimeExam,1000);
+            }else{
+                alert("本场考试已经结束，将自动提交你的试卷！！！")            
+                this.subExam();
+            }
+      },
       // 提交试卷
       subExam:function(){
+        clearTimeout(this.timer);
+        this.timer = null;
         this.postData.examResult={
           planId:this.testContent.examPlan.id
         }
@@ -115,16 +157,20 @@ export default {
             .then(function(res){
                 //   console.log(res);
                 app.testContent = res.data;
-                console.log(app.testContent)
+                app.endTime = app.testContent.examPlan.endTime;
+                console.log(app.testContent);
+                
                 for(var i = 0;i<app.testContent.list.length;i++){
                   // console.log(app.testContent.list[i].id)
                   app.arr[app.testContent.list[i].id] = 0;
                   // console.log(app.arr);
                 }
                 // console.log(app.arr);
-            });
-            
-
+                app.getTimeExam();
+        });
+        
+        // timer =  setInterval(this.getTimeExam,1000);
+        
 }
 };
 </script>
