@@ -115,7 +115,8 @@
                 <el-button @click="dialogVisible = false">取 消</el-button>
                 <el-button
                   type="primary"
-                  @click="classMemberSave(form.name,form.email,form.mobile,form.sysUserDetail,form.className)"
+				  
+                  @click="organClassSave(2,3,formClass.className,'2019')"
                 >确 定</el-button>
               </span>
             </el-dialog>
@@ -478,7 +479,25 @@ export default {
             }
           });
       }
-    },
+	},
+	//新增班级
+// 	  "majorCustomId": 3,
+//   "name": "17级11班",
+
+//   "schoolId": 2,
+//   "year": "2017"
+    organClassSave(schoolId,majorCustomId,name,year){
+		 var app = this;
+		 this.$http
+          .post("/business/organClass/save", {schoolId,majorCustomId,name,year})
+          .then(function(res) {
+            if (res.data == "") {
+              app.dialogClassVisible = false;
+              app.$message.success("添加班级成功");
+              
+            }
+          });
+	},
     //奖励九要素内容
     rewardsNineElements(studentId,title1) {
 		if(this.title1==title1){
