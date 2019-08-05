@@ -102,7 +102,7 @@ export default {
                 h = Math.floor(leftTime/1000/60/60%24);  
                 m = Math.floor(leftTime/1000/60%60);  
                 s = Math.floor(leftTime/1000%60); 
-                console.log(h,m,s);
+                // console.log(h,m,s);
                 this.timeExam.h = h;
                 this.timeExam.m = m;
                 this.timeExam.s = s;

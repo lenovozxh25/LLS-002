@@ -35,7 +35,7 @@
                             <el-tag v-if="item.isStart">考试还未开始</el-tag>
                             <el-tag  type="warning" v-else v-on:click="startTest(item.id)">考试已经开始啦</el-tag>
                         </el-button>
-                        <el-button :data-testId="item.id" v-else style="width:16%;" type="primary" v-on:click="checkTest(item.id,item.name)">
+                        <el-button :data-testId="item.id" v-else style="width:16%;" type="primary" v-on:click="checkTest(item.examPageId,item.name)">
                             <!-- 将试卷id与试卷名称传过去 -->
                             查看试卷
                         </el-button>
@@ -94,7 +94,7 @@
                 .then(function(res){
                     app.testData = res.data.data;       
                     app.nums = res.data.recordsTotal;
-                    console.log(app.nums);
+                    console.log(app.testData);
                     if(app.testData.length!==0){
                         // console.log('aaa');
                         for(var i=0; i<app.testData.length; i++){              
