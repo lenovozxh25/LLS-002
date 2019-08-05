@@ -117,8 +117,8 @@ ul {
   background: #409EFF;
 }
 
-#masterSetting .el-dialog__header{
-  border: 1px solid #f2f2f2;
+#masterSetting .el-dialog__header, #myPartcipation .el-dialog__header{
+  border-bottom: 1px solid #f2f2f2;
 }
 #masterSetting .el-dialog__footer{
   border: 1px solid #f2f2f2;
