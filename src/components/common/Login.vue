@@ -122,7 +122,7 @@ export default {
           validCode: "123456"
         })
         .then(function(response) {
-          console.log(response.data);
+          // console.log(response.data);
             if(response.data === "success"){
               app.$http.get("/permit/user/currentUser").then(res => {
               app.userId = res.data.id;
