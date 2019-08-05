@@ -223,7 +223,7 @@ export default {
       //获取所有的试卷类型
        this.$http
         .get(`/business/examType/listAll`).then(res => {
-        //   console.log(res.data);
+          console.log(res.data);
           this.formInline.testType = res.data;
         });
 

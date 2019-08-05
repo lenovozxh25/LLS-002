@@ -30,6 +30,7 @@ import MyStudentMygrowup from '@/components/Students/Mygrowup.vue'
 import OnlineAsk from '@/components/Students/OnlineAsk.vue'
 import myStudentCourseList from '@/components/students/myStudentCourseList.vue'
 import myStudentStartTest from '@/components/students/myStartTest.vue'
+import myStudentCheckTest from '@/components/students/MyCheckTest.vue'
 
 import Logined from '@/components/common/Login.vue'
 
@@ -170,6 +171,11 @@ const routes = [
 				path: 'StartTest',
 				component: myStudentStartTest,
 				name: 'StartTest',
+			},
+			{
+				path: 'CheckTest',
+				component: myStudentCheckTest,
+				name: 'CheckTest',
 			},
 		]
 	},

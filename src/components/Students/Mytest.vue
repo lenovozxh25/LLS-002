@@ -35,12 +35,16 @@
                             <el-tag v-if="item.isStart">考试还未开始</el-tag>
                             <el-tag  type="warning" v-else v-on:click="startTest(item.id)">考试已经开始啦</el-tag>
                         </el-button>
-                        <el-button :data-testId="item.id" v-else style="width:16%;" type="primary">
+                        <el-button :data-testId="item.id" v-else style="width:16%;" type="primary" v-on:click="checkTest(item.id,item.name)">
+                            <!-- 将试卷id与试卷名称传过去 -->
                             查看试卷
                         </el-button>
                         
                     </el-row>
+                     <!-- 分页效果 -->
+                        <el-pagination :current-page="page" style="margin-top:30px;" :page-size="pageSize" background layout="prev, pager, next" :total="nums" @current-change="pageClick" @prev-click="prevClick" @next-click="nextClick"></el-pagination>
 		        </el-collapse>
+                       
             </el-tab-pane>
         </el-tabs>
 		
@@ -89,7 +93,8 @@
                 })
                 .then(function(res){
                     app.testData = res.data.data;       
-                    console.log(app.testData);
+                    app.nums = res.data.recordsTotal;
+                    console.log(app.nums);
                     if(app.testData.length!==0){
                         // console.log('aaa');
                         for(var i=0; i<app.testData.length; i++){              
@@ -133,6 +138,33 @@
                         testid:testid
                     }
                 });
+            },
+            // 开始考试效果
+            checkTest(testid,testname){
+                // console.log(testid);
+                this.$router.push({
+                    name:"CheckTest",
+                    params:{
+                        testid:testid,
+                        testname:testname
+                    }
+                });
+            },
+
+            // 考试的分页效果分页效果
+            pageClick(event) {
+            this.page = event;
+            this.getTestData(this.typeId);
+            },
+            //点击上一页
+            prevClick() {
+            this.page--;
+            this.getTestData(this.typeId);
+            },
+            //点击下一页
+            nextClick() {
+            this.page++;
+            this.getTestData(this.typeId);
             }
         },
         created(){
