@@ -90,7 +90,7 @@
 		color: skyblue;
 	}
 	
-	.el-main {
+	#myMahor .el-main {
 		text-align: left;
 		/*line-height: 30px;*/
 	}
