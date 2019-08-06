@@ -68,8 +68,6 @@
 </script>
 
 <style scoped>
-	 
-	
 	ul li{list-style: none;}
 	#myStuMajor .el-collapse-item .el-collapse-item__header {
 		background: skyblue;

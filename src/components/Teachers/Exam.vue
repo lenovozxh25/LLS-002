@@ -1,4 +1,5 @@
 <template>
+
 	<div id="exam" style="background: #f5f5f7;padding-bottom: 20px;">
 		<div class="examTitle">
 			<div>
@@ -30,9 +31,17 @@
                         <el-table-column prop="createTime" width="200" label="创建时间"></el-table-column>
                         <el-table-column prop="remark" label="备注"></el-table-column>
                         <el-table-column prop="" label="试卷类型">大前端</el-table-column>
-                        <el-table-column prop="question" label="操作">
-							<el-tag>发布考试</el-tag>
-							<el-tag>删除</el-tag>
+                        <el-table-column label="操作">
+							 <template slot-scope="scope">
+								 <el-button
+								size="mini"
+								type="primary"
+								@click="seeExam(scope.$index, scope.row.id)">查看试卷</el-button>
+								<el-button
+								size="mini"
+								type="danger"
+								@click="deleteEaxm(scope.$index, scope.row.id)">删除</el-button>
+							</template>
 						</el-table-column>
                     </el-table>
                      <!-- 分页效果 -->
@@ -52,8 +61,16 @@
                         <el-table-column prop="remark" label="备注"></el-table-column>
                         <el-table-column prop="" label="试卷类型">移动互联</el-table-column>
                         <el-table-column prop="question" label="操作">
-							<el-tag>发布考试</el-tag>
-							<el-tag>删除</el-tag>
+							<template slot-scope="scope">
+								<el-button
+								size="mini"
+								type="primary"
+								@click="seeExam(scope.$index, scope.row.id)">查看试卷</el-button>
+								<el-button
+								size="mini"
+								type="danger"
+								@click="deleteEaxm(scope.$index, scope.row.id)">删除</el-button>
+							</template>
 						</el-table-column>
                     </el-table>
                      <!-- 分页效果 -->
@@ -72,9 +89,17 @@
                         <el-table-column prop="createTime" width="200" label="创建时间"></el-table-column>
                         <el-table-column prop="remark" label="备注"></el-table-column>
                         <el-table-column prop="" label="试卷类型">软件开发</el-table-column>
-                        <el-table-column prop="question" label="操作">
-							<el-tag>发布考试</el-tag>
-							<el-tag>删除</el-tag>
+                        <el-table-column prop="id" label="操作">
+							<template slot-scope="scope">
+								<el-button
+								size="mini"
+								type="danger"
+								@click="seeExam(scope.$index, scope.row.id)">查看试卷</el-button>
+								<el-button
+								size="mini"
+								type="primary"
+								@click="deleteEaxm(scope.$index, scope.row.id)">删除</el-button>
+							</template>
 						</el-table-column>
                     </el-table>
                      <!-- 分页效果 -->
@@ -171,7 +196,39 @@ export default {
     nextClick() {
       this.page++;
       this.getExams(this.src);
-    },
+	},
+	
+	// delete 删除试卷
+	deleteEaxm:function(index,id){
+		// 查看试卷的状态，是否被关联  如果是false 说明被关联考试了 不能删除   否则没有关联考试可以删除
+		var app = this;
+		this.$http.get(`/business/examPlan/paperStatus/`+id).then(function(res){
+			console.log(res.data);
+			if(res.data === false){
+				alert("当前试卷已经关联了考试，不能被删除哟！！！")
+			}else if(res.data === true){
+				app.$http.post(`/exam/examPage/delete?id=`+id).then(function(res){
+					// console.log(res.data)
+					if(res.data === ""){
+						alert("恭喜你，试卷删除成功");
+						// 删除成功之后需要重新加载试卷
+						app.getExams(app.src);
+					}
+				})
+			}
+		})
+	},
+	// seeExam  查看试卷详情
+	seeExam:function(index,id){
+		console.log(index,id)
+		this.$router.push({
+                    name:"MySeeExam",
+                    params:{
+						testindex:index,
+						testid:id
+                    }
+       });
+	}
   }
 };
 </script>
