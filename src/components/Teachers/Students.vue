@@ -37,7 +37,7 @@
               :key="index"
             >
               <el-table
-                :data="CurrentStudentList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase()))"
+                :data="CurrentStudentList?CurrentStudentList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase())):''"
                 style="width: 100%"
               >
                 <el-table-column label="姓名" prop="userName"></el-table-column>
@@ -54,7 +54,7 @@
                   </template>
                 </el-table-column>
                 <el-table-column align="right">
-                  <template slot="header" slot-scope="scope">
+                  <template slot="header" >
                     <el-input v-model="search" placeholder="请输入您要搜索的学生姓名" />
                   </template>
                 </el-table-column>
@@ -113,11 +113,10 @@
               </el-form>
               <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogClassVisible = false">取 消</el-button>
-                <!-- @click="organClassSave(2,3,formClass.className,'2019')" -->
                 <el-button
                   type="primary"
-				          @click="saveRelationship(77,,,1)"
-                  
+                  @click="organClassSave(2,3,formClass.className,'2019')"
+				  
                 >确 定</el-button>
               </span>
             </el-dialog>
@@ -401,6 +400,8 @@ export default {
       formClass: {
         className: ""
       },
+      //新增班级id
+      newClassId:'',
       // 班级id
       tabId: "",
       //新增弹框默认隐藏
@@ -497,17 +498,21 @@ export default {
     organClassSave(schoolId,majorCustomId,name,year){
 		 var app = this;
 		 this.$http
-          .post("/business/organClass/save", {schoolId,majorCustomId,name,year})
+          .post("/business/organClass/saveOrUpdateAndGetId", {schoolId,majorCustomId,name,year})
           .then(function(res) {
-            if (res.data == "") {
+            // console.log(res.data)
+            if (res.data) {
               app.dialogClassVisible = false;
               app.$message.success("添加班级成功");
-              
+              app.newClassId = res.data
+              app.saveRelationship(77,app.newClassId,'2019-08-08','T')
             }
           });
 	},
   //绑定班级和教师的关系
+  //兴海的用户id是77
     saveRelationship(userId,classId,startDate,userFlag){
+     debugger
       var app = this;
       this.$http
       .post('/business/organClassUser/saveRelationship',{userId, classId, startDate, userFlag})
