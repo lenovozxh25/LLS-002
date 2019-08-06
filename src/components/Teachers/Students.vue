@@ -116,7 +116,7 @@
                 <!-- @click="organClassSave(2,3,formClass.className,'2019')" -->
                 <el-button
                   type="primary"
-				          @click="saveRelationship(77,,,1)"
+				          
                   
                 >确 定</el-button>
               </span>
