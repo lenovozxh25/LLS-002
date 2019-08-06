@@ -1,5 +1,5 @@
 <template>
-	<div id="myStuMajor">
+	<div id="myPartcipation">
 		<div class="mahorTitle">
 			<div>
 				<div>
@@ -19,9 +19,14 @@
                     <el-table :data="listAll" stripe style="width: 100%">
                         <el-table-column prop="typeName" label="提问类型" width="300">
                         </el-table-column>
-                        <el-table-column prop="proposeTime" width="300" label="发起时间"></el-table-column>
+                        <el-table-column prop="proposeTime" width="200" label="发起时间"></el-table-column>
                         <el-table-column prop="subject" label="问题"></el-table-column>
-                        <el-table-column prop="question" label="问题描述"></el-table-column>
+                        <el-table-column prop="question" label="问题描述" width="300" show-overflow-tooltip></el-table-column>
+                        <el-table-column label="操作" align="center">
+                          <template slot-scope="{row}">
+                            <el-link type="primary" :underline="false" @click="getQuestionDetail(row.id)"><i class="el-icon-tickets"></i>详情</el-link>
+                          </template>
+                        </el-table-column>
                     </el-table>
                     <div style="overflow:hidden;margin-top:30px;">
                         <button style="float:left;" class="abutton" @click="shang">上一页</button>
@@ -79,12 +84,48 @@
 		        </el-collapse>
             </el-tab-pane>
         </el-tabs>
+
+        <!-- 回复对话框 -->
+    <el-dialog class="dialog" title="解答详情" :visible.sync="dialogVisible" width="60%" :before-close="handleClose">
+      <h4 style="background:#e7f2f4">
+        <span class="span1">问题：</span>
+        <span style="color:#4fc1dc">{{questionDetail.subject}}</span>
+      </h4>
+      <h4 style="background:#f5f5f5">
+        <span class="span1">问题说明：</span>
+        <span>{{questionDetail.question}}</span>
+      </h4>
+      <h4>
+        <span class="span1">提问人：</span>
+        <span>{{questionDetail.proposeStudentId}}</span>
+
+        <span class="span1" style="margin-left:100px">提问时间：</span>
+        <span>{{questionDetail.proposeTime}}</span>
+      </h4>
+      <h4>
+        <span class="span1">问题标签：</span>
+        <span><el-badge :value="questionDetail.typeName" class="item" style="opacity:0.5"></el-badge></span>
+      </h4>
+      <h4>
+        <span class="span1" style="float:left">答案详情：</span>
+        <template >
+          <span style="width:89%;height:120px;border:1px solid #EBEEF5;border-radius:4px;text-indent:2em ">
+            {{questionDetail.explanation}}
+          </span>
+        </template>
+      </h4>
+      <span slot="footer" class="dialog-footer">
+        <template>
+            <el-button type="primary" @click="dialogVisible=false" >确定</el-button>
+        </template>
+      </span>
+    </el-dialog>
 	</div>
 </template>
 
 <script>
 export default {
-  name: "myStuMajor",
+  name: "myPartcipation",
   data() {
     return {
       //反馈的数据
@@ -106,7 +147,10 @@ export default {
         name: "",
         region: "用户体验",
         desc: ""
-      }
+      },
+      dialogVisible:false,
+      questionDetail:[],
+      textarea:""
     };
   },
   methods: {
@@ -228,7 +272,24 @@ export default {
         this.apage++;
         this.getAsk();
       }
-    }
+    },
+    //问题详情
+    getQuestionDetail(id){
+      this.dialogVisible=true;
+      var app = this;
+      this.$http
+        .get(`/business/studentQuestion/detail/${id}`)
+        .then(res => {
+          app.questionDetail=res.data
+        });
+    },
+    handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      }
   },
   created() {
     this.getOpinions();
@@ -258,63 +319,58 @@ export default {
 ul li {
   list-style: none;
 }
-#myStuMajor .el-collapse-item .el-collapse-item__header {
+#myPartcipation .el-collapse-item .el-collapse-item__header {
   background: skyblue;
   padding-left: 50px;
   color: white;
   font-size: 23px;
 }
 
-#myStuMajor a {
-  color: #6c6868;
-  font-size: 16px;
-}
-
-#myStuMajor a:hover {
+#myPartcipation a:hover {
   color: skyblue;
 }
 
-#myStuMajor .el-main {
+#myPartcipation .el-main {
   text-align: left;
   /*line-height: 30px;*/
 }
-#myStuMajor .el-collapse {
+#myPartcipation .el-collapse {
   width: 1100px;
   margin: auto;
 }
-#myStuMajor .el-collapse-item__content {
+#myPartcipation .el-collapse-item__content {
   padding-left: 50px;
   padding-top: 20px;
 }
-#myStuMajor .mahorTitle {
+#myPartcipation .mahorTitle {
   text-align: center;
   width: 100%;
   height: 144px;
   background: #f16179;
 }
-#myStuMajor .mahorTitle > div {
+#myPartcipation .mahorTitle > div {
   width: 1100px;
   height: 144px;
   margin: auto;
   background: url(../../images/download.png) no-repeat right -20px;
   padding: 45px 50px 0px 110px;
 }
-#myStuMajor .mahorTitle div div {
+#myPartcipation .mahorTitle div div {
   min-width: 400px;
   color: #fff;
   font-size: 25px;
 }
-#myStuMajor .mahorTitle div ul {
+#myPartcipation .mahorTitle div ul {
   overflow: hidden;
   /*margin-top: 10px;*/
 }
-#myStuMajor .mahorTitle ul li {
+#myPartcipation .mahorTitle ul li {
   float: left;
   padding-right: 10px;
   color: #fff;
   font-size: 14px;
 }
-#myStuMajor .major {
+#myPartcipation .major {
   overflow: hidden;
   /*height:16px;*/
   font-family: HiraginoSansGB-W6;
@@ -373,5 +429,17 @@ ul li {
 
 .el-form /deep/ .el-textarea__inner {
   height: 300px;
+}
+
+.dialog span{
+  display: inline-block
+}
+.dialog h4{
+  padding: 10px 0;
+  margin: 5px 0;
+}
+.span1{
+  width: 80px;
+  text-align: right;
 }
 </style>
