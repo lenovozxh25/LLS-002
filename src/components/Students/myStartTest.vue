@@ -39,21 +39,46 @@
 						<el-input style="display:inline-block; margin:5px 0"
 								  type="textarea"
 								  autosize
-								  value="item.stem"
+								  :value="item.stem"
 								  disabled>
 						</el-input>
 						<template>
 							<el-radio-group :key="item.id" v-if="arr" v-on:change="radiochange"  v-model="arr[item.id]">
-								<el-radio :name="item.id" :label="1">{{item.optionA}}</el-radio>
-							  <el-radio :name="item.id" :label="2">{{item.optionB}}</el-radio>
-                <el-radio :name="item.id" :label="3">{{item.optionC}}</el-radio>
-                <el-radio :name="item.id" :label="4">{{item.optionD}}</el-radio>
-            </el-radio-group>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div style="margin:5px 0">
+                                            <el-tag type="success" style="margin:0 10px 0 5px">A</el-tag>
+                                            <el-radio :name="item.id" :label="1">{{item.optionA}}</el-radio>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+								<el-row>
+                                    <el-col :span="24">
+                                        <div style="margin:5px 0">
+                                            <el-tag type="success" style="margin:0 10px 0 5px">B</el-tag>
+                                            <el-radio :name="item.id" :label="2">{{item.optionB}}</el-radio>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+							    <el-row>
+                                    <el-col :span="24">
+                                        <div style="margin:5px 0">
+                                            <el-tag type="success" style="margin:0 10px 0 5px">C</el-tag>
+                                           <el-radio :name="item.id" :label="3">{{item.optionC}}</el-radio>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div style="margin:5px 0">
+                                            <el-tag type="success" style="margin:0 10px 0 5px">D</el-tag>
+                                           <el-radio :name="item.id" :label="4">{{item.optionD}}</el-radio>
+                                        </div>
+                                    </el-col>
+                                </el-row>                               
+                        </el-radio-group>
             </template>
           </p>
-
-          
-
       </div>
       <el-button type="success" @click="subExam">提交试卷</el-button>
 </template>
@@ -102,7 +127,7 @@ export default {
                 h = Math.floor(leftTime/1000/60/60%24);  
                 m = Math.floor(leftTime/1000/60%60);  
                 s = Math.floor(leftTime/1000%60); 
-                console.log(h,m,s);
+                // console.log(h,m,s);
                 this.timeExam.h = h;
                 this.timeExam.m = m;
                 this.timeExam.s = s;

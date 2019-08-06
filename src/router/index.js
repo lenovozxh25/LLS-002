@@ -14,6 +14,7 @@ import CourseManagement from '@/components/Teachers/CourseManagement.vue'
 import MyCourseList from '@/components/Teachers/MyCourseList.vue'
 import MyCreateExam from '@/components/Teachers/CreateExam.vue'
 import MyIssueeExam from '@/components/Teachers/IssueeExam.vue'
+import MySeeExam from '@/components/Teachers/MySeeExam.vue'
 
 import OnlineAnswer from '@/components/Teachers/OnlineAnswer.vue'
 
@@ -115,6 +116,11 @@ const routes = [
 				path: 'issueeexam',
 				component: MyIssueeExam,
 				name: '老师发布考试',
+			},
+			{
+				path: 'mySeeExam',
+				component: MySeeExam,
+				name: 'MySeeExam',
 			}
 			
 		]

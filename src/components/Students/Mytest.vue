@@ -35,7 +35,7 @@
                             <el-tag v-if="item.isStart">考试还未开始</el-tag>
                             <el-tag  type="warning" v-else v-on:click="startTest(item.id)">考试已经开始啦</el-tag>
                         </el-button>
-                        <el-button :data-testId="item.id" v-else style="width:16%;" type="primary" v-on:click="checkTest(item.id,item.name)">
+                        <el-button :data-testId="item.id" v-else style="width:16%;" type="primary" v-on:click="checkTest(item.examPageId,item.name,item.endTime)">
                             <!-- 将试卷id与试卷名称传过去 -->
                             查看试卷
                         </el-button>
@@ -94,14 +94,14 @@
                 .then(function(res){
                     app.testData = res.data.data;       
                     app.nums = res.data.recordsTotal;
-                    console.log(app.nums);
+                    console.log(app.testData);
                     if(app.testData.length!==0){
                         // console.log('aaa');
                         for(var i=0; i<app.testData.length; i++){              
                        
                         // app.testData[i].examResultList === null 没有答案  说明没有开始考试
                         // 否则说明已经提交试卷了 有答案了 
-                        if(app.testData[i].examResultList[0] === null){
+                        if(app.testData[i].examResultList.length === 0){
                             app.testData[i].isTimeOut = true;   //答案为空 说明考试没有开始
                         }else{
                             app.testData[i].isTimeOut = false;   //答案不为空  说明学生已经提交了试卷
@@ -139,16 +139,30 @@
                     }
                 });
             },
-            // 开始考试效果
-            checkTest(testid,testname){
-                // console.log(testid);
-                this.$router.push({
+
+            // 考试结束查看试卷效果
+            checkTest(testid,testname,testEndTime){
+                // console.log(testid,testname,testEndTime);
+                 //获取当前时间  
+                var date = new Date();  
+                var now = date.getTime();  
+                //设置截止时间  
+                var str=testEndTime;
+                var endDate = new Date(str); 
+                var end = endDate.getTime();  
+                //时间差  
+                var leftTime = end-now; 
+                if(leftTime>0){
+                    alert("考试还没有结束，试卷还没有批改，不能查看哟！！！")
+                }else{
+                    this.$router.push({
                     name:"CheckTest",
                     params:{
                         testid:testid,
                         testname:testname
                     }
                 });
+                }                 
             },
 
             // 考试的分页效果分页效果
