@@ -112,15 +112,16 @@
                 </el-form-item>
               </el-form>
               <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button @click="dialogClassVisible = false">取 消</el-button>
+                <!-- @click="organClassSave(2,3,formClass.className,'2019')" -->
                 <el-button
                   type="primary"
-				  
-                  @click="organClassSave(2,3,formClass.className,'2019')"
+				          @click="saveRelationship(77,,,1)"
+                  
                 >确 定</el-button>
               </span>
             </el-dialog>
-          </el-tabs>
+          </el-tabs>`
         </template>
       </div>
     </div>
@@ -493,11 +494,6 @@ export default {
       }
 	},
 	//新增班级
-// 	  "majorCustomId": 3,
-//   "name": "17级11班",
-
-//   "schoolId": 2,
-//   "year": "2017"
     organClassSave(schoolId,majorCustomId,name,year){
 		 var app = this;
 		 this.$http
@@ -510,6 +506,15 @@ export default {
             }
           });
 	},
+  //绑定班级和教师的关系
+    saveRelationship(userId,classId,startDate,userFlag){
+      var app = this;
+      this.$http
+      .post('/business/organClassUser/saveRelationship',{userId, classId, startDate, userFlag})
+      .then(function(res){
+        console.log(res);
+      })
+    },
     //奖励九要素内容
     rewardsNineElements(studentId, title1) {
       if (this.title1 == title1) {
