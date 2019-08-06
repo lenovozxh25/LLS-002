@@ -506,6 +506,7 @@ export default {
               app.$message.success("添加班级成功");
               app.newClassId = res.data
               app.saveRelationship(77,app.newClassId,'2019-08-08','T')
+              
             }
           });
 	},
