@@ -35,7 +35,7 @@
                             <el-tag v-if="item.isStart">考试还未开始</el-tag>
                             <el-tag  type="warning" v-else v-on:click="startTest(item.id)">考试已经开始啦</el-tag>
                         </el-button>
-                        <el-button :data-testId="item.id" v-else style="width:16%;" type="primary" v-on:click="checkTest(item.examPageId,item.name,item.endTime)">
+                        <el-button :data-testId="item.id" v-else style="width:16%;" type="primary" v-on:click="checkTest(item.examResultList[0].id,item.examResultList[0].score,item.endTime)">
                             <!-- 将试卷id与试卷名称传过去 -->
                             查看试卷
                         </el-button>
@@ -141,8 +141,8 @@
             },
 
             // 考试结束查看试卷效果
-            checkTest(testid,testname,testEndTime){
-                // console.log(testid,testname,testEndTime);
+            checkTest(id,score,testEndTime){
+                // console.log(id,score,testEndTime);
                  //获取当前时间  
                 var date = new Date();  
                 var now = date.getTime();  
@@ -158,8 +158,8 @@
                     this.$router.push({
                     name:"CheckTest",
                     params:{
-                        testid:testid,
-                        testname:testname
+                        id:id,    //传递过去examResultList的id  查看试卷详情
+                        score:score //传递过去score分数  展示到页面上
                     }
                 });
                 }                 

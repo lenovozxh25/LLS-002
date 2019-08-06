@@ -18,10 +18,10 @@
 					<p class="stuMsg top">
                         <span class="redSquare"></span>
                         <span>试卷详情</span>
-                        <span>
-                        <span style="margin:0 0 0 20px">试卷名称：</span>
-                        <el-tag>{{testContent.examPage.name}}</el-tag>
-                        </span>
+                    </p>
+                    <p class="stuMsg top" style="margin-top:30px;">
+                        <el-tag style="height:50px;line-height:50px;">试卷名称：</el-tag> 
+                        <el-tag style="margin-left:10px;height:50px;line-height:50px;">{{testContent.examPage.name}}</el-tag>             
                     </p>
                     
             <!-- 试题列表 -->
