@@ -52,58 +52,88 @@
           >
             <el-tab-pane
               :label="item.name"
-              :name="item.name"
+              :name="item.id.toString()"
               v-for="(item,index) in MyMaterialData"
               :key="index"
             >
-              <p>{{item.name}}列表</p>
-              <div class="session">
-                <div class="videoPlay">
-                  <video
-                    src="http://60.205.207.181/22.mp4"
-                    controls
-                    preload="auto"
-                    width="640"
-                    height="100%"
-                  ></video>
-                </div>
-                <div class="videoList">
-                  <div>
-                    <h3>
-                      <svg
-                        viewBox="0 0 1024 1024"
-                        width="40"
-                        height="30"
-                        style="position: relative; top: 9px;"
-                      >
-                        <path
-                          d="M624.32 484.48a32 32 0 0 1 0 55.04l-160 96A32 32 0 0 1 416 608V416a32 32 0 0 1 48.32-27.52zM480 472.64v78.72L545.92 512z"
-                          p-id="1141"
-                        ></path>
-                        <path
-                          d="M896 768V256H128v512z m0 64H128a64 64 0 0 1-64-64V256a64 64 0 0 1 64-64h768a64 64 0 0 1 64 64v512a64 64 0 0 1-64 64z"
-                          p-id="1142"
-                        ></path>
-                        <path d="M192 224a32 32 0 0 1 64 0v544a32 32 0 0 1-64 0z" p-id="1143"></path>
-                        <path
-                          d="M224 384a32 32 0 0 1 0 64H96a32 32 0 0 1 0-64z m0 192a32 32 0 0 1 0 64H96a32 32 0 0 1 0-64z m544-352a32 32 0 0 1 64 0v544a32 32 0 0 1-64 0z"
-                          p-id="1144"
-                        ></path>
-                        <path
-                          d="M800 448a32 32 0 0 1 0-64h128a32 32 0 0 1 0 64z m0 192a32 32 0 0 1 0-64h128a32 32 0 0 1 0 64z"
-                          p-id="1145"
-                        ></path>
-                      </svg>视频播放列表
-                    </h3>
-                    <ul class="videoListItem" style="cursor: pointer;">
-                      <li>01-web基础知识.mp4</li>
-                      <li>01-web基础知识.mp4</li>
-                      <li>01-web基础知识.mp4</li>
-                    </ul>
+              <!-- <p>{{item.name}}列表</p> -->
+              
+                <div class="session" v-if='item.id==1'>
+                  <div class="videoPlay">
+                    <video
+                      controls
+                      preload="auto"
+                      width="640"
+                      height="304"
+                      
+                    >
+
+                    </video>
+                  </div>
+                  <div class="videoList">
+                    <div>
+                      <h3>
+                        <svg
+                          viewBox="0 0 1024 1024"
+                          width="40"
+                          height="30"
+                          style="position: relative; top: 9px;"
+                        >
+                          <path
+                            d="M624.32 484.48a32 32 0 0 1 0 55.04l-160 96A32 32 0 0 1 416 608V416a32 32 0 0 1 48.32-27.52zM480 472.64v78.72L545.92 512z"
+                            p-id="1141"
+                          ></path>
+                          <path
+                            d="M896 768V256H128v512z m0 64H128a64 64 0 0 1-64-64V256a64 64 0 0 1 64-64h768a64 64 0 0 1 64 64v512a64 64 0 0 1-64 64z"
+                            p-id="1142"
+                          ></path>
+                          <path d="M192 224a32 32 0 0 1 64 0v544a32 32 0 0 1-64 0z" p-id="1143"></path>
+                          <path
+                            d="M224 384a32 32 0 0 1 0 64H96a32 32 0 0 1 0-64z m0 192a32 32 0 0 1 0 64H96a32 32 0 0 1 0-64z m544-352a32 32 0 0 1 64 0v544a32 32 0 0 1-64 0z"
+                            p-id="1144"
+                          ></path>
+                          <path
+                            d="M800 448a32 32 0 0 1 0-64h128a32 32 0 0 1 0 64z m0 192a32 32 0 0 1 0-64h128a32 32 0 0 1 0 64z"
+                            p-id="1145"
+                          ></path>
+                        </svg>视频播放列表
+                      </h3>
+                      <ul class="videoListItem" style="cursor: pointer;">
+                        <li>01-web基础知识.mp4</li>
+            
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {{MyMaterialDetailsData}}
+        
+                <template v-else>
+                  <el-table
+                    :data="tableData"
+                    style="width: 100%">
+                    <el-table-column
+                      prop="index"
+                      label="序号"
+                      width="130">
+                    </el-table-column>
+                    <el-table-column
+                      prop="address"
+                      label="文件名称"
+                      width="260">
+                    </el-table-column>
+                    <el-table-column
+                      prop="name"
+                      label="作者"
+                      width="180">
+                    </el-table-column>
+                    <el-table-column
+                      prop="date"
+                      label="最后更新时间">
+                    </el-table-column>
+                  </el-table>
+                </template>
+              
+              
+              <!-- {{MyMaterialDetailsData}} -->
               <!-- <video :src="item.fileUrl"></video>	 -->
             </el-tab-pane>
           </el-tabs>
@@ -118,39 +148,36 @@ export default {
   name: "myCourse",
   data() {
     return {
-      activeName: "教学视频",
-      MyMaterialDetailsData: [],
-      MyMaterialData: [],
-      tabPosition: "left",
-      majorVal: "",
-      courseVal: "",
-      periodVal: "",
-      major: [
-        {
-          value: "1",
-          label: "移动互联(web前端方向)"
-        }
-      ],
-      course: [
-        {
-          value: "1",
-          label: "脚本语言高级"
-        }
-      ],
-      period: [
-        {
-          value: "1",
-          label: "错误处理"
-        }
-      ]
+      activeName: "1",     //tab标签默认选中
+      MyMaterialDetailsData: [],  //教学视频 精品课件 课堂案例 企业问答 其它资料跳转获取的相应资料
+      MyMaterialData: [],     //课程资料列表
+      tabPosition: "left",    //tab对应方向
+      tableData: [{
+            index:1,
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+          }, {
+            index:1,
+            date: '2016-05-04',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1517 弄'
+          }, {
+            index:1,
+            date: '2016-05-01',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1519 弄'
+          }]
     };
   },
   methods: {
     handleClick(tab, event) {
-      // console.log(tab.label);
+      console.log(tab.name);
+      
+      // console.log(event);
       this.getMyMaterialDetails(
         this.$route.params.courseId,
-        tab.index - 0 + 1,
+        tab.name-0,
         tab.label
       );
     },
@@ -168,6 +195,8 @@ export default {
     },
     //点击教学视频 精品课件 课堂案例 企业问答 其它资料等跳转到相对应的资料
     getMyMaterialDetails(courseId, typeId, name) {
+      console.log(courseId)
+      console.log(typeId)
       var app = this;
       this.$http
         .get(
@@ -177,26 +206,21 @@ export default {
         )
         .then(function(res) {
           app.MyMaterialDetailsData = res.data;
-          app.activeName = name;
-          console.log(res.data);
+          app.activeName = typeId.toString();
+          // console.log(res.data);
         });
     }
   },
   created() {
-    console.log(this.$route.params.itemName);
+    // console.log(this.$route.params.itemName);
     this.getMyMaterialDetails(
       this.$route.params.courseId,
       this.$route.params.typeId,
       this.$route.params.itemName
     );
     this.getMyMaterial();
-  },
-  watch: {
-    $route: function(to, from) {
-      console.log(to.params);
-      // this.getMyMaterialDetails(to.params.itemId)
-    }
   }
+
 };
 </script>
 

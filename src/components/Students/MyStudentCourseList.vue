@@ -21,9 +21,12 @@
             <p class="major top"><span class="redSquare"></span><span>专业介绍</span></p>
             <ul>
               <li v-for="(course,index) in MyCourseList" :key='index'>
-                <a href="#" @click.prevent="getMyCourse(course.id,course.name)">1.{{index+1}}&nbsp;&nbsp;&nbsp;&nbsp;{{course.name}}</a>
+				  <!-- courseId,typeId,name,itemName -->
+                <a href="#" @click.prevent="getMyCourse(course.id,1,course.name)">1.{{index+1}}&nbsp;&nbsp;&nbsp;&nbsp;{{course.name}}</a>
 				<div style="float:right">
-					<span @click="toMyStudentCourse(course.id,item.id,course.name,item.name)" class="z-study" v-for="(item,index) in MyMaterialData" :key='index'>
+					
+					<!-- courseId,name,typeId,itemName -->
+					<span @click="toMyStudentCourse(course.id,course.name,item.id,item.name)" class="z-study" v-for="(item,index) in MyMaterialData" :key='index'>
 					{{item.name}}
 				</span>
 				</div>
@@ -40,8 +43,8 @@ export default {
 	name: 'myCourseList',
     data(){
         return{
-			MyMaterialData:[],
-            MyCourseList:''
+			MyMaterialData:[], //课程资料列表数据
+            MyCourseList:''   //对应课程列表
         }
     },
     methods:{
@@ -57,7 +60,7 @@ export default {
         //获取对应课程
         getMyCourse(courseId,typeId,name,itemName){
             this.$router.push({  
-					 name:'myStudentCourse',
+					 name:'myCourse',
 					 params:{
 							 courseId:courseId,
 							 typeId:typeId?typeId:1,
@@ -71,10 +74,10 @@ export default {
 				var app = this;
 				this.$http
 					.get('/product/materialType/listForAble')
-					// courseId typeId
+					
 					.then(function(res) {
 						app.MyMaterialData=res.data;
-						// console.log(res.data);
+						
 					});
 			},
 		//点击教学视频 精品课件 课堂案例 企业问答 其它资料等跳转到相对应的资料
@@ -84,7 +87,6 @@ export default {
 					 name:'myStudentCourse',
 					 params:{
 							 courseId:courseId,
-							 
 							 name:name,
 							 typeId:typeId?typeId:1,
 							 itemName:itemName
@@ -99,7 +101,7 @@ export default {
 	},
 	watch:{
       $route:function(to,from){
-		console.log(to.params)
+		// console.log(to.params)
 		this.getMyCourseList(to.params.itemId)
         
       }
@@ -143,7 +145,7 @@ export default {
 	
 	.bookSvg {
 		position: absolute;
-		left: 40%;
+		left: 34%;
 		top: 43%;
 	}
 	

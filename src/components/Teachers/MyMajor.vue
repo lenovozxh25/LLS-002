@@ -3,10 +3,11 @@
 		<div class="mahorTitle">
 			<div>
 				<div>
-					<!-- 移动互联(web前端方向) -->
+					<!-- 显示具体专业 -->
 					{{MajorCustomData.majorTypeName}}
 				</div>
 				<ul>
+					<!-- 显示多少个学期 -->
 					<li>共 {{majorCustomItemTreeAdapterList}} 个学期</li>
 				</ul>
 			</div>
@@ -14,11 +15,13 @@
 		<el-collapse v-model="activeNames">
 			 <p class="major top"><span class="redSquare"></span><span>专业介绍</span></p>
 			 <p class="major"><span class="redSquare"></span><span>专业章节</span></p>
+			 <!-- 遍历专业相关数据-->
 			 <div v-for="(item,index) in MajorCustomData.majorCustomItemTreeAdapterList" :key='index'>
-				 <!-- <span>{{item}}</span> -->
-				 <!-- {{index}} -->
+				 <!-- element的折叠显示文字放在title上，name方便区分到底点击是哪一个  -->
 				 <el-collapse-item :title="item.name" :name="index">
+					 <!-- 学期下面的具体专业遍历 -->
 					<div v-for='(itemMajor,index) in item.childList' :key='index'>
+						<!-- 点击专业跳转到相关专业列表 -->
 						<a href="#" @click.prevent="toMyCourseList(itemMajor.id,itemMajor.name)">{{itemMajor.name}}</a>
 					</div>
 				</el-collapse-item>
@@ -33,9 +36,9 @@
 		name: 'myMajor',
 		data() {
 			return {
-				activeNames: [0,1,2,3,4,5,6,7],
-				MajorCustomData:[],
-				majorCustomItemTreeAdapterList:''
+				activeNames: [0,1,2,3,4,5,6,7], //el-collapse自带属性，表示name绑定哪个不折叠，展示
+				MajorCustomData:[],  //专业相关所有数据
+				majorCustomItemTreeAdapterList:'' //专业下面的学期的长度
 			};
 		},
 		methods: {
@@ -43,13 +46,17 @@
 			getMajorCustom(userId){
 				var app = this;
 				this.$http
-					.get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
+					// .get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
+					.get('/product/majorCustom/getMajorCustomForCurrentUser')
 					.then(function(res) {
+						//本意可以直接使用res.data,但是由于数据过多建议使用第一条数据即可
 						app.MajorCustomData=res.data[0];
                         app.majorCustomItemTreeAdapterList=res.data[0].majorCustomItemTreeAdapterList.length
-						// console.log(res.data[0].majorCustomItemTreeAdapterList.length)
+						
 					});
 			},
+			//跳转到MyCourseList页面
+			//动态路由参数传参itemId，name。其中name是为了方便显示到底是哪个专业
 			toMyCourseList(itemId,name){
 				 this.$router.push({  
 					 name:'myCourseList',
@@ -62,7 +69,9 @@
 			
 		},
 		created(){
+			//获取登录用户的id
 			this.userId = window.localStorage.getItem("userId");
+			//页面加载即获取专业
 			this.getMajorCustom(this.userId);
 		}
 	}

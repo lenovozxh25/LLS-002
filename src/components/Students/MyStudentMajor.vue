@@ -3,6 +3,7 @@
 		<div class="mahorTitle">
 			<div>
 				<div>
+					<!-- 显示具体专业 -->
 					<span>{{studentMyMajorData.majorTypeName}}</span>
 				</div>
 				<ul>
@@ -18,9 +19,9 @@
 				 <span class="redSquare"></span>
 			     <span style="margin-top:20px;">专业章节</span>
 				</p>
+				<!-- 遍历专业相关数据-->
 				<div v-for="(item,index) in studentMyMajorData.majorCustomItemTreeAdapterList" :key='index'>
-				 <!-- <span>{{item}}</span> -->
-				 <!-- {{index}} -->
+				  <!-- element的折叠显示文字放在title上，name方便区分到底点击是哪一个  -->
 				 <el-collapse-item :title="item.name" :name="index">
 					<div v-for='(itemMajor,index) in item.childList' :key='index'>
 						<a href="#" @click.prevent="toMyCourseList(itemMajor.id,itemMajor.name)">{{itemMajor.name}}</a>
@@ -37,16 +38,17 @@
 		name: 'myStuMajor',
 		data() {
 			return {
-				activeNames: [0,1,2,3,4,5,6,7],
-				studentMyMajorData:[],
-				majorCustomItemTreeAdapterListleng:''
+				activeNames: [0,1,2,3,4,5,6,7],//el-collapse自带属性，表示name绑定哪个不折叠，展示
+				studentMyMajorData:[],//专业相关所有数据
+				majorCustomItemTreeAdapterListleng:''//专业下面的学期的长度
 			}
 		},
 		methods: {
+			//获取该学生的专业
 			getStudentMyMajor(){
 				  var app=this;
 					this.$http.get('/product/majorCustom/getMajorCustomForCurrentUser').then(function(response) {
-								// console.log(response.data);
+								//本意可以直接使用res.data,但是由于数据过多建议使用第一条数据即可
 								app.studentMyMajorData=response.data[0]
 								app.majorCustomItemTreeAdapterListleng=response.data[0].majorCustomItemTreeAdapterList.length
 					})

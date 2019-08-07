@@ -3,32 +3,38 @@ import VueRouter from 'vue-router'
 
 import THome from '@/components/Teachers/Home.vue'
 import Exam from '@/components/Teachers/Exam.vue'
+//教师端我的专业
 import MyCourse from '@/components/Teachers/MyCourse.vue'
+//教师端我的专业课程列表
+import MyCourseList from '@/components/Teachers/MyCourseList.vue'
+//教师端我的课程
 import MyMajor from '@/components/Teachers/MyMajor.vue'
+//教师端学生管理
 import Students from '@/components/Teachers/Students.vue'
 import MyContribute from '@/components/Teachers/MyContribute.vue'
 import MasterSetting from '@/components/Teachers/MasterSetting.vue'
-import MyMeage from '@/components/Teachers/MyMeage.vue'
 import MyTeacherMyNews from '@/components/Teachers/MyNews.vue'
 import CourseManagement from '@/components/Teachers/CourseManagement.vue'
-import MyCourseList from '@/components/Teachers/MyCourseList.vue'
+
 import MyCreateExam from '@/components/Teachers/CreateExam.vue'
 import MyIssueeExam from '@/components/Teachers/IssueeExam.vue'
 import MySeeExam from '@/components/Teachers/MySeeExam.vue'
-
 import OnlineAnswer from '@/components/Teachers/OnlineAnswer.vue'
 
 import Mytest from '@/components/Students/Mytest.vue'
 import SHome from '@/components/Students/Home.vue'
+//学生端我的专业
 import MyStudentMajor from '@/components/Students/MyStudentMajor.vue'
+//学生端我的专业课程列表
 import MyStudentMymessage from '@/components/Students/Mymessage.vue'
+//学生端我的课程
 import myStudentCourse from '@/components/Students/MyStudentCourse.vue'
+import myStudentCourseList from '@/components/students/myStudentCourseList.vue'
 import MyStudentMytest from '@/components/Students/Mytest.vue'
 import MyStudentMyparticipation from '@/components/Students/Myparticipation.vue'
 import MyStudentMynews from '@/components/Students/Mynews.vue'
 import MyStudentMygrowup from '@/components/Students/Mygrowup.vue'
 import OnlineAsk from '@/components/Students/OnlineAsk.vue'
-import myStudentCourseList from '@/components/students/myStudentCourseList.vue'
 import myStudentStartTest from '@/components/students/myStartTest.vue'
 import myStudentCheckTest from '@/components/students/MyCheckTest.vue'
 
