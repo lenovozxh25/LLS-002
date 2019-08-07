@@ -109,16 +109,18 @@ export default {
     //退出
     logOut() {
       var app = this;
-      this.$http.get("/permit/logout").then(res => {
-        if (!!res.data === false) {
-          app.$router.push({
-            path: "/logined",
-            query: {
-              r: true
-            }
-          });
-        }
-      });
+      if(confirm("确定要退出吗？")){
+        this.$http.get("/permit/logout").then(res => {
+          console.log(res)
+          if(res.data === "" && res.status === 200){
+            app.$message.success("退出成功！")
+          }else{
+            app.$message.success("退出异常，用户可能已经退出。。。")
+          }
+          window.localStorage.clear(); //清除缓存
+          app.$router.push(`/logined`);
+        });
+      }
     },
     //获取该学生的专业
 			getMajorCustom(userId){

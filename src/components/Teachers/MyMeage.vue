@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <!-- 基本资料 -->
-                    <div class="z_c_one">
+                    <div v-if="userInfo" class="z_c_one">
                             <div class="z_one_message">
                             <div class="one_m_l">
                                 姓名：
@@ -135,7 +135,7 @@
                                 <el-input v-model="formLabelAlign.type"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary" @click="onSubmit">修改</el-button>
+                                <el-button type="primary" @click="checkPassword">修改</el-button>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -151,18 +151,39 @@
        data:function(){
            return{
                activeName: 'first',
-                labelPosition: 'right',
+               labelPosition: 'right',
                formLabelAlign: {
-                    name: '',
-                    region: '',
-                    type: ''
+                    name: '',   //原始密码
+                    region: '',  //用户的新密码
+                    type: ''      //用户确认密码
                 },
                 userInfo:null
            }
        },
        methods:{
-           onSubmit(){
-                console.log('submit!');
+           checkPassword:function(){
+               var app = this;
+                if(this.formLabelAlign.name&&this.formLabelAlign.region&&this.formLabelAlign.type){
+                    if(this.formLabelAlign.region === this.formLabelAlign.type){
+                        var id = window.localStorage.getItem("userId");
+                        this.$http.post(`/permit/user/modifyPassword`,{
+                            id:id,
+                            password:this.formLabelAlign.name,
+                            newPassword:this.formLabelAlign.type
+                        }).then(function(res){
+                            if(res.data == ""){
+                                alert("恭喜你密码修改成功");
+                                app.formLabelAlign.name = "";
+                                app.formLabelAlign.region = "";
+                                app.formLabelAlign.type = "";
+                            }
+                        })
+                    }else{
+                        alert("两次密码输入不一致，请重新设置新密码")
+                    }
+                }else{
+                    alert("输入内容不能为空")
+                }
             },
             handleChange(val) {
 				console.log(val);

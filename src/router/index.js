@@ -19,7 +19,6 @@ import MySeeExam from '@/components/Teachers/MySeeExam.vue'
 import OnlineAnswer from '@/components/Teachers/OnlineAnswer.vue'
 
 import Mytest from '@/components/Students/Mytest.vue'
-import Mymessage from '@/components/Students/Mymessage.vue'
 import SHome from '@/components/Students/Home.vue'
 import MyStudentMajor from '@/components/Students/MyStudentMajor.vue'
 import MyStudentMymessage from '@/components/Students/Mymessage.vue'
@@ -84,7 +83,7 @@ const routes = [
 			},
 			{ 
 				path: 'mymeage', 
-				component: Mymessage, 
+				component: MyMeage, 
 				name: '我的资料' 
 			},
 			{ 

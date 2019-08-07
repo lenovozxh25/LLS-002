@@ -27,8 +27,7 @@
                         </el-tag>  
                         <el-tag style="float:right;height:50px; line-height:50px;" type="success" effect="dark">
                             考试成绩：
-                        </el-tag>
-                                    
+                        </el-tag>     
                     </p>
                    
                     
