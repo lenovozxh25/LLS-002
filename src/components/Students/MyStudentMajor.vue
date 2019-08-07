@@ -1,6 +1,6 @@
 <template>
 	<div id="myStuMajor">
-		<div class="mahorTitle">
+		<div class="stuMajorTitle">
 			<div>
 				<div>
 					<!-- 显示具体专业 -->
@@ -99,28 +99,28 @@
 		padding-left: 50px;
 		padding-top: 20px;
 	}
-	#myStuMajor .mahorTitle{
+	#myStuMajor .stuMajorTitle{
 		width: 100%;
 		height: 144px;
 		background:#89db96
 	}
-	#myStuMajor .mahorTitle>div{
+	#myStuMajor .stuMajorTitle>div{
 		width: 1100px;
 		height: 144px;
 		margin: auto;
 		background: url(../../images/download.png) no-repeat right -20px;
 		padding: 45px 50px 0px 110px;
 	}
-	#myStuMajor .mahorTitle div div{
+	#myStuMajor .stuMajorTitle div div{
 		min-width: 400px;
 	    color: #fff;
 	    font-size: 25px;
 	}
-	#myStuMajor .mahorTitle div ul{
+	#myStuMajor .stuMajorTitle div ul{
 		overflow: hidden;
 		/*margin-top: 10px;*/
 	}
-	#myStuMajor .mahorTitle ul li{
+	#myStuMajor .stuMajorTitle ul li{
 		float: left;
 		padding-right: 10px;
     	color: #fff;

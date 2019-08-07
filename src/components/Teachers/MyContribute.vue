@@ -291,10 +291,9 @@
 		zoom: 1;
 	}
 	
-	.el-main {
+	#myContribute .el-main {
 		text-align: left;
 	}
-	
 	.contributeTitle {
 		width: 100%;
 		height: 144px;
@@ -506,10 +505,8 @@
 	.title1>p span:first-child {
 		position: absolute;
 		left: 3px;
-		top: -10px;
 		background: #f22c61;
 		width: 72px;
-		height: 30px;
 		color: white;
 		text-align: center;
 	}

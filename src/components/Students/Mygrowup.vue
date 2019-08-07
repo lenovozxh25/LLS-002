@@ -1,6 +1,6 @@
 <template>
   <div id="myGrowup">
-    <div class="mahorTitle">
+    <div class="growupTitle">
       <!-- 学期定位 -->
       <div class="personage">
         <span>第一学期（本学期）</span>
@@ -113,7 +113,7 @@
             <el-table-column prop="name" label="课程名称" width="280" align="center"></el-table-column>
             <el-table-column prop="date" label="考试时间" width="220" align="center"></el-table-column>
             <el-table-column prop="cj" label="考试成绩" width="140" sortable align="center"></el-table-column>
-            <el-table-column label="班级排名" width="140" sortable align="center"></el-table-column>
+            <el-table-column prop="pm" label="班级排名" width="140" sortable align="center"></el-table-column>
             <el-table-column label="查看试卷" align="center">
               <el-link target="_blank" style="font-size:14px" :underline="false">
                 <i class="el-icon-view"></i>查看试卷
@@ -184,19 +184,22 @@ export default {
         gbList:[],
       tableData: [
         {
-          date: "2016-05-02 14:25:00",
+          date: "2019-05-02 16:25:00",
           name: "WEB前端基础(HTML+CSS)",
-          cj: "68"
+          cj: "68",
+          pm:"1"
         },
         {
-          date: "2016-05-04 14:25:00",
+          date: "2019-05-04 16:25:00",
           name: "WEB前端基础(HTML+CSS)",
-          cj: "缺考"
+          cj: "缺考",
+          pm:"--"
         },
         {
-          date: "2016-05-01 14:25:00",
+          date: "2019-06-01 16:25:00",
           name: "WEB前端基础(HTML+CSS)",
-          cj: "缺考"
+          cj: "缺考",
+          pm:"--"
         }
       ]
     };
@@ -215,11 +218,13 @@ export default {
       this.rewardsAndPunishmentList(1)
   },
   computed:{
+    //过滤数据-小于0的为惩罚
       lessGBlist:function(){
          return this.gbList.filter(function(item){
                 return item.fraction<0 
           })
       },
+      //大于0的为奖励
       greaterGBlist:function(){
           return this.gbList.filter(function(item){
                 return item.fraction>0
@@ -261,27 +266,27 @@ ul li {
   padding-left: 50px;
   padding-top: 20px;
 }
-#myGrowup .mahorTitle {
+#myGrowup .growupTitle {
   width: 100%;
   height: 164px;
   line-height: 40px;
   background: #f9ae39;
   position: relative;
 }
-#myGrowup .mahorTitle .div1 {
+#myGrowup .growupTitle .div1 {
   line-height: 40px;
   height: 40px;
 }
-#myGrowup .mahorTitle .div1 > span {
+#myGrowup .growupTitle .div1 > span {
   display: inline-block;
   color: #fff;
   font-size: 14px;
   margin-left: 20px;
 }
-#myGrowup .mahorTitle .div1 > span.span1 {
+#myGrowup .growupTitle .div1 > span.span1 {
   margin-left: 388px;
 }
-#myGrowup .mahorTitle .div2 {
+#myGrowup .growupTitle .div2 {
   width: 70%;
   height: 90px;
   background: #fff;
@@ -289,16 +294,16 @@ ul li {
   margin-left: 180px;
   overflow: hidden;
 }
-#myGrowup .mahorTitle .div2 > div {
+#myGrowup .growupTitle .div2 > div {
   width: 16.5%;
   float: left;
   height: 90px;
 }
-#myGrowup .mahorTitle .div2 .gup_d1 {
+#myGrowup .growupTitle .div2 .gup_d1 {
   overflow: hidden;
   position: relative;
 }
-#myGrowup .mahorTitle .div2 .gup_d1 span:first-child {
+#myGrowup .growupTitle .div2 .gup_d1 span:first-child {
   display: inline-block;
   text-align: center;
   width: 100%;
@@ -310,7 +315,7 @@ ul li {
   line-height: 50px;
   margin-top: 8px;
 }
-#myGrowup .mahorTitle .div2 .gup_d1 span.sp2 {
+#myGrowup .growupTitle .div2 .gup_d1 span.sp2 {
   display: inline-block;
   text-align: center;
   width: 100%;
@@ -321,7 +326,7 @@ ul li {
   position: relative;
   top: -12px;
 }
-#myGrowup .mahorTitle .div2 .gup_d1 > div {
+#myGrowup .growupTitle .div2 .gup_d1 > div {
   position: absolute;
   left: 8px;
   top: -1px;
@@ -329,19 +334,19 @@ ul li {
   width: 44px;
   height: 49px;
 }
-#myGrowup .mahorTitle .div2 .gup_d1 > div > p:first-child {
+#myGrowup .growupTitle .div2 .gup_d1 > div > p:first-child {
   height: 17px;
   line-height: 20px;
   color: #fff;
   font-size: 12px;
   padding-left: 4px;
 }
-#myGrowup .mahorTitle .div2 .gup_d1 > div > p:last-child {
+#myGrowup .growupTitle .div2 .gup_d1 > div > p:last-child {
   text-align: center;
   color: #fff;
   font-size: 12px;
 }
-#myGrowup .mahorTitle .div2 .gup_d1 .i01 {
+#myGrowup .growupTitle .div2 .gup_d1 .i01 {
   position: absolute;
   left: 8px;
   top: 39px;
@@ -351,10 +356,10 @@ ul li {
   border-right: 22px solid transparent;
   border-bottom: 9px solid #fff;
 }
-#myGrowup .mahorTitle .div2 .gup_d2 {
+#myGrowup .growupTitle .div2 .gup_d2 {
   background: #f6f6f6;
 }
-#myGrowup .mahorTitle .div2 .gup_d2 > div {
+#myGrowup .growupTitle .div2 .gup_d2 > div {
   width: 100%;
   height: 18px;
   line-height: 18px;
@@ -363,13 +368,13 @@ ul li {
   text-align: center;
 }
 
-#myGrowup .mahorTitle .div2 .gup_d2 > div:first-child {
+#myGrowup .growupTitle .div2 .gup_d2 > div:first-child {
   height: 22px;
   line-height: 22px;
   margin-top: 16px;
   margin-bottom: 8px;
 }
-#myGrowup .mahorTitle .div2 .gup_d2 > div:first-child > span {
+#myGrowup .growupTitle .div2 .gup_d2 > div:first-child > span {
   color: #c74ad9;
   font-weight: 700;
   font-family: Arial;

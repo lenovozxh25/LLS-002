@@ -96,11 +96,11 @@
         <span>{{questionDetail.question}}</span>
       </h4>
       <h4>
-        <span class="span1">提问人：</span>
-        <span>{{questionDetail.proposeStudentId}}</span>
+        <span class="span1">解答老师：</span>
+        <span>{{questionDetail.sendTeacherId}}</span>
 
-        <span class="span1" style="margin-left:100px">提问时间：</span>
-        <span>{{questionDetail.proposeTime}}</span>
+        <span class="span1" style="margin-left:100px">解答时间：</span>
+        <span>{{questionDetail.explanationTime}}</span>
       </h4>
       <h4>
         <span class="span1">问题标签：</span>
@@ -273,7 +273,7 @@ export default {
         this.getAsk();
       }
     },
-    //问题详情
+    //问题详情-查看解答详情
     getQuestionDetail(id){
       this.dialogVisible=true;
       var app = this;

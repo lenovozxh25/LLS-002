@@ -14,6 +14,7 @@ import Students from '@/components/Teachers/Students.vue'
 import MyMeage from '@/components/Teachers/MyMeage.vue'
 import MyContribute from '@/components/Teachers/MyContribute.vue'
 import MasterSetting from '@/components/Teachers/MasterSetting.vue'
+import Mymessage from '@/components/Teachers/MyMeage.vue'
 import MyTeacherMyNews from '@/components/Teachers/MyNews.vue'
 import CourseManagement from '@/components/Teachers/CourseManagement.vue'
 

@@ -188,23 +188,20 @@ export default {
     return {
       pres: false,
       showEdit: [], //显示编辑框
-      showBtn: [],
-      row: "",
-      index:"",
-      dialogVisible: false,
+      showBtn: [],  //编辑/保存图标切换
+      row: "",      //时间格式
+      index:"",      //存放编辑/保存下标
+      dialogVisible: false,   //弹窗
       detailVisible: false, //属性弹窗
-      cur: 1,
-      typeId: 1,
-      masterTree: [],
-      sourceTabs: [],
-      itemChildId: 1,
-      file: "",
-      imgFile: "",
-      fileName: "",
-      fileAuthor: "",
-      shortDescVal: "",
-      content: "",
-      tableData: [],
+      masterTree: [],    //学期列表数据
+      itemChildId: 1,    //课程id
+      file: "",         //上传文件
+      imgFile: "",      //上传图片文件
+      fileName: "",       //文件名称
+      fileAuthor: "",     //作者
+      shortDescVal: "",   //简短描述
+      content: "",        //内容
+      tableData: [],      //课程资源数据
       selectionData: [],
       newDelArr: [],
       options: [], //获取资源类型
@@ -245,12 +242,7 @@ export default {
           }
         }); // 发送请求
     },
-    //tabs切换
-    tabsClick(index) {
-      this.cur = index;
-      this.typeId = index;
-      this.getCustom(this.itemChildId);
-    },
+    //课程分类
     menuItem(itemChildId) {
       this.itemChildId = itemChildId;
       this.getCustom(this.itemChildId);
@@ -310,7 +302,7 @@ export default {
       var itemId = this.itemChildId;
       var delArr = this.newDelArr;
       var app = this;
-      if (confirm("您确定要删除此条课程资源吗？")) {
+      if (confirm("您确定要删除所选课程资源吗？")) {
         this.$http
           .post("/product/majorCustomCourse/deletes", delArr)
           .then(res => {
@@ -323,6 +315,7 @@ export default {
           });
       }
     },
+    //选择表格中行数据
     handleSelectionChange(val) {
       //数据选项
       //console.log(val)
