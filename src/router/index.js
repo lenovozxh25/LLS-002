@@ -11,6 +11,7 @@ import MyCourseList from '@/components/Teachers/MyCourseList.vue'
 import MyMajor from '@/components/Teachers/MyMajor.vue'
 //教师端学生管理
 import Students from '@/components/Teachers/Students.vue'
+import MyMeage from '@/components/Teachers/MyMeage.vue'
 import MyContribute from '@/components/Teachers/MyContribute.vue'
 import MasterSetting from '@/components/Teachers/MasterSetting.vue'
 import MyTeacherMyNews from '@/components/Teachers/MyNews.vue'
