@@ -115,8 +115,8 @@
                 <el-button @click="dialogClassVisible = false">取 消</el-button>
                 <el-button
                   type="primary"
-                  @click="organClassSave(2,3,formClass.className,'2019')"
-				  
+				          
+                  
                 >确 定</el-button>
               </span>
             </el-dialog>
