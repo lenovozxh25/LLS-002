@@ -37,7 +37,7 @@
               :key="index"
             >
               <el-table
-                :data="CurrentStudentList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase()))"
+                :data="CurrentStudentList?CurrentStudentList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase())):''"
                 style="width: 100%"
               >
                 <el-table-column label="姓名" prop="userName"></el-table-column>
@@ -54,7 +54,7 @@
                   </template>
                 </el-table-column>
                 <el-table-column align="right">
-                  <template slot="header" slot-scope="scope">
+                  <template slot="header">
                     <el-input v-model="search" placeholder="请输入您要搜索的学生姓名" />
                   </template>
                 </el-table-column>
@@ -113,7 +113,6 @@
               </el-form>
               <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogClassVisible = false">取 消</el-button>
-                <!-- @click="organClassSave(2,3,formClass.className,'2019')" -->
                 <el-button
                   type="primary"
 				          
@@ -129,8 +128,15 @@
       <template>
         <div class="block">
           <span class="demonstration">评价时间：</span>
-          <el-date-picker v-model="value1" type="date" placeholder="选择日期"></el-date-picker>
-          <el-button type="primary" style="float:right">保存</el-button>
+          <el-date-picker
+            v-model="rewardPenaltyTime"
+            value-format="timestamp"
+            :picker-options="expireTimeOption"
+            :default-value="rewardPenaltyTime"
+            type="date"
+            placeholder="选择日期"
+          ></el-date-picker>
+          <el-button type="primary" style="float:right" @click="saveFactorRecode">保存</el-button>
         </div>
       </template>
       <div class="stu_rewards">
@@ -143,192 +149,30 @@
           <th>联想9要点</th>
           <th>奖励细则</th>
         </tr>
-        <tr>
-          <td rowspan="3">行动3要求</td>
-          <td>
-            <div>主动</div>
-            <ul>
-              <li>
-                <el-checkbox label="(1)提问主动(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(2)反馈主动(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(3)协作主动(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(4)其它(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div>沟通</div>
-            <ul>
-              <li>
-                <el-checkbox label="(1)敢于说话(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(2)理解清楚(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(3)表达清楚(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(4)其它(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div>守时</div>
-            <ul>
-              <li>
-                <el-checkbox label="(1)守时(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(2)守规(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(3)守要求(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(4)其它(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td rowspan="5">品德5要求</td>
-          <td>
-            <div>认真</div>
-            <ul>
-              <li>
-                <el-checkbox label="(1)做作业认真(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(2)听课与笔记认真(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(3)参加活动认真(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(4)其它(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div>独立</div>
-            <ul>
-              <li>
-                <el-checkbox label="(1)独立思考能力(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(2)独立生活能力(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(3)其它(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div>毅力</div>
-            <ul>
-              <li>
-                <el-checkbox label="(1)持之以恒(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(2)抗压能力(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(3)其它(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div>诚信</div>
-            <ul>
-              <li>
-                <el-checkbox label="(1)诚实(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(2)纪律(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(3)说到做到(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(4)其它(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div>团队</div>
-            <ul>
-              <li>
-                <el-checkbox label="(1)积极参与团队活动(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(2)为集体荣誉着想拼搏(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-              <li>
-                <el-checkbox label="(3)其它(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>结果1要求</td>
-          <td>
-            <div>好人好事</div>
-            <ul>
-              <li>
-                <el-checkbox label="(1)其它(0次)"></el-checkbox>
-                <el-input size="small" placeholder="备注" v-model="input2"></el-input>
-              </li>
-            </ul>
-          </td>
-        </tr>
+        <template v-for="(tr) of filterGood">
+          <tr v-for="(item,i) of tr.childList" :key="item.id">
+            <td v-if="i===0" :rowspan="tr.childList.length">{{tr.name}}</td>
+            <td>
+              <div>{{item.name}}</div>
+              <ul>
+                <li v-for="(li,index1) in item.childList" :key="index1">
+                  <el-checkbox @change="checkChange(li.id,$event)">
+                    ({{index1+1}}){{li.name}}(
+                    <i
+                      style="color:red;font-weight:200"
+                    >{{li.nineEssentialFactorRecodeCount}}</i>次)
+                  </el-checkbox>
+                  <el-input
+                    size="small"
+                    placeholder="备注"
+                    v-model="inputData[li.id]"
+                    @change="checkChange(li.id,$event)"
+                  ></el-input>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </template>
       </table>
     </el-dialog>
     <!-- 待改进 -->
@@ -336,7 +180,12 @@
       <template>
         <div class="block">
           <span class="demonstration">评价时间：</span>
-          <el-date-picker v-model="value1" type="date" placeholder="选择日期" @change="dataChange($event)"></el-date-picker>
+          <el-date-picker
+            v-model="rewardPenaltyTime"
+            type="date"
+            value-format="timestamp"
+            placeholder="选择日期"
+          ></el-date-picker>
           <el-button type="primary" style="float:right" @click="saveFactorRecode">保存</el-button>
         </div>
       </template>
@@ -349,10 +198,10 @@
         <span>0</span>分
       </div>
       <div>
-        <table border="1" class="nine_table">
+        <table class="nine_table">
           <tr>
             <th>联想9要点</th>
-            <th>奖励细则</th>
+            <th>惩罚细则</th>
           </tr>
           <template v-for="(tr) of filterBad">
             <tr v-for="(item,i) of tr.childList" :key="item.id">
@@ -361,11 +210,18 @@
                 <div>{{item.name}}</div>
                 <ul>
                   <li v-for="(li,index1) in item.childList" :key="index1">
-                    <el-checkbox @change="checkChange(li.id,$event)">
-                      ({{index1+1}}){{li.name}}(
-                      <i style="color:red;font-weight:200">{{li.nineEssentialFactorRecodeCount}}</i>次)
-                    </el-checkbox>
-                    <el-input size="small" placeholder="备注" v-model="input2" @change="inputChange($event)"></el-input>
+                      <el-checkbox :label="li.id" @change="checkChange(li.id,$event)"  v-model="checked">
+                        ({{index1+1}}){{li.name}}(
+                        <i
+                          style="color:red;font-weight:200"
+                        >{{li.nineEssentialFactorRecodeCount}}</i>次)
+                      </el-checkbox>
+                    <el-input
+                      size="small"
+                      placeholder="备注"
+                      v-model="inputData[li.id]"
+                      @change="checkChange(li.id,$event)"
+                    ></el-input>
                   </li>
                 </ul>
               </td>
@@ -382,15 +238,22 @@ export default {
   name: "students",
   data() {
     return {
-      value1: "",
-      input2: "",
+      inputData: [],
       nineElementsList: [], //九要素内容
-      title1: 1,
+      title1: 1, //奖励待改进的弹窗判断
       title2: 2,
-      factorId:"",
-      rewardPenaltyTime:"",
-      fractionDesc:"",
-      studentId:0,
+      factorId: "", //九要素内容id
+      rewardPenaltyTime: Date.parse(new Date()), //奖惩时间
+      fractionDesc: "", //备注
+      studentId: null, //学生id
+      arr:[],   //传递到后台的保存奖惩记录的数据
+      checked:[],
+      expireTimeOption: {
+        //当前时间之前的禁用
+        disabledDate(date) {
+          return date.getTime() < Date.now();
+        }
+      },
       form: {
         name: "",
         mobile: "",
@@ -401,6 +264,8 @@ export default {
       formClass: {
         className: ""
       },
+      //新增班级id
+      newClassId:'',
       // 班级id
       tabId: "",
       //新增弹框默认隐藏
@@ -418,7 +283,8 @@ export default {
       num: "",
       tabs2: ["第一学期", "第二学期", "第三学期", "第四学期"],
       // tableData: [],
-      search: ""
+      search: "",
+      submitData:[]
     };
   },
   methods: {
@@ -497,17 +363,21 @@ export default {
     organClassSave(schoolId,majorCustomId,name,year){
 		 var app = this;
 		 this.$http
-          .post("/business/organClass/save", {schoolId,majorCustomId,name,year})
+          .post("/business/organClass/saveOrUpdateAndGetId", {schoolId,majorCustomId,name,year})
           .then(function(res) {
-            if (res.data == "") {
+            // console.log(res.data)
+            if (res.data) {
               app.dialogClassVisible = false;
               app.$message.success("添加班级成功");
-              
+              app.newClassId = res.data
+              app.saveRelationship(77,app.newClassId,'2019-08-08','T')
             }
           });
 	},
   //绑定班级和教师的关系
+  //兴海的用户id是77
     saveRelationship(userId,classId,startDate,userFlag){
+     debugger
       var app = this;
       this.$http
       .post('/business/organClassUser/saveRelationship',{userId, classId, startDate, userFlag})
@@ -517,6 +387,7 @@ export default {
     },
     //奖励九要素内容
     rewardsNineElements(studentId, title1) {
+      this.studentId = studentId;
       if (this.title1 == title1) {
         this.rewardsVisible = true;
       } else {
@@ -534,24 +405,56 @@ export default {
         });
     },
     //保存奖惩记录
-    saveFactorRecode(){
-      var app=this;
-      this.$http.post("/business/nineEssentialFactor/saveFactorRecode",[{}]).then(res=>{
-          console.log(res.data)
-      })
+    saveFactorRecode() {
+      var app = this;
+      this.$http
+        .post("/business/nineEssentialFactor/saveFactorRecode", this.arr)
+        .then(res => {
+          console.log(res.data);
+          if (res.data == true) {
+            app.$message.success("保存成功！");
+            app.rewardsVisible=false;
+            app.badVisible=false;
+            app.inputData=[];
+
+          } else {
+            app.$message.error("保存失败！");
+          }
+        });
     },
     //选择要素
-    checkChange(factorId){
-      console.log(factorId);
-      
-
-    },
-    //选择日期
-    dataChange(time){
-      console.log(this.$moment(time).format("YYYY-MM-DD"))
-    },
-    inputChange(e){
-      console.log(e)
+    checkChange(value, e) {
+      var obj={
+        factorId: value,
+        fractionDesc : '',
+        rewardPenaltyTime: this.rewardPenaltyTime,
+        studentId: this.studentId
+      };
+      debugger
+      if(typeof(e) ==="string"){
+        for(var i = 0;i<this.arr.length;i++){
+              if(this.arr[i].factorId == value){
+                this.arr[i].fractionDesc = e;  
+              }
+            }
+          // this.checked.push(value)
+          // this.arr.push(obj)
+        console.log(this.arr);
+      }else{
+        obj.fractionDesc = '';
+         if(e === true){
+            console.log(1);
+            this.arr.push(obj)
+            console.log(this.arr); 
+          }else{
+            for(var i = 0;i<this.arr.length;i++){
+              if(this.arr[i].factorId == value){
+                this.arr.splice(i,1) 
+                console.log(this.arr);  
+              }
+            }
+          }
+      }
     }
   },
   created() {
@@ -560,11 +463,13 @@ export default {
     this.getCurrentStudent(37);
   },
   computed: {
+    //过滤奖励数据
     filterGood() {
       return this.nineElementsList.filter(function(item) {
         return item.goodOrBad == "G";
       });
     },
+    //过滤惩罚数据
     filterBad() {
       return this.nineElementsList.filter(function(item) {
         return item.goodOrBad == "B";
