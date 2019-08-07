@@ -14,45 +14,109 @@
 		</div>
 		<div class="stuMain">
 			<div>
-				<!-- <template v-if="testContent">
-
+				<template v-if="testContent">
 					<p class="stuMsg top">
-						<span class="redSquare"></span>
-						<span>
-                        <i class="el-icon-message-solid" style="color:#DE415A;font-size:20px;"></i>
-                            {{testContent.examPlan.name}}
-                        </span>
-                        <span style="margin:0 10px;float:right;">
-                        <i class="el-icon-warning" style="color:#49C0E0;"></i>
-                            剩余时间：{{timeExam.h}} : {{timeExam.m}} : {{timeExam.s}}
-                        </span>
-						<span style="float:right;">
-                        <el-tag>考试时长为：{{testContent.examPlan.duration}}分钟</el-tag>
-                        </span>
-					</p>
+                        <span class="redSquare"></span>
+                        <span>试卷详情</span>                   
+                    </p>
+                    <p class="stuMsg top" style="margin-top:30px;">
+                        <el-tag style="height:50px;line-height:50px;">试卷名称：</el-tag> 
+                        <el-tag style="margin-left:10px;height:50px;line-height:50px;" >{{testContent.examPage.name}}</el-tag> 
+                         <el-tag type="" effect="dark" style="float:right;margin-left:10px;height:50px;line-height:50px;">
+                            {{score}}
+                        </el-tag>  
+                        <el-tag style="float:right;height:50px; line-height:50px;" type="success" effect="dark">
+                            考试成绩：
+                        </el-tag>     
+                    </p>
+                   
+                    
+                    
+            <!-- 试题列表 -->
+			<div style="margin:40px 0;" v-for="item in testContent.list" :key="item.sort">
+				<p>
+					<el-tag  effect="dark">第{{item.sort}}题</el-tag>
+					<el-tag type="success">分值{{item.score}}</el-tag>
+					
+                    <el-button style="float:right" v-if="item.studentAnswer==item.answer" type="primary">
+                        <i class="el-icon-check"></i>
+                    </el-button>
+                    <el-button style="float:right" v-else type="danger">
+                        <i class="el-icon-close"></i>
+                    </el-button>
 
-					<div style="margin:40px 0;" v-for="item in testContent.list" :key="item.sort">
-					<p>
-						<el-tag>第{{item.sort}}题</el-tag>
-						<el-tag type="success">分值{{item.score}}</el-tag>
-						<el-input style="display:inline-block; margin:5px 0"
+					<el-input style="display:inline-block; margin:5px 0"
 								  type="textarea"
 								  autosize
-								  value="item.stem"
+								  :value="item.stem"
 								  disabled>
-						</el-input>
-						<template>
-							<el-radio-group :key="item.id" v-if="arr" v-on:change="radiochange"  v-model="arr[item.id]">
-								<el-radio :name="item.id" :label="1">{{item.optionA}}</el-radio>
-							  <el-radio :name="item.id" :label="2">{{item.optionB}}</el-radio>
-                <el-radio :name="item.id" :label="3">{{item.optionC}}</el-radio>
-                <el-radio :name="item.id" :label="4">{{item.optionD}}</el-radio>
-            </el-radio-group>
-            </template> -->
-          <!-- </p> -->
+					</el-input>
+					<template>
+							<el-radio-group disabled v-model="radio">
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div style="margin:5px 0">
+                                            <el-tag type="success" style="margin:0 10px 0 5px">A</el-tag>
+                                            <el-radio >{{item.optionA}}</el-radio>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div style="margin:5px 0">
+                                            <el-tag type="success" style="margin:0 10px 0 5px">B</el-tag>
+                                            <el-radio >{{item.optionB}}</el-radio>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div style="margin:5px 0">
+                                            <el-tag type="success" style="margin:0 10px 0 5px">C</el-tag>
+                                            <el-radio >{{item.optionC}}</el-radio>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div style="margin:5px 0">
+                                            <el-tag type="success" style="margin:0 10px 0 5px">D</el-tag>
+                                            <el-radio >{{item.optionD}}</el-radio>
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                        </el-radio-group>
+                        <el-row>
+                            <el-col :span="24">
+                                <div style="margin:5px 0">
+                                    <el-tag type="info" effect="dark">
+                                    你的答案：
+                                    </el-tag>
+                                    <el-tag type="warning" effect="dark">
+                                    {{item.studentAnswer}}
+                                    </el-tag>
+                                </div>
+                            </el-col>
+                            <el-col :span="24">
+                                <div style="margin:5px 0">
+                                    <el-tag type="success" effect="dark">
+                                    正确答案：
+                                    </el-tag>
+                                    <el-tag type="warning" effect="dark">
+                                    {{item.answer}}
+                                    </el-tag>
+                                </div>
+                            </el-col>                
+                        </el-row>
+                       
+                    </template>
+                </p>
             </div>
-      <el-button type="success">提交试卷</el-button>
-      </div>
+						
+				</template>
+			</div>
+		</div>
+        
 	</div>
 </template>
 
@@ -61,8 +125,10 @@ export default {
     name: "StartTest",
     data() {
         return {
-            testid: null,   //考完试的试卷id 
-            testname: null  //考完试的试卷名称 
+            radio:0,    //单选按钮的状态  不让选中  辅助内容不重要
+            id: null,   //考完试的试卷id 
+            score: null,  //考完试的试卷名称 
+            testContent:null   //学生查看试卷详情
         }
     },
     methods:{ 
@@ -71,11 +137,12 @@ export default {
     },
     created(){
         var app = this;
-        this.testid = this.$route.params.testid;  //试卷id
-        this.testname = this.$route.params.testname;  //试卷名称
+        this.id = this.$route.params.id;  //试卷ExamResult_id 获取试卷详情
+        this.score = this.$route.params.score;  //试卷名称
+        console.log(this.id,this.score)
         // 这个参数必须是请求字符串的形式 拼接在路径的后面
-        this.$http.post(`/exam/examPage/detail?id=`+this.testid).then(function(res){
-             console.log(res);
+        this.$http.get(`/business/examPlan/paperDetailAfterCrrect?id=`+this.id).then(function(res){
+             app.testContent = res.data;
         });
         
         
