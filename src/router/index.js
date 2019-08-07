@@ -27,10 +27,11 @@ import SHome from '@/components/Students/Home.vue'
 //学生端我的专业
 import MyStudentMajor from '@/components/Students/MyStudentMajor.vue'
 //学生端我的专业课程列表
-import MyStudentMymessage from '@/components/Students/Mymessage.vue'
+import myStudentCourseList from '@/components/students/myStudentCourseList.vue'
+
 //学生端我的课程
 import myStudentCourse from '@/components/Students/MyStudentCourse.vue'
-import myStudentCourseList from '@/components/students/myStudentCourseList.vue'
+import MyStudentMymessage from '@/components/Students/Mymessage.vue'
 import MyStudentMytest from '@/components/Students/Mytest.vue'
 import MyStudentMyparticipation from '@/components/Students/Myparticipation.vue'
 import MyStudentMynews from '@/components/Students/Mynews.vue'
