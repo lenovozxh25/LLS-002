@@ -28,7 +28,6 @@ import SHome from '@/components/Students/Home.vue'
 import MyStudentMajor from '@/components/Students/MyStudentMajor.vue'
 //学生端我的专业课程列表
 import myStudentCourseList from '@/components/students/myStudentCourseList.vue'
-
 //学生端我的课程
 import myStudentCourse from '@/components/Students/MyStudentCourse.vue'
 import MyStudentMymessage from '@/components/Students/Mymessage.vue'
