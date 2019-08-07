@@ -107,7 +107,7 @@
 		height: 144px;
 		background:#89db96
 	}
-	.mahorTitle>div{
+	#myMahor .mahorTitle>div{
 		width: 1100px;
 		height: 144px;
 		margin: auto;

@@ -17,13 +17,23 @@
             <el-menu-item index="1">我教的专业</el-menu-item>
             <el-submenu index="2">
               <template slot="title">我教的课程</template>
-               <el-submenu :index="'2-'+xiabiao" v-for='(item,xiabiao) in MajorCustomData.majorCustomItemTreeAdapterList' :key='xiabiao'>
-                  <template slot="title">{{item.name}}</template>                  
-                  <el-menu-item index="2-1-1" v-for='(itemMajor,index) in item.childList' :key='index'>
-                    <a href="" @click.prevent="toMyCourseList(itemMajor.id,itemMajor.name)">{{itemMajor.name}}</a>
-                  </el-menu-item>
+              <el-submenu
+                :index="'2-'+xiabiao"
+                v-for="(item,xiabiao) in MajorCustomData.majorCustomItemTreeAdapterList"
+                :key="xiabiao"
+              >
+                <template slot="title">{{item.name}}</template>
+                <el-menu-item
+                  index="2-1-1"
+                  v-for="(itemMajor,index) in item.childList"
+                  :key="index"
+                >
+                  <a
+                    href
+                    @click.prevent="toMyCourseList(itemMajor.id,itemMajor.name)"
+                  >{{itemMajor.name}}</a>
+                </el-menu-item>
               </el-submenu>
-              
             </el-submenu>
             <el-menu-item index="3">考试管理</el-menu-item>
             <el-menu-item index="4">学员管理</el-menu-item>
@@ -37,7 +47,11 @@
           <ul class="loginUser">
             <li>
               <el-badge :value="count" :max="10" class="item">
-                 <i class="el-icon-message-solid" style="cursor:pointer;font-size:20px;" @click="myNews"></i>
+                <i
+                  class="el-icon-message-solid"
+                  style="cursor:pointer;font-size:20px;"
+                  @click="myNews"
+                ></i>
               </el-badge>
               <span
                 v-if="userName"
@@ -67,8 +81,8 @@ export default {
       activeIndex: "1",
       activeIndex2: "1",
       userName: "",
-      MajorCustomData:'',
-      count:0
+      MajorCustomData: "",
+      count: 0
     };
   },
   methods: {
@@ -108,11 +122,11 @@ export default {
     //退出
     logOut() {
       var app = this;
-      if(confirm("确定要退出吗？")){
+      if (confirm("确定要退出吗？")) {
         this.$http.get("/permit/logout").then(res => {
-          console.log(res)
+          console.log(res);
           if (res.data === "") {
-            app.$message.success("退出成功！")
+            app.$message.success("退出成功！");
             app.$router.push({
               path: "/logined",
               query: {
@@ -124,55 +138,55 @@ export default {
       }
     },
     //获取该教师的专业
-			getMajorCustom(userId){
-				var app = this;
-				this.$http
-					.get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
-					.then(function(res) {
-						app.MajorCustomData=res.data[0];
-						// console.log(app.MajorCustomData.majorCustomItemTreeAdapterList)
-					});
-			},
-    //未读消息
-    noReadMsg (){
+    getMajorCustom(userId) {
       var app = this;
       this.$http
-          .get("/message/sysMessageReading/noHaveReadDataCount")
-          .then(res => {
-            app.count = res.data;
-          });
+        .get(`/product/majorCustom/getMajorCustomByUser/${userId}`)
+        .then(function(res) {
+          app.MajorCustomData = res.data[0];
+          // console.log(app.MajorCustomData.majorCustomItemTreeAdapterList)
+        });
     },
-      toMyCourseList(itemId,name){    
-				 this.$router.push({  
-					 name:'myCourseList',
-					//  path:'/teacher/MyCourseList',
-					 params:{
-							 itemId:itemId,
-							 name:name
-					 }
-				 })
-      }
+    //未读消息
+    noReadMsg() {
+      var app = this;
+      this.$http
+        .get("/message/sysMessageReading/noHaveReadDataCount")
+        .then(res => {
+          app.count = res.data;
+        });
+    },
+    toMyCourseList(itemId, name) {
+      this.$router.push({
+        name: "myCourseList",
+        //  path:'/teacher/MyCourseList',
+        params: {
+          itemId: itemId,
+          name: name
+        }
+      });
+    }
   },
   // watch:{
   //     $route: function(to, from) {
   //     // from表示上一个动态路由信息对象
   //     // to表示当前转向到的动态路由信息对象
-      
+
   //     }
   // },
   created() {
     this.userName = window.localStorage.getItem("userName");
     this.userId = window.localStorage.getItem("userId");
     this.getMajorCustom(this.userId);
-    this.noReadMsg ()
+    this.noReadMsg();
   }
 };
 </script>
 
 <style>
-a{
-   color: #6c6868;
-		font-size: 12px;
+a {
+  color: #6c6868;
+  font-size: 12px;
 }
 .el-row:last-child {
   margin-bottom: 0;
@@ -224,8 +238,8 @@ a{
 .ask_title:hover {
   cursor: pointer;
 }
-#navMenus .el-badge__content.is-fixed{
-  top:11px;
+#navMenus .el-badge__content.is-fixed {
+  top: 11px;
   line-height: 13px;
   padding: 0px 3px;
   height: 13px;

@@ -62,7 +62,7 @@
                         :key="index"
                         :class="{shake:!pres}"
                       >
-                        {{i.name}}
+                        <span class="course_content" :title="i.name">{{i.name}}</span>
                         <span :class="{hide:pres}">
                           <i class="el-icon-error" @click="deleteCourseItem(i.id)"></i>
                         </span>
@@ -109,7 +109,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 export default {
   name: "courseManagement",
   data() {
@@ -118,9 +117,7 @@ export default {
       input3: "",
       pres: true,
       editableTabsValue: "移动互联",
-      editableTabs: null, //专业分类
-      insertId: "",
-      currentId: ""
+      editableTabs: null //专业分类
     };
   },
   methods: {
@@ -140,18 +137,14 @@ export default {
       this.input2 = e.target.value;
       this.input3 = e.target.value;
     },
-    //母版定制
+    //课程定制
     insertBtn(event) {
-      // debugger;
-      console.log(this.currentId);
       if (this.pres) {
         (this.pres = !this.pres),
-          // this.currentId=!this.pres ? id : ""
           (event.target.textContent = "保存修改");
       } else {
         this.pres = true;
         event.target.textContent = "课程定制";
-        // this.$message.error("请先保存正在编辑的母版");
       }
     },
     //获取专业列表
@@ -307,6 +300,13 @@ export default {
   background: #49c0e0;
   color: white;
   border: 1px solid #49c0e0;
+}
+.course .course_content{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  width: 175px;
 }
 .course .course_item {
   position: relative;

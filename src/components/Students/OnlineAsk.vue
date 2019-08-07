@@ -33,34 +33,30 @@
         </div>
         <div>
           <p>问题标签</p>
-          <el-input
-            style="width:65%"
-            v-model="inputTag"
-            placeholder="html,css,javascript"
-          ></el-input>
+          <el-input style="width:65%" v-model="inputTag" placeholder="html,css,javascript"></el-input>
           <span style="font-size:12px;margin-left:10px">* 用逗号分开，不超过五个，且每个标签长度不超过九个字符</span>
         </div>
-        <div>当前标签<el-badge :value="inputTag" class="item" ></el-badge></div>
+        <div>
+          当前标签
+          <el-badge :value="inputTag" class="item"></el-badge>
+        </div>
         <div>
           <el-button type="primary" @click="submitAsk(inputTag,input,editorContent,103)">提交问题</el-button>
         </div>
       </div>
     </div>
-    
-
   </div>
 </template>
 <script>
-//import vueEgdit from "vue-wangeditor";
 import E from "wangeditor";
 export default {
   name: "onStulineAsk",
   data() {
     return {
-      input: "",
-      editor:"",
-      editorContent: "",
-      inputTag: ""
+      input: "",    //问题标题
+      editor: "",   //富文本编辑器
+      editorContent: "",  //内容
+      inputTag: ""   //问题标签
     };
   },
   components: {
@@ -68,15 +64,15 @@ export default {
   },
   methods: {
     //提交问题
-    submitAsk(typeName,subject, question,proposeStudentId) {
-      var arr=typeName.split(",");
-      for(var i=0;i<arr.length;i++){
-        if(arr[i].length>10 || arr.length>5){
-          this.$message.error("请正确书写问题标签")
+    submitAsk(typeName, subject, question, proposeStudentId) {
+      var arr = typeName.split(",");
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].length > 10 || arr.length > 5) {
+          this.$message.error("请正确书写问题标签");
           return;
         }
       }
-      typeName=arr.join(",");
+      typeName = arr.join(",");
       var app = this;
       if (!question || !subject) {
         this.$message.error("请填写你的疑问？");
@@ -88,26 +84,26 @@ export default {
             question,
             proposeStudentId
           })
-          .then((res)=>{
-            console.log(res)
-            if(res.data == ''){
-                this.$message.success("提交成功！");
-                app.input= "";
-                app.inputTag= "";
-                this.editor.txt.clear()
+          .then(res => {
+            console.log(res);
+            if (res.data == "") {
+              this.$message.success("提交成功！");
+              app.input = "";
+              app.inputTag = "";
+              this.editor.txt.clear();
             }
           });
       }
     }
   },
   mounted() {
-        this.editor = new E(this.$refs.editor)
-        this.editor.customConfig.onchange = (html) => {
-          this.editorContent = html
-        }
-        this.editor.create()
+    //富文本编辑器设置
+    this.editor = new E(this.$refs.editor);
+    this.editor.customConfig.onchange = html => {
+      this.editorContent = html;
+    };
+    this.editor.create();
   }
- 
 };
 </script>
 <style scoped>
@@ -186,9 +182,8 @@ export default {
 .text_box > div {
   height: auto !important;
 }
-.item{
+.item {
   opacity: 0.5;
   margin-left: 5px;
 }
-
 </style>
