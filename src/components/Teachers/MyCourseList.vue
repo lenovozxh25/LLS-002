@@ -43,8 +43,8 @@ export default {
 	name: 'myCourseList',
     data(){
         return{
-			MyMaterialData:[],
-            MyCourseList:''
+			MyMaterialData:[], //课程资料列表数据
+            MyCourseList:''   //对应课程列表
         }
     },
     methods:{
@@ -145,7 +145,7 @@ export default {
 	
 	.bookSvg {
 		position: absolute;
-		left: 40%;
+		left: 34%;
 		top: 43%;
 	}
 	

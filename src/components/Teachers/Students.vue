@@ -254,14 +254,14 @@ export default {
           return date.getTime() < Date.now();
         }
       },
-      form: {
+      form: {            //新增学生数据
         name: "",
         mobile: "",
         email: "",
         sysUserDetail: "",
         className: ""
       },
-      formClass: {
+      formClass: {      //新增班级数据
         className: ""
       },
       //新增班级id
