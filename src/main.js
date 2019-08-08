@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
     //这里判断用户是否登录
     request.get(`/permit/isSessionEffective`).then(res => {
       if (!res.data) {
-        MessageBox.$alert('登录状态已失效,请重新登录！', {
+        Vue.prototype.$alert('登录状态已失效,请重新登录！', {
           confirmButtonText: '知道啦',
           type: 'warning',
           callback: () => {

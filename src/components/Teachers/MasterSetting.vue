@@ -431,7 +431,7 @@ export default {
     },
     //下载课时资料
     downloadFile(id) {
-      window.location.href = `http://10.119.129.135:9090/v2.0/lls/product/customMaterial/downLoadFile/${id}`;
+      window.location.href = `http://10.119.167.182:9090/zuul/v2.0/lls/product/customMaterial/downLoadFile/${id}`;
     },
     //课程资源排序
     indexMethod(index) {
