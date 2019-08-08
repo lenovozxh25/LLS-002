@@ -31,18 +31,17 @@
           </div>
           <el-tabs v-model="activeName" @tab-click="handleClick" tab-position="left">
             <el-tab-pane
-              :label="'北信息'+item.name"
+              :label="item.name"
               :name="item.id.toString()"
               v-for="(item,index) in CurrentClassList"
               :key="index"
             >
+              
               <el-table
-                :data="CurrentStudentList?CurrentStudentList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase())):''"
-                style="width: 100%"
-              >
+                  :data="CurrentStudentList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase()))"
+                  style="width: 100%">
                 <el-table-column label="姓名" prop="userName"></el-table-column>
                 <el-table-column label="电话" prop="mobile"></el-table-column>
-
                 <el-table-column label="邮箱" prop="email"></el-table-column>
                 <el-table-column label="操作" align="center">
                   <template slot-scope="scope">
@@ -53,12 +52,19 @@
                     </div>
                   </template>
                 </el-table-column>
-                <el-table-column align="right">
-                  <template slot="header">
-                    <el-input v-model="search" placeholder="请输入您要搜索的学生姓名" />
+                <el-table-column
+                  align="right">
+                  <template slot="header" slot-scope="scope">
+                    <el-input
+                      v-model="search"
+                      size="mini"
+                      placeholder="输入关键字搜索"/>
                   </template>
+    
                 </el-table-column>
               </el-table>
+                
+                
             </el-tab-pane>
             <!-- 新增学生弹框具体内容 -->
             <el-dialog
@@ -113,10 +119,10 @@
               </el-form>
               <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogClassVisible = false">取 消</el-button>
+                <!-- schoolId=2是山商,majorCustomId=1,name=formClass.className自己写的,year='2019-08' -->
                 <el-button
                   type="primary"
-				          
-                  
+				          @click="organClassSave(2,1,formClass.className,'2019')"
                 >确 定</el-button>
               </span>
             </el-dialog>
@@ -274,17 +280,20 @@ export default {
       dialogClassVisible: false,
       rewardsVisible: false, //奖励弹窗
       badVisible: false,
-      activeName: "37",
+      activeName: "",
       // 讲师所带过的所有班级
       CurrentClassList: [],
       // 班级学生
       CurrentStudentList: [],
+      //新增班级第一个班级的id
+      newActiveClassId:'',
       tabs: ["第一学期", "第二学期", "第三学期", "第四学期", "第五学期"],
       num: "",
       tabs2: ["第一学期", "第二学期", "第三学期", "第四学期"],
       // tableData: [],
       search: "",
       submitData:[]
+    
     };
   },
   methods: {
@@ -308,7 +317,9 @@ export default {
         .get(`/business/organClassUser/allClassListByTeacherId/${teacherId}`)
         .then(function(res) {
           app.CurrentClassList = res.data;
-          console.log(app.CurrentClassList);
+          app.newActiveClassId=app.CurrentClassList[0].id;
+          app.getCurrentStudent(app.newActiveClassId);
+          app.activeName=app.newActiveClassId.toString();
         });
     },
     //根据班级获取学生
@@ -335,9 +346,9 @@ export default {
     },
     //新增学生
     classMemberSave(userName, email, mobile, sysUserDetail, classId) {
-      console.log(userName, email, mobile, sysUserDetail, classId);
-      console.log(classId);
-      debugger;
+      // console.log(userName, email, mobile, sysUserDetail, classId);
+      // console.log(classId);
+      // debugger;
       var app = this;
       if (!userName || !email || !mobile || !sysUserDetail || !classId) {
         this.$message.error("信息填写不完整");
@@ -361,24 +372,27 @@ export default {
 	},
 	//新增班级
     organClassSave(schoolId,majorCustomId,name,year){
+      // debugger
 		 var app = this;
 		 this.$http
           .post("/business/organClass/saveOrUpdateAndGetId", {schoolId,majorCustomId,name,year})
           .then(function(res) {
-            // console.log(res.data)
-            if (res.data) {
+            // console.log(res)
+            if (res.status===200&&(typeof res.data ==Number)) {    
+              app.newClassId = res.data;
+              // console.log(app.newClassId);
+              app.saveRelationship(app.userId,app.newClassId,'2019-08-08','T');
               app.dialogClassVisible = false;
-              app.$message.success("添加班级成功");
-              app.newClassId = res.data
-              app.saveRelationship(77,app.newClassId,'2019-08-08','T')
-              
+              app.$message.success("添加班级成功");  
+              app.getCurrentClass(app.userId)
+            }else{
+              app.$message.error(res.data.msg)
             }
           });
 	},
   //绑定班级和教师的关系
-  //兴海的用户id是77
     saveRelationship(userId,classId,startDate,userFlag){
-     debugger
+    //  debugger
       var app = this;
       this.$http
       .post('/business/organClassUser/saveRelationship',{userId, classId, startDate, userFlag})
@@ -461,7 +475,7 @@ export default {
   created() {
     this.userId = window.localStorage.getItem("userId");
     this.getCurrentClass(this.userId);
-    this.getCurrentStudent(37);
+    
   },
   computed: {
     //过滤奖励数据
