@@ -38,7 +38,7 @@
             >
               
               <el-table
-                  :data="CurrentStudentList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase()))"
+                  :data="CurrentStudentList?CurrentStudentList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase())):[]"
                   style="width: 100%">
                 <el-table-column label="姓名" prop="userName"></el-table-column>
                 <el-table-column label="电话" prop="mobile"></el-table-column>
