@@ -333,7 +333,7 @@ export default {
         )
         .then(function(res) {
           app.CurrentStudentList = res.data;
-          console.log(app.CurrentStudentList);
+          // console.log(app.CurrentStudentList);
         });
     },
     //新增学生弹框确认关闭事件
@@ -377,8 +377,8 @@ export default {
 		 this.$http
           .post("/business/organClass/saveOrUpdateAndGetId", {schoolId,majorCustomId,name,year})
           .then(function(res) {
-            // console.log(res)
-            if (res.status===200&&(typeof res.data ==Number)) {    
+            if (res.status===200 && ((typeof res.data)=='number')) { 
+              console.log(1);   
               app.newClassId = res.data;
               // console.log(app.newClassId);
               app.saveRelationship(app.userId,app.newClassId,'2019-08-08','T');
@@ -387,6 +387,7 @@ export default {
               app.getCurrentClass(app.userId)
             }else{
               app.$message.error(res.data.msg)
+             
             }
           });
 	},
