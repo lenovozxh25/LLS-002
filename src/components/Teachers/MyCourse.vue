@@ -154,24 +154,8 @@ export default {
       activeName: "1",     //tab标签默认选中
       MyMaterialDetailsData: [],  //教学视频 精品课件 课堂案例 企业问答 其它资料跳转获取的相应资料
       MyMaterialData: [],     //课程资料列表
-      tabPosition: "left",    //tab对应方向
+      tabPosition: "left"   //tab对应方向
     
-      tableData: [{
-            index:1,
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            index:1,
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            index:1,
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }]
     };
   },
   methods: {
