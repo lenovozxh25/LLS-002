@@ -54,80 +54,96 @@ const routes = [
 	{
 		path: "/teacher",
 		component: THome,
+		meta: { requiresAuth: true },
 		children: [{
 				path: 'exam',
 				component: Exam,
-				name: 'exam'
+				name: 'exam',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'myCourse/:courseId',
 				component: MyCourse,
-				name: 'myCourse'
+				name: 'myCourse',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'myCourseList/:itemId',
 				component: MyCourseList,
-				name: 'myCourseList'
+				name: 'myCourseList',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'myMajor',
 				component: MyMajor,
-				name: '我教的专业'
+				name: '我教的专业',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'students',
 				component: Students,
-				name: '学生管理'
+				name: '学生管理',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'myContribute',
 				component: MyContribute,
-				name: '我的贡献'
+				name: '我的贡献',
+				meta: { requiresAuth: true }
 			},
         	{ 
 				path: 'myTest', 
 				component: Mytest, 
-				name: '我的考试' 
+				name: '我的考试' ,
+				meta: { requiresAuth: true }
 			},
 			{ 
 				path: 'mymeage', 
 				component: MyMeage, 
-				name: '我的资料' 
+				name: '我的资料' ,
+				meta: { requiresAuth: true }
 			},
 			{ 
 				path: 'courseManagement', 
 				component: CourseManagement, 
 				name: '课程管理' ,
+				meta: { requiresAuth: true }
 			},
 			{
 				path:'masterSetting/:customId',
 				component:MasterSetting,
-				name:'masterSetting'
+				name:'masterSetting',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'myNews',
 				component: MyTeacherMyNews,
 				name: '老师消息中心',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'onlineAnswer',
 				component: OnlineAnswer,
 				name: '老师在线答疑',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'mycreateexam',
 				component: MyCreateExam,
 				name: '老师创建创建试卷',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'issueeexam',
 				component: MyIssueeExam,
 				name: '老师发布考试',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'mySeeExam',
 				component: MySeeExam,
 				name: 'MySeeExam',
+				meta: { requiresAuth: true }
 			}
 			
 		]
@@ -139,56 +155,67 @@ const routes = [
 				path: 'MyStudentMajor',
 				component: MyStudentMajor,
 				name: '学生我的专业',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'myStudentCourseList/:itemId',
 				component: myStudentCourseList,
-				name: 'myStudentCourseList'
+				name: 'myStudentCourseList',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'myStudentCourse/:courseId',
 				component: myStudentCourse,
 				name: 'myStudentCourse',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'Mymessage',
 				component: MyStudentMymessage,
 				name: '学生我的信息',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'Mytest',
 				component: MyStudentMytest,
 				name: '学生我的考试',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'Myparticipation',
 				component: MyStudentMyparticipation,
 				name: '学生我的参与',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'Mynews',
 				component: MyStudentMynews,
 				name: '学生消息中心',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'Mygrowup',
 				component: MyStudentMygrowup,
 				name: '学生我的成长',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'onlineAsk',
 				component: OnlineAsk,
 				name: '学生在线提问',
+				meta: { requiresAuth: true }
 			},			
 			{
 				path: 'StartTest',
 				component: myStudentStartTest,
 				name: 'StartTest',
+				meta: { requiresAuth: true }
 			},
 			{
 				path: 'CheckTest',
 				component: myStudentCheckTest,
 				name: 'CheckTest',
+				meta: { requiresAuth: true }
 			},
 		]
 	},
