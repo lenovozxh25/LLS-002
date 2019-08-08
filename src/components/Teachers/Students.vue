@@ -126,7 +126,7 @@
                 >确 定</el-button>
               </span>
             </el-dialog>
-          </el-tabs>`
+          </el-tabs>
         </template>
       </div>
     </div>

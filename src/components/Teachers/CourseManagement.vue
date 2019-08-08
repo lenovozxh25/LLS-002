@@ -39,8 +39,8 @@
                     <h4>{{items.name}}</h4>
                     <span>{{items.majorDescribe}}</span>
                     <div class="describe">
-                      13门课，57个小时， 567在学
-                      <p>所学校已定制</p>
+                      13门课，57个小时， 567在学<br>
+                      <span>所学校已定制</span>
                     </div>
                     <div>
                       <el-button plain @click="insertBtn($event)">{{pres ? "课程定制" : "保存修改"}}</el-button>
@@ -272,13 +272,13 @@ export default {
   right: 10px;
 }
 .major_item {
-  padding: 20px 15px 0;
+  padding: 10px 15px 0;
   height: 230px;
 }
 .describe {
   font-size: 14px;
+  height: 80px;
   margin-top: 5px;
-  height: 112px;
 }
 .right_courses {
   width: 760px;
@@ -345,7 +345,7 @@ export default {
 }
 .inputBtn {
   width: 60px;
-  height: 37px;
+  height: 39px;
   background: #49c0e0;
   color: white;
   border-top-right-radius: 3px;
