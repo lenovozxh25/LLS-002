@@ -69,10 +69,6 @@
 </script>
 
 <style>
-	*{
-		margin: 0;
-		padding: 0;
-	}
 	ul li{list-style: none;}
 	#myMahor .el-collapse-item .el-collapse-item__header {
 		background: skyblue;
