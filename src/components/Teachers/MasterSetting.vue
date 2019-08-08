@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="master_left">
-        <el-menu default-active="0" :unique-opened="true" class="el-menu-vertical-demo">
+        <el-menu default-active="0-0" :unique-opened="true" class="el-menu-vertical-demo">
           <el-submenu :index="`${indexs}`" v-for="(item,indexs) in masterTree" :key="item.id">
             <template slot="title">
               <i class="el-icon-menu"></i>
@@ -272,7 +272,9 @@ export default {
       this.$http
         .get(`/product/majorCustomItem/listByCustomIdForAble/${customId}`)
         .then(function(res) {
+          app.itemChildId=res.data[0].childList[0].id;
           app.masterTree = res.data;
+          app.getCustom(app.itemChildId)
         });
     },
     //保存课程资源

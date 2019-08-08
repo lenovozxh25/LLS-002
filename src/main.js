@@ -5,7 +5,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import request from './ajax.js';
 import store from './store';
-import {Message} from "element-ui"
+import { Message } from "element-ui"
+import { MessageBox } from 'element-ui';
 import moment from 'moment'
 
 
@@ -15,6 +16,33 @@ Vue.prototype.$moment = moment;
 Vue.prototype.$http = request;
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+
+router.beforeEach((to, from, next) => {
+  // debugger
+  if (to.meta.requiresAuth) {
+    //这里判断用户是否登录
+    request.get(`/permit/isSessionEffective`).then(res => {
+      if (!res.data) {
+        MessageBox.$alert('登录状态已失效,请重新登录！', {
+          confirmButtonText: '知道啦',
+          type: 'warning',
+          callback: () => {
+            window.localStorage.clear();
+            next({
+              path: '/logined',
+              query: { redirect: to.fullPath }
+            })
+          }
+        });
+      } else {
+        next()
+      }
+    })
+
+  } else {
+    next() // 确保一定要调用 next()
+  }
+})
 
 new Vue({
   el: '#app',

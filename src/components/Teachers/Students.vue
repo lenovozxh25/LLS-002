@@ -115,8 +115,6 @@
                 <el-button @click="dialogClassVisible = false">取 消</el-button>
                 <el-button
                   type="primary"
-				          
-                  
                 >确 定</el-button>
               </span>
             </el-dialog>
