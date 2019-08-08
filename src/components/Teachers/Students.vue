@@ -392,7 +392,7 @@ export default {
 	},
   //绑定班级和教师的关系
     saveRelationship(userId,classId,startDate,userFlag){
-    //  debugger
+     debugger
       var app = this;
       this.$http
       .post('/business/organClassUser/saveRelationship',{userId, classId, startDate, userFlag})

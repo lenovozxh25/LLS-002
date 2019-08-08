@@ -65,9 +65,9 @@
                       preload="auto"
                       width="640"
                       height="304"
-                      
                     >
-
+                      <source v-for="(item,index) in MyMaterialDetailsData" :key='index' :src="item.fileUrl"  type="video/mp4" >
+                     
                     </video>
                   </div>
                   <div class="videoList">
@@ -99,7 +99,9 @@
                         </svg>视频播放列表
                       </h3>
                       <ul class="videoListItem" style="cursor: pointer;">
-                        <li>01-web基础知识.mp4</li>
+                        <li v-for="(item,index) in MyMaterialDetailsData" :key='index'>
+                          {{item.fileName}}
+                        </li>
             
                       </ul>
                     </div>
@@ -108,7 +110,7 @@
         
                 <template v-else>
                   <el-table
-                    :data="tableData"
+                    :data="MyMaterialDetailsData"
                     style="width: 100%">
                     <el-table-column
                       prop="index"
@@ -116,24 +118,24 @@
                       width="130">
                     </el-table-column>
                     <el-table-column
-                      prop="address"
+                      prop="fileName"
                       label="文件名称"
                       width="260">
                     </el-table-column>
                     <el-table-column
-                      prop="name"
+                      prop="fileAuthor"
                       label="作者"
                       width="180">
                     </el-table-column>
                     <el-table-column
-                      prop="date"
-                      label="最后更新时间">
+                      prop="fileUrl"
+                      label="文件地址">
                     </el-table-column>
                   </el-table>
                 </template>
               
               
-              <!-- {{MyMaterialDetailsData}} -->
+              {{MyMaterialDetailsData}}
               <!-- <video :src="item.fileUrl"></video>	 -->
             </el-tab-pane>
           </el-tabs>
