@@ -151,6 +151,7 @@ const routes = [
 	{
 		path: '/Student',
 		component: SHome,
+		meta: { requiresAuth: true },
 		children: [{
 				path: 'MyStudentMajor',
 				component: MyStudentMajor,

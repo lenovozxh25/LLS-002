@@ -17,12 +17,11 @@
           :label="item.name"
           :name="item.name"
           :key="item.id"
-          
+          :disabled="item.id!=1"
         >
-        <!-- :disabled="item.id!=2" -->
           <ul class="ul">
             <li v-for="items in item.majorCustomAdapterList" :key="items.id" class="master">
-              <template>
+              <template v-if="items.id==1">
                 <div class="left_main">
                   <div class="introduce_title">
                     <img
@@ -117,7 +116,7 @@ export default {
       input2: "",
       input3: "",
       pres: true,
-      editableTabsValue: "移动互联",
+      editableTabsValue: "大前端",
       editableTabs: null //专业分类
     };
   },
