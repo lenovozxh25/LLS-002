@@ -17,11 +17,12 @@
           :label="item.name"
           :name="item.name"
           :key="item.id"
-          :disabled="item.id!=2"
+          
         >
+        <!-- :disabled="item.id!=2" -->
           <ul class="ul">
             <li v-for="items in item.majorCustomAdapterList" :key="items.id" class="master">
-              <template v-if="items.id==3">
+              <template>
                 <div class="left_main">
                   <div class="introduce_title">
                     <img

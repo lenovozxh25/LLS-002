@@ -122,10 +122,7 @@
                 <!-- schoolId=2是山商,majorCustomId=1,name=formClass.className自己写的,year='2019-08' -->
                 <el-button
                   type="primary"
-<<<<<<< HEAD
-=======
 				          @click="organClassSave(2,1,formClass.className,'2019')"
->>>>>>> 9c7a803bbf2d911e419b2b06efbfcc6978316c46
                 >确 定</el-button>
               </span>
             </el-dialog>

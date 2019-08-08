@@ -128,7 +128,7 @@
       <div style="margin-bottom:20px;margin-top:20px">
         <template>
           资源类型：
-          <el-radio-group v-model="radioSel" @change="radioChange">
+          <el-radio-group v-model="typeId" @change="radioChange">
             <el-radio :label="item.id" v-for="item in options" :key="item.id">{{item.name}}</el-radio>
           </el-radio-group>
         </template>
@@ -205,7 +205,7 @@ export default {
       selectionData: [],
       newDelArr: [],
       options: [], //获取资源类型
-      radioSel: 1, //类型选项
+      typeId: 1, //类型选项
       customCourseId: 1,
       customCourseList: [],
       imageUrl: "",
