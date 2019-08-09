@@ -155,7 +155,7 @@ export default {
   name: "myCourse",
   data() {
     return {
-      curId: 0,
+      curId: 0, //默认按时第一个视频，下标0
       activeName: "1",     //tab标签默认选中
       MyMaterialDetailsData: [],  //教学视频 精品课件 课堂案例 企业问答 其它资料跳转获取的相应资料
       MyMaterialData: [],     //课程资料列表

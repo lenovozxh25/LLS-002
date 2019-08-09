@@ -60,14 +60,16 @@
               
                 <div class="session" v-if='item.id==1'>
                   <div class="videoPlay">
-                    <video
+                     <video id='my-video'
+                      muted
                       controls
                       preload="auto"
-                      width="640"
+                      width="610"
                       height="304"
+                      autoplay="autoplay"
                     >
-                      <source v-for="(item,index) in MyMaterialDetailsData" :key='index' :src="item.fileUrl"  type="video/mp4" >
-                     
+                    <source v-show="index===curId" type="application/x-mpegURL" v-for="(item,index) in MyMaterialDetailsData" :key='index' :src="item.fileUrl" >
+                       <!-- <source src="http://edusys.lenovo.com/lls-web//files/videos/1556517588673/1556517588673.m3u8"> -->
                     </video>
                   </div>
                   <div class="videoList">
@@ -99,10 +101,10 @@
                         </svg>视频播放列表
                       </h3>
                       <ul class="videoListItem" style="cursor: pointer;">
-                        <li v-for="(item,index) in MyMaterialDetailsData" :key='index'>
-                          {{item.fileName}}
+                        <li @click="tab(index)"  :class="{active : index===curId}" v-for="(item,index) in MyMaterialDetailsData" :key='index'>
+                          <a>{{item.fileName}}</a>
                         </li>
-            
+          
                       </ul>
                     </div>
                   </div>
@@ -150,29 +152,19 @@ export default {
   name: "myCourse",
   data() {
     return {
+      curId: 0, //默认按时第一个视频，下标0
       activeName: "1",     //tab标签默认选中
       MyMaterialDetailsData: [],  //教学视频 精品课件 课堂案例 企业问答 其它资料跳转获取的相应资料
       MyMaterialData: [],     //课程资料列表
       tabPosition: "left",    //tab对应方向
-      tableData: [{
-            index:1,
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            index:1,
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            index:1,
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }]
+      
     };
   },
   methods: {
+     //视频切换，仿照选项卡事件
+     tab (index) {
+        this.curId = index;
+      },
     handleClick(tab, event) {
       console.log(tab.name);
       
@@ -303,4 +295,7 @@ export default {
   padding: 16px;
   background: #fff;
 }
+.videoListItem li.active a{
+    color: red;
+  }
 </style>
