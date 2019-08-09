@@ -56,23 +56,21 @@
               v-for="(item,index) in MyMaterialData"
               :key="index"
             >
-              <!-- <p>{{item.name}}列表</p> -->
-              
                 <div class="session" v-if='item.id==1'>
                   <div class="videoPlay">
-                    <video
+                    <!-- <a   v-show="index===curId" :key='index'  v-for="(item,index) in MyMaterialDetailsData">
+                     {{ item.fileUrl}}
+                    </a> -->
+                    <video id='my-video'
+                      muted
                       controls
                       preload="auto"
-                      width="640"
+                      width="610"
                       height="304"
-                       autoplay="autoplay"
-    x-webkit-airplay="true" x5-video-player-fullscreen="true"
-     playsinline="true" webkit-playsinline
-    x5-video-player-typ="h5"
+                      autoplay="autoplay"
                     >
-                    <!-- <source v-for="(item,index) in MyMaterialDetailsData" :key='index' :src="item.fileUrl"  type="video/mp4" > -->
-                       <source type="application/x-mpegURL" src="E:/xiangmu/移动互联课程（第二次实训）/vue/vue课程/1 Vue框架简介/03-视频单元/1-1 课程简介.mp4">
-                  
+                    <source v-show="index===curId" type="application/x-mpegURL" v-for="(item,index) in MyMaterialDetailsData" :key='index' :src="item.fileUrl" >
+                       <!-- <source src="http://edusys.lenovo.com/lls-web//files/videos/1556517588673/1556517588673.m3u8"> -->
                     </video>
                   </div>
                   <div class="videoList">
@@ -104,8 +102,8 @@
                         </svg>视频播放列表
                       </h3>
                       <ul class="videoListItem" style="cursor: pointer;">
-                        <li v-for="(item,index) in MyMaterialDetailsData" :key='index'>
-                          {{item.fileName}}
+                        <li @click="tab(index)"  :class="{active : index===curId}" v-for="(item,index) in MyMaterialDetailsData" :key='index'>
+                          <a>{{item.fileName}}</a>
                         </li>
           
                       </ul>
@@ -151,10 +149,13 @@
 </template>
 
 <script>
+import videojs from 'video.js';
+import 'videojs-contrib-hls';
 export default {
   name: "myCourse",
   data() {
     return {
+      curId: 0,
       activeName: "1",     //tab标签默认选中
       MyMaterialDetailsData: [],  //教学视频 精品课件 课堂案例 企业问答 其它资料跳转获取的相应资料
       MyMaterialData: [],     //课程资料列表
@@ -163,6 +164,10 @@ export default {
     };
   },
   methods: {
+    //视频切换，仿照选项卡事件
+     tab (index) {
+        this.curId = index;
+      },
     // element自带的点击事件，可以用来获取到底点击的哪一个
     handleClick(tab, event) {
       this.getMyMaterialDetails(
@@ -207,6 +212,18 @@ export default {
       this.$route.params.itemName
     );
     this.getMyMaterial();
+  },
+  mounted(){
+    // videojs('my-video', {
+    //   bigPlayButton: false,
+    //   textTrackDisplay: false,
+    //   posterImage: true,
+    //   errorDisplay: false,
+    //   controlBar: true
+    //   }, function () {
+    //   this.play()
+    // })
+
   }
 
 };
@@ -289,4 +306,8 @@ export default {
   padding: 16px;
   background: #fff;
 }
+.videoListItem li.active a{
+   
+    color: red;
+  }
 </style>

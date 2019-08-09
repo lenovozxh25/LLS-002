@@ -8,6 +8,7 @@ import store from './store';
 import { Message } from "element-ui"
 import { MessageBox } from 'element-ui';
 import moment from 'moment'
+import 'video.js/dist/video-js.css'
 
 
 Vue.prototype.$message = Message;
