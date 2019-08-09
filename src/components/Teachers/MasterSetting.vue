@@ -106,10 +106,10 @@
         <el-table :data="customCourseList" style="width: 100%">
           <el-table-column label="序号" width="60" type="index" :index="indexMethod"></el-table-column>
           <el-table-column prop="typeId" label="文件类型" width="120"></el-table-column>
-          <el-table-column prop="fileUrl" label="文件名称" width="220">
-            <template slot-scope="scope">
+          <el-table-column prop="fileName" label="文件名称" width="220">
+            <!-- <template slot-scope="scope">
               <div>{{scope.row.fileUrl.substr(scope.row.fileUrl.lastIndexOf("\\")+1)}}</div>
-            </template>
+            </template> -->
           </el-table-column>
           <el-table-column prop="fileAuthor" label="作者" width="120"></el-table-column>
           <el-table-column prop="updateTime" label="最后更新时间" :formatter="dateFormat" width="150"></el-table-column>
@@ -145,6 +145,10 @@
     <!-- 属性下得详情 -->
     <el-dialog title="编辑属性" :visible.sync="detailVisible" width="35%" :before-close="handleCloses">
       <div>
+        <div style="margin-bottom:20px">
+          文件名称：
+          <el-input placeholder="文件名称" v-model="fileName" :value="fileName"></el-input>
+        </div>
         <div>
           作者：
           <el-input placeholder="请输入内容" v-model="fileAuthor" :value="fileAuthor"></el-input>
@@ -403,7 +407,7 @@ export default {
       formData.append("showImageFile", this.imgFile);
       this.$http
         .post(
-          `/product/customMaterial/update?id=${this.detailId}&fileAuthor=${this.fileAuthor}&shortDescribe=${this.shortDescVal}&content=${this.content}`,
+          `/product/customMaterial/update?id=${this.detailId}&fileName=${this.fileName}&fileAuthor=${this.fileAuthor}&shortDescribe=${this.shortDescVal}&content=${this.content}`,
           formData,
           config
         )
@@ -412,6 +416,10 @@ export default {
             app.$message.success("更新成功！");
             app.detailVisible = false;
             app.handleOpens(this.customCourseId); //重新加载数据列表
+            app.fileName=""
+            app.fileAuthor= ""     //作者
+            app.shortDescVal= "" //简短描述
+            app.content= ""  
           } else {
             app.$message.error("更新失败，请重试！");
           }
@@ -431,7 +439,7 @@ export default {
     },
     //下载课时资料
     downloadFile(id) {
-      window.location.href = `http://10.119.129.135:9090/v2.0/lls/product/customMaterial/downLoadFile/${id}`;
+      window.location.href = `http://10.119.167.182:9090/zuul/v2.0/lls/product/customMaterial/downLoadFile/${id}`;
     },
     //课程资源排序
     indexMethod(index) {

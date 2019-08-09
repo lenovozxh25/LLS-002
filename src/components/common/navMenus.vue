@@ -149,9 +149,13 @@ export default {
     noReadMsg() {
       var app = this;
       this.$http
-        .get("/message/sysMessageReading/noHaveReadDataCount")
+        .get("/business/sysMessageReading/noHaveReadDataCount")
         .then(res => {
-          app.count = res.data;
+          if(!isNaN(res.data)){
+            app.count = res.data;
+          }else{
+            return app.count;
+          }
         });
     },
     toMyCourseList(itemId, name) {

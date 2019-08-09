@@ -38,7 +38,7 @@
             >
               
               <el-table
-                  :data="CurrentStudentList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase()))"
+                  :data="CurrentStudentList?CurrentStudentList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase())):[]"
                   style="width: 100%">
                 <el-table-column label="姓名" prop="userName"></el-table-column>
                 <el-table-column label="电话" prop="mobile"></el-table-column>
@@ -333,7 +333,7 @@ export default {
         )
         .then(function(res) {
           app.CurrentStudentList = res.data;
-          console.log(app.CurrentStudentList);
+          // console.log(app.CurrentStudentList);
         });
     },
     //新增学生弹框确认关闭事件
@@ -387,6 +387,7 @@ export default {
               app.getCurrentClass(app.userId)
             }else{
               app.$message.error(res.data.msg)
+             
             }
           });
 	},
