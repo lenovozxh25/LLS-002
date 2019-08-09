@@ -65,9 +65,13 @@
                       preload="auto"
                       width="640"
                       height="304"
+                       autoplay="autoplay"
+    x-webkit-airplay="true" x5-video-player-fullscreen="true"
+     playsinline="true" webkit-playsinline
+    x5-video-player-typ="h5"
                     >
-                    <source v-for="(item,index) in MyMaterialDetailsData" :key='index' :src="item.fileUrl"  type="video/mp4" >
-                       
+                    <!-- <source v-for="(item,index) in MyMaterialDetailsData" :key='index' :src="item.fileUrl"  type="video/mp4" > -->
+                       <source type="application/x-mpegURL" src="E:/xiangmu/移动互联课程（第二次实训）/vue/vue课程/1 Vue框架简介/03-视频单元/1-1 课程简介.mp4">
                   
                     </video>
                   </div>
