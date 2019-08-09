@@ -1,98 +1,13 @@
 <template>
   <div id="myGrowup">
     <div class="growupTitle">
-      <!-- 学期定位 -->
-      <div class="personage">
-        <span>第一学期（本学期）</span>
-      </div>
-      <!-- 学生信息 -->
-      <div class="div1">
-        <span class="span1">
-          赵丽颖
-          <el-tag type="danger">班长</el-tag>
-        </span>
-        <span>
-          学号：
-          <span>201929292292171</span>
-        </span>
-        <span>
-          专业：
-          <span>移动互联(web前端方向)</span>
-        </span>
-        <span>
-          班级：
-          <span>16级01班</span>
-        </span>
-      </div>
-
-      <!-- 学生成绩 -->
-      <div class="div2">
-        <div class="gup_d1">
-          <span>C</span>
-          <span class="sp2">
-            综合评价
-            <i class="el-icon-edit"></i>
-          </span>
-          <div>
-            <p>排名</p>
-            <p>
-              <i>1</i>/
-              <i>15</i>
-            </p>
-          </div>
-          <i class="i01"></i>
-        </div>
-        <div class="gup_d2">
-          <div>
-            <span>21.22</span>分
-          </div>
-          <div>联想成绩专业分（5%）</div>
-          <div>
-            第
-            <span>2</span>名
-          </div>
-        </div>
-
-        <div class="gup_d2">
-          <div>
-            <span>100</span>分
-          </div>
-          <div>奖罚得分（40%）</div>
-          <div>
-            第
-            <span>1</span>名
-          </div>
-        </div>
-        <div class="gup_d2">
-          <div>
-            <span>21.22</span>分
-          </div>
-          <div>学校平时成绩得分(35%)</div>
-          <div>
-            第
-            <span>1</span>名
-          </div>
-        </div>
-        <div class="gup_d2">
-          <div>
-            <span>21.22</span>分
-          </div>
-          <div>学校综合评价（5%）</div>
-          <div>
-            第
-            <span>2</span>名
-          </div>
-        </div>
-        <div class="gup_d2">
-          <div>
-            <span>21.22</span>分
-          </div>
-          <div>考评成绩（5%）</div>
-          <div>
-            第
-            <span>2</span>名
-          </div>
-        </div>
+      <div>
+        <div>联想9要素</div>
+        <ul>
+          <li>行动3要求</li>
+          <li>品德5要求</li>
+          <li>结果1要求</li>
+        </ul>
       </div>
     </div>
     <div class="growup_main">
@@ -135,12 +50,30 @@
             <div style="padding:30px">
               <div class="block">
                 <el-timeline>
-                  <el-timeline-item v-for="item in greaterGBlist"  :key="item.id" :timestamp="item.createTime" placement="top" color="rgb(52, 164, 55)">
+                  <el-timeline-item
+                    v-for="item in greaterGBlist"
+                    :key="item.id"
+                    :timestamp="item.createTime"
+                    placement="top"
+                    color="rgb(52, 164, 55)"
+                  >
                     <el-card>
-                      <h4>奖励项目：<i>{{item.factorName}}</i></h4>
-                      <h4>加分：<i class="add_marks">+{{item.fraction}}分</i></h4>
-                      <h4>备注：<i>{{item.fractionDesc}}</i></h4>
-                      <p><em>提交人：{{item.userName}}</em><em>提交于： {{item.rewardPenaltyTime}}</em> </p>
+                      <h4>
+                        奖励项目：
+                        <i>{{item.factorName}}</i>
+                      </h4>
+                      <h4>
+                        加分：
+                        <i class="add_marks">+{{item.fraction}}分</i>
+                      </h4>
+                      <h4>
+                        备注：
+                        <i>{{item.fractionDesc}}</i>
+                      </h4>
+                      <p>
+                        <em>提交人：{{item.userName}}</em>
+                        <em>提交于： {{item.rewardPenaltyTime}}</em>
+                      </p>
                     </el-card>
                   </el-timeline-item>
                 </el-timeline>
@@ -156,14 +89,32 @@
               <span class="span6">处罚共{{lessGBlist.length}}次、共{{lessGBlist.length*2}}分；</span>
             </div>
             <div style="padding:30px">
-                <div class="block">
+              <div class="block">
                 <el-timeline>
-                  <el-timeline-item v-for="item in lessGBlist" :key="item.id" :timestamp="item.createTime" placement="top" color="rgb(198, 39, 29)">
-                    <el-card >
-                      <h4>惩罚项目：<i>{{item.factorName}}</i></h4>
-                      <h4>加分：<i class="sub_marks">{{item.fraction}}分</i></h4>
-                      <h4>备注：<i>{{item.fractionDesc}}</i></h4>
-                      <p><em>提交人：{{item.userName}}</em><em>提交于：{{item.rewardPenaltyTime}}</em> </p>
+                  <el-timeline-item
+                    v-for="item in lessGBlist"
+                    :key="item.id"
+                    :timestamp="item.createTime"
+                    placement="top"
+                    color="rgb(198, 39, 29)"
+                  >
+                    <el-card>
+                      <h4>
+                        惩罚项目：
+                        <i>{{item.factorName}}</i>
+                      </h4>
+                      <h4>
+                        加分：
+                        <i class="sub_marks">{{item.fraction}}分</i>
+                      </h4>
+                      <h4>
+                        备注：
+                        <i>{{item.fractionDesc}}</i>
+                      </h4>
+                      <p>
+                        <em>提交人：{{item.userName}}</em>
+                        <em>提交于：{{item.rewardPenaltyTime}}</em>
+                      </p>
                     </el-card>
                   </el-timeline-item>
                 </el-timeline>
@@ -181,55 +132,59 @@ export default {
   name: "myStuMajor",
   data() {
     return {
-        gbList:[],
+      gbList: [],
       tableData: [
         {
           date: "2019-05-02 16:25:00",
           name: "WEB前端基础(HTML+CSS)",
           cj: "68",
-          pm:"1"
+          pm: "1"
         },
         {
           date: "2019-05-04 16:25:00",
           name: "WEB前端基础(HTML+CSS)",
           cj: "缺考",
-          pm:"--"
+          pm: "--"
         },
         {
           date: "2019-06-01 16:25:00",
           name: "WEB前端基础(HTML+CSS)",
           cj: "缺考",
-          pm:"--"
+          pm: "--"
         }
       ]
     };
   },
   methods: {
-      //获取学生奖"G"惩"B"集合 
-      rewardsAndPunishmentList(recodeType){
-        var app=this;
-        this.$http.post(`/business/nineEssentialFactor/getExcitationListBySemesterOrRecodeType?recodeType=${recodeType}`).then(res=>{
-            console.log(res.data)
-            app.gbList=res.data;
-        })
-      }
+    //获取学生奖"G"惩"B"集合
+    rewardsAndPunishmentList(recodeType) {
+      var app = this;
+      this.$http
+        .post(
+          `/business/nineEssentialFactor/getExcitationListBySemesterOrRecodeType?recodeType=${recodeType}`
+        )
+        .then(res => {
+          console.log(res.data);
+          app.gbList = res.data;
+        });
+    }
   },
-  created(){
-      this.rewardsAndPunishmentList(1)
+  created() {
+    this.rewardsAndPunishmentList(1);
   },
-  computed:{
+  computed: {
     //过滤数据-小于0的为惩罚
-      lessGBlist:function(){
-         return this.gbList.filter(function(item){
-                return item.fraction<0 
-          })
-      },
-      //大于0的为奖励
-      greaterGBlist:function(){
-          return this.gbList.filter(function(item){
-                return item.fraction>0
-          })
-      }
+    lessGBlist: function() {
+      return this.gbList.filter(function(item) {
+        return item.fraction < 0;
+      });
+    },
+    //大于0的为奖励
+    greaterGBlist: function() {
+      return this.gbList.filter(function(item) {
+        return item.fraction > 0;
+      });
+    }
   }
 };
 </script>
@@ -266,121 +221,39 @@ ul li {
   padding-left: 50px;
   padding-top: 20px;
 }
-#myGrowup .growupTitle {
+.growupTitle {
   width: 100%;
-  height: 164px;
-  line-height: 40px;
-  background: #f9ae39;
-  position: relative;
+  height: 144px;
+  background: linear-gradient(60deg, rgba(206, 204, 108, 0.918), rgb(199, 241, 101));
 }
-#myGrowup .growupTitle .div1 {
-  line-height: 40px;
-  height: 40px;
-}
-#myGrowup .growupTitle .div1 > span {
-  display: inline-block;
-  color: #fff;
-  font-size: 14px;
-  margin-left: 20px;
-}
-#myGrowup .growupTitle .div1 > span.span1 {
-  margin-left: 388px;
-}
-#myGrowup .growupTitle .div2 {
-  width: 70%;
-  height: 90px;
-  background: #fff;
-  margin-top: 30px;
-  margin-left: 180px;
-  overflow: hidden;
-}
-#myGrowup .growupTitle .div2 > div {
-  width: 16.5%;
-  float: left;
-  height: 90px;
-}
-#myGrowup .growupTitle .div2 .gup_d1 {
-  overflow: hidden;
-  position: relative;
-}
-#myGrowup .growupTitle .div2 .gup_d1 span:first-child {
-  display: inline-block;
-  text-align: center;
-  width: 100%;
-  height: 50px;
-  font-size: 36px;
-  font-weight: 700;
-  font-family: Arial;
-  color: #f1556d;
-  line-height: 50px;
-  margin-top: 8px;
-}
-#myGrowup .growupTitle .div2 .gup_d1 span.sp2 {
-  display: inline-block;
-  text-align: center;
-  width: 100%;
-  height: 24px;
-  line-height: 24px;
-  color: #6a6a6a;
-  margin-top: 2px;
-  position: relative;
-  top: -12px;
-}
-#myGrowup .growupTitle .div2 .gup_d1 > div {
-  position: absolute;
-  left: 8px;
-  top: -1px;
-  background: #cc2c2c;
-  width: 44px;
-  height: 49px;
-}
-#myGrowup .growupTitle .div2 .gup_d1 > div > p:first-child {
-  height: 17px;
-  line-height: 20px;
-  color: #fff;
-  font-size: 12px;
-  padding-left: 4px;
-}
-#myGrowup .growupTitle .div2 .gup_d1 > div > p:last-child {
-  text-align: center;
-  color: #fff;
-  font-size: 12px;
-}
-#myGrowup .growupTitle .div2 .gup_d1 .i01 {
-  position: absolute;
-  left: 8px;
-  top: 39px;
-  width: 0;
-  height: 0;
-  border-left: 22px solid transparent;
-  border-right: 22px solid transparent;
-  border-bottom: 9px solid #fff;
-}
-#myGrowup .growupTitle .div2 .gup_d2 {
-  background: #f6f6f6;
-}
-#myGrowup .growupTitle .div2 .gup_d2 > div {
-  width: 100%;
-  height: 18px;
-  line-height: 18px;
-  color: #6a6a6a;
-  font-size: 14px;
-  text-align: center;
+.growupTitle > div {
+  width: 1100px;
+  height: 144px;
+  margin: auto;
+  background: url(../../images/back03.png) no-repeat right 0px;
+  background-size: 235px 140px;
 }
 
-#myGrowup .growupTitle .div2 .gup_d2 > div:first-child {
-  height: 22px;
-  line-height: 22px;
-  margin-top: 16px;
-  margin-bottom: 8px;
+.growupTitle div div {
+  min-width: 400px;
+  color: #fff;
+  font-size: 25px;
+  margin-left: 40px;
+  margin-bottom: 10px;
+  padding-top: 40px;
 }
-#myGrowup .growupTitle .div2 .gup_d2 > div:first-child > span {
-  color: #c74ad9;
-  font-weight: 700;
-  font-family: Arial;
-  font-size: 26px;
-  padding-right: 2px;
-  cursor: pointer;
+
+.growupTitle div ul {
+  overflow: hidden;
+  margin-left: 40px;
+  /*margin-top: 10px;*/
+}
+
+.growupTitle ul li {
+  float: left;
+  padding-right: 10px;
+  color: #fff;
+  font-size: 14px;
 }
 
 /* 学期定位 */
@@ -469,34 +342,34 @@ ul li {
   /* line-height: 30px; */
   padding: 5px 0;
 }
-.main_content ul.ul_main>li {
+.main_content ul.ul_main > li {
   float: left;
   width: 50%;
   box-sizing: border-box;
 }
-.li1{
-    border-right: 1px solid #ebeef5;
+.li1 {
+  border-right: 1px solid #ebeef5;
 }
 .ul_main .div_title i {
   font-size: 16px;
   font-weight: 700;
 }
-.block i{
-    font-weight: 100;
+.block i {
+  font-weight: 100;
 }
-.block em{
-    font-size: 12px;
-    margin-right: 20px
+.block em {
+  font-size: 12px;
+  margin-right: 20px;
 }
- .el-card__body{
-    padding: 0 20px !important;
+.el-card__body {
+  padding: 0 20px !important;
 }
-.add_marks{
-    font-weight: 900 !important;
-    color: rgb(52, 164, 55);
+.add_marks {
+  font-weight: 900 !important;
+  color: rgb(52, 164, 55);
 }
-.sub_marks{
-    font-weight: 900 !important;
-    color: rgb(198, 39, 29);
+.sub_marks {
+  font-weight: 900 !important;
+  color: rgb(198, 39, 29);
 }
 </style>
