@@ -83,7 +83,7 @@
                 <el-table-column prop="subject" label="意见" width="400"></el-table-column>
                 <el-table-column prop="typeName" label="意见类型" width="200"></el-table-column>
                 <el-table-column prop="commitTime" label="发起时间" width="200"></el-table-column>
-                <el-table-column prop="isSolution" label="状态" width="120">
+                <el-table-column prop="isHandle" label="状态" width="120" >
                   <template slot-scope="scope">
                     <span v-if="scope.row.isHandle == 'N'" style="color:red">未处理</span>
                     <span v-else style="color:black">已处理</span>
@@ -91,9 +91,16 @@
                 </el-table-column>
                 <el-table-column label="操作">
                   <template slot-scope="scope">
-                    <el-link type="primary" @click="opinionProcessing(scope.row.id)">
+                    <span v-if="scope.row.isHandle =='N'">
+                      <el-link type="primary" @click="opinionProcessing(scope.row.id)">
                       <i class="el-icon-edit-outline"></i>处理
-                    </el-link>
+                      </el-link>
+                    </span>
+                    <span v-else>
+                      <el-link type="primary" :underline="false" @click="opinionProcessing(scope.row.id)">
+                      <i class="el-icon-view"></i>查看
+                      </el-link>
+                    </span>
                   </template>
                 </el-table-column>
               </el-table>
@@ -194,10 +201,10 @@
       </h4>
       <h4>
         <span class="span1" style="float:left">反馈处理：</span>
-        <template v-if="optionsDetail.explanation">
+        <template v-if="optionsDetail.handleResult">
           <span
             style="width:89%;height:120px;border:1px solid #EBEEF5;border-radius:4px;text-indent:2em "
-          >{{optionsDetail.explanation}}</span>
+          >{{optionsDetail.handleResult}}</span>
         </template>
         <template v-else>
           <span style="width:89%">
@@ -206,8 +213,16 @@
         </template>
       </h4>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="drawer = false">取 消</el-button>
-          <el-button type="primary" @click="submitOptions(optionsDetail.id,textareaOpt)">提交</el-button>
+        <template>
+            <el-button  v-if="optionsDetail.isHandle=='Y'" @click="drawer = false">确 定</el-button>
+            <span v-else>
+              <el-button @click="drawer = false">取 消</el-button>
+               <el-button type="primary" @click="submitOptions(optionsDetail.id,textareaOpt)">提交</el-button>
+            </span>
+           
+        </template>
+        
+          
       </span>
     </el-dialog>
   </div>
@@ -294,17 +309,21 @@ export default {
     //意见处理提交
     submitOptions(id,handleResult){
         var app=this;
-         this.$http.post("/business/opinionsSuggestions/examineComments",{id,handleResult}).then(res => {
-        console.log(res);
-        if(res.data==""){
-          app.$message.success("提交反馈成功");
-          app.textareaOpt="";
-          app.drawer=false;
-          app.getOpinionsSuggestions(1,10)
-        }else{
-          app.$message.error("提交失败，请重试！")
-        }
-      });
+        if(handleResult){
+          this.$http.post("/business/opinionsSuggestions/examineComments",{id,handleResult}).then(res => {
+          console.log(res);
+          if(res.data==""){
+            app.$message.success("提交反馈成功");
+            app.textareaOpt="";
+            app.drawer=false;
+            app.getOpinionsSuggestions(1,10)
+          }else{
+            app.$message.error("提交失败，请重试！")
+          }
+        });
+      }else{
+        this.$message.info("请进行意见反馈处理后再提交！")
+      }
     },
     //分页
     current_change(currentPage) {
