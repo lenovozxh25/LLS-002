@@ -378,7 +378,7 @@ export default {
           .post("/business/organClass/saveOrUpdateAndGetId", {schoolId,majorCustomId,name,year})
           .then(function(res) {
             // console.log(res)
-            if (res.status===200&&(typeof res.data ==Number)) {    
+            if (res.status===200&&((typeof res.data )=='number')) {    
               app.newClassId = res.data;
               // console.log(app.newClassId);
               app.saveRelationship(app.userId,app.newClassId,'2019-08-08','T');
