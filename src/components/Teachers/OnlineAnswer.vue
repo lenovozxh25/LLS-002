@@ -17,30 +17,41 @@
       </p>
       <div class="ask_content">
         <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane v-for="item in tabsList" :label="item.name" :key="item.id" :name="item.id">
+          <el-tab-pane  label="已回复提问">
             <template>
-              <el-table :data="tableData" style="width: 100%">
+              <el-table :data="filtersReplied" style="width: 100%">
                 <el-table-column prop="subject" label="问题" width="540"></el-table-column>
                 <el-table-column prop="proposeTime" label="发起时间" width="220"></el-table-column>
                 <el-table-column prop="isSolution" label="状态" width="120">
                   <template slot-scope="scope">
-                    <span v-if="scope.row.explanation != null || scope.row.isSolution =='Y'" style="color:black">已解答</span>
-                    <span v-else>未解答</span>
+                    <span v-if="scope.row.explanation != ''" style="color:black">已解答</span>
                   </template>
                 </el-table-column>
                 <el-table-column label="操作">
                   <template slot-scope="scope">
-                    <span v-if="scope.row.isSolution == 'Y'">
                       <el-link type="primary" @click="getStuQuestionDetail(scope.row.id)">
                         <i class="el-icon-document"></i>详情
                       </el-link>
-                    </span>
-                    <span v-else>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </template>
+          </el-tab-pane>
+          <el-tab-pane label="未回复提问">
+            <template>
+              <el-table :data="filtersNoReply" style="width: 100%">
+                <el-table-column prop="subject" label="问题" width="540"></el-table-column>
+                <el-table-column prop="proposeTime" label="发起时间" width="220"></el-table-column>
+                <el-table-column prop="isSolution" label="状态" width="120">
+                  <template slot-scope="scope">
+                    <span v-if="!scope.row.explanation" style="color:red">未解答</span>
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
                       <el-link type="primary" @click="getStuQuestionDetail(scope.row.id)">
                         <i class="el-icon-s-comment"></i>回复
                       </el-link>
-                    </span>
-                    
                   </template>
                 </el-table-column>
               </el-table>
@@ -82,7 +93,7 @@
       </h4>
       <h4>
         <span class="span1" style="float:left">回复答案：</span>
-        <template v-if="questionDetail.isSolution == 'Y'">
+        <template v-if="questionDetail.explanation">
           <span style="width:89%;height:120px;border:1px solid #EBEEF5;border-radius:4px;text-indent:2em ">
             {{questionDetail.explanation}}
           </span>
@@ -95,7 +106,7 @@
       </h4>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <template v-if="questionDetail.isSolution == 'Y'">
+        <template v-if="questionDetail.explanation">
             <el-button type="primary" @click="dialogVisible=false" >确定</el-button>
         </template>
         <template v-else>
@@ -110,7 +121,7 @@ export default {
   name: "onlineAnswer",
   data() {
     return {
-      tabsList:[{"id":"1","name":"已回复提问"},{"id":"2","name":"未回复提问"}],
+      // tabsList:[{"id":"1","name":"已回复提问"},{"id":"2","name":"未回复提问"}],
       activeName:"1",
       textarea: "",
       tableData: [],
@@ -118,20 +129,16 @@ export default {
       questionDetail:{},
       total:0,
       currentPage:1, 
-      pageSize:10,
-      isSolution:"Y"
+      pageSize:20,
     };
   },
   methods: {
     //未回复和已回复
     handleClick(tab,event){
-      if(tab.name=="1"){
-          this.isSolution="Y"
-          this.getStuQuestionList(this.currentPage, this.pageSize, {"isSolution":"Y"})
-      }else{
-          this.isSolution="N"
-          this.getStuQuestionList(this.currentPage, this.pageSize, {"isSolution":"N"})
-      }
+      
+          this.getStuQuestionList(this.currentPage, this.pageSize)
+     
+       
     },
     //问题列表
     getStuQuestionList(page, pageSize, params) {
@@ -141,7 +148,7 @@ export default {
         .then(res => {
           console.log(res.data);
           app.tableData = res.data.data;
-          app.total=res.data.recordsTotal;
+          // app.total=res.data.recordsTotal;
         });
     },
     //问题详情
@@ -164,7 +171,7 @@ export default {
              if(res.data==""){
                 app.$message.success("提交成功！")
                 app.textarea="";
-                app.getStuQuestionList(this.currentPage, this.pageSize, {"isSolution":"Y"})
+                app.getStuQuestionList(this.currentPage, this.pageSize)
              }else{
                app.$message.error("提交失败")
              }
@@ -174,7 +181,7 @@ export default {
     current_change(currentPage) {
       //debugger
       this.currentPage = currentPage;
-      this.getStuQuestionList(this.currentPage, this.pageSize ,{"isSolution":this.isSolution});
+      this.getStuQuestionList(this.currentPage, this.pageSize);
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
@@ -185,7 +192,23 @@ export default {
     }
   },
   created() {
-    this.getStuQuestionList(1, 10,{"isSolution":"Y"});
+    this.getStuQuestionList(1, 20);
+  },
+  computed:{
+    //已解答的
+    filtersReplied(){
+      return this.tableData.filter(function(item) {
+        //debugger
+        return item.explanation ;
+      });
+    },
+    //未解答的
+    filtersNoReply(){
+     // debugger
+      return this.tableData.filter(function(item) {
+        return !item.explanation;
+      });
+    }
   }
 };
 </script>

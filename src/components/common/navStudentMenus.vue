@@ -136,7 +136,7 @@ export default {
     noReadMsg() {
       var app = this;
       this.$http
-        .get("/message/sysMessageReading/noHaveReadDataCount")
+        .get("/business/sysMessageReading/noHaveReadDataCount")
         .then(res => {
           app.count = res.data;
         });
