@@ -138,7 +138,11 @@ export default {
       this.$http
         .get("/business/sysMessageReading/noHaveReadDataCount")
         .then(res => {
-          app.count = res.data;
+          if(!isNaN(res.data)){
+            app.count = res.data;
+          }else{
+            return app.count;
+          }
         });
     },
     

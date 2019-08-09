@@ -11,13 +11,14 @@
       </div>
     </div>
     <div class="onlineAsk_main">
+      <!-- 问题库 -->
       <p class="ask top">
         <span class="redSquare"></span>
         <span>问题库</span>
       </p>
       <div class="ask_content">
         <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane  label="已回复提问">
+          <el-tab-pane label="已回复提问">
             <template>
               <el-table :data="filtersReplied" style="width: 100%">
                 <el-table-column prop="subject" label="问题" width="540"></el-table-column>
@@ -29,9 +30,9 @@
                 </el-table-column>
                 <el-table-column label="操作">
                   <template slot-scope="scope">
-                      <el-link type="primary" @click="getStuQuestionDetail(scope.row.id)">
-                        <i class="el-icon-document"></i>详情
-                      </el-link>
+                    <el-link type="primary" @click="getStuQuestionDetail(scope.row.id)">
+                      <i class="el-icon-document"></i>详情
+                    </el-link>
                   </template>
                 </el-table-column>
               </el-table>
@@ -49,29 +50,75 @@
                 </el-table-column>
                 <el-table-column label="操作">
                   <template slot-scope="scope">
-                      <el-link type="primary" @click="getStuQuestionDetail(scope.row.id)">
-                        <i class="el-icon-s-comment"></i>回复
-                      </el-link>
+                    <el-link type="primary" @click="getStuQuestionDetail(scope.row.id)">
+                      <i class="el-icon-s-comment"></i>回复
+                    </el-link>
                   </template>
                 </el-table-column>
               </el-table>
             </template>
           </el-tab-pane>
           <el-pagination
-              style="float:right"
-              background
-              layout="prev, pager, next"
-              :total="total"
-              :page-size="pageSize"
-              :current-page="1"
-              @current-change="current_change"
-            ></el-pagination>
+            style="float:right"
+            background
+            layout="prev, pager, next"
+            :total="total"
+            :page-size="pageSize"
+            :current-page="1"
+            @current-change="current_change"
+          ></el-pagination>
+        </el-tabs>
+      </div>
+      <el-divider></el-divider>
+      <!-- 意见反馈 -->
+      <p class="ask top">
+        <span class="redSquare"></span>
+        <span>意见反馈</span>
+      </p>
+      <div class="ask_content">
+        <el-tabs type="border-card">
+          <el-tab-pane label="意见处理">
+            <template>
+              <el-table :data="opinionsList" style="width: 100%">
+                <el-table-column prop="subject" label="意见" width="400"></el-table-column>
+                <el-table-column prop="typeName" label="意见类型" width="200"></el-table-column>
+                <el-table-column prop="commitTime" label="发起时间" width="200"></el-table-column>
+                <el-table-column prop="isSolution" label="状态" width="120">
+                  <template slot-scope="scope">
+                    <span v-if="scope.row.isHandle == 'N'" style="color:red">未处理</span>
+                    <span v-else style="color:black">已处理</span>
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+                    <el-link type="primary" @click="opinionProcessing(scope.row.id)">
+                      <i class="el-icon-edit-outline"></i>处理
+                    </el-link>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </template>
+          </el-tab-pane>
+          <el-pagination
+            style="float:right"
+            background
+            layout="prev, pager, next"
+            :total="totalLen"
+            :page-size="pageSize"
+            :current-page="1"
+            @current-change="current_changeOpt"
+          ></el-pagination>
         </el-tabs>
       </div>
     </div>
-
     <!-- 回复对话框 -->
-    <el-dialog class="dialog" title="回复在线提问" :visible.sync="dialogVisible" width="60%" :before-close="handleClose">
+    <el-dialog
+      class="dialog"
+      title="回复在线提问"
+      :visible.sync="dialogVisible"
+      width="60%"
+      :before-close="handleClose"
+    >
       <h4 style="background:#e7f2f4">
         <span class="span1">问题：</span>
         <span style="color:#4fc1dc">{{questionDetail.subject}}</span>
@@ -89,14 +136,16 @@
       </h4>
       <h4>
         <span class="span1">问题标签：</span>
-        <span><el-badge :value="questionDetail.typeName" class="item" style="opacity:0.5"></el-badge></span>
+        <span>
+          <el-badge :value="questionDetail.typeName" class="item" style="opacity:0.5"></el-badge>
+        </span>
       </h4>
       <h4>
         <span class="span1" style="float:left">回复答案：</span>
         <template v-if="questionDetail.explanation">
-          <span style="width:89%;height:120px;border:1px solid #EBEEF5;border-radius:4px;text-indent:2em ">
-            {{questionDetail.explanation}}
-          </span>
+          <span
+            style="width:89%;height:120px;border:1px solid #EBEEF5;border-radius:4px;text-indent:2em "
+          >{{questionDetail.explanation}}</span>
         </template>
         <template v-else>
           <span style="width:89%">
@@ -107,11 +156,58 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <template v-if="questionDetail.explanation">
-            <el-button type="primary" @click="dialogVisible=false" >确定</el-button>
+          <el-button type="primary" @click="dialogVisible=false">确定</el-button>
         </template>
         <template v-else>
           <el-button type="primary" @click="submitAnswer(questionDetail.id,textarea)">提交</el-button>
         </template>
+      </span>
+    </el-dialog>
+    <!-- 意见处理 -->
+    <el-dialog
+      class="dialog"
+      title="意见反馈处理:"
+      :visible.sync="drawer"
+      width="60%"
+      :before-close="handleClose"
+    >
+      <h4 style="background:#e7f2f4">
+        <span class="span1">意见：</span>
+        <span style="color:#4fc1dc">{{optionsDetail.subject}}</span>
+      </h4>
+      <h4 style="background:#f5f5f5">
+        <span class="span1">意见说明：</span>
+        <span>{{optionsDetail.content}}</span>
+      </h4>
+      <h4>
+        <span class="span1">反馈人：</span>
+        <span>{{optionsDetail.commitUserName}}</span>
+
+        <span class="span1" style="margin-left:100px">反馈时间：</span>
+        <span>{{optionsDetail.commitTime}}</span>
+      </h4>
+      <h4>
+        <span class="span1">意见类型：</span>
+        <span>
+          <el-badge :value="optionsDetail.typeName" class="item" style="opacity:0.5"></el-badge>
+        </span>
+      </h4>
+      <h4>
+        <span class="span1" style="float:left">反馈处理：</span>
+        <template v-if="optionsDetail.explanation">
+          <span
+            style="width:89%;height:120px;border:1px solid #EBEEF5;border-radius:4px;text-indent:2em "
+          >{{optionsDetail.explanation}}</span>
+        </template>
+        <template v-else>
+          <span style="width:89%">
+            <el-input type="textarea" :rows="6" placeholder="提交反馈" v-model="textareaOpt"></el-input>
+          </span>
+        </template>
+      </h4>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="drawer = false">取 消</el-button>
+          <el-button type="primary" @click="submitOptions(optionsDetail.id,textareaOpt)">提交</el-button>
       </span>
     </el-dialog>
   </div>
@@ -121,67 +217,105 @@ export default {
   name: "onlineAnswer",
   data() {
     return {
-      // tabsList:[{"id":"1","name":"已回复提问"},{"id":"2","name":"未回复提问"}],
-      activeName:"1",
+      activeName: "1", //
       textarea: "",
-      tableData: [],
+      tableData: [], //表格数据
       dialogVisible: false,
-      questionDetail:{},
-      total:0,
-      currentPage:1, 
-      pageSize:20,
+      questionDetail: {}, //问题详情
+      total: 0,
+      currentPage: 1,
+      pageSize: 10,
+      opinionsList: [], //意见反馈列表
+      totalLen: 0,
+      drawer: false,
+      optionsDetail:{},
+      textareaOpt:""
     };
   },
   methods: {
     //未回复和已回复
-    handleClick(tab,event){
-      
-          this.getStuQuestionList(this.currentPage, this.pageSize)
-     
-       
+    handleClick(tab, event) {
+      this.getStuQuestionList(this.currentPage, this.pageSize);
     },
     //问题列表
     getStuQuestionList(page, pageSize, params) {
       var app = this;
       this.$http
-        .post("/business/studentQuestion/page", { page, pageSize, params})
+        .post("/business/studentQuestion/page", { page, pageSize, params })
         .then(res => {
-          console.log(res.data);
           app.tableData = res.data.data;
-          // app.total=res.data.recordsTotal;
+          app.total = res.data.recordsTotal;
         });
     },
     //问题详情
-    getStuQuestionDetail(id){
-      this.dialogVisible=true
+    getStuQuestionDetail(id) {
+      this.dialogVisible = true;
       var app = this;
-      this.$http
-        .get(`/business/studentQuestion/detail/${id}`)
-        .then(res => {
-          console.log(res.data);
-          app.questionDetail=res.data
-        });
+      this.$http.get(`/business/studentQuestion/detail/${id}`).then(res => {
+        console.log(res.data);
+        app.questionDetail = res.data;
+      });
     },
     //提交答案
-    submitAnswer(id,explanation){
-        this.dialogVisible=false
-        //debugger
-        var app = this;
-        this.$http.post('/business/studentQuestion/explainQuestion',{id,explanation}).then((res)=>{
-             if(res.data==""){
-                app.$message.success("提交成功！")
-                app.textarea="";
-                app.getStuQuestionList(this.currentPage, this.pageSize)
-             }else{
-               app.$message.error("提交失败")
-             }
-           })
+    submitAnswer(id, explanation) {
+      this.dialogVisible = false;
+      //debugger
+      var app = this;
+      this.$http
+        .post("/business/studentQuestion/explainQuestion", { id, explanation })
+        .then(res => {
+          if (res.data == "") {
+            app.$message.success("提交成功！");
+            app.textarea = "";
+            app.getStuQuestionList(this.currentPage, this.pageSize);
+          } else {
+            app.$message.error("提交失败");
+          }
+        });
+    },
+    //获取意见反馈列表
+    getOpinionsSuggestions(page,pageSize,params) {
+      var app = this;
+      this.$http.post("/business/opinionsSuggestions/pageAll",{page,pageSize,params}).then(res => {
+        console.log(res.data);
+        app.opinionsList = res.data.data;
+        app.totalLen = res.data.recordsTotal;
+      });
+    },
+    //意见处理详情
+    opinionProcessing(id) {
+      this.drawer = true;
+      var app = this;
+      this.$http.get(`/business/opinionsSuggestions/detail/${id}`).then(res => {
+        console.log(res.data);
+        app.optionsDetail=res.data;
+      });
+    },
+    //意见处理提交
+    submitOptions(id,handleResult){
+        var app=this;
+         this.$http.post("/business/opinionsSuggestions/examineComments",{id,handleResult}).then(res => {
+        console.log(res);
+        if(res.data==""){
+          app.$message.success("提交反馈成功");
+          app.textareaOpt="";
+          app.drawer=false;
+          app.getOpinionsSuggestions(1,10)
+        }else{
+          app.$message.error("提交失败，请重试！")
+        }
+      });
     },
     //分页
     current_change(currentPage) {
       //debugger
       this.currentPage = currentPage;
       this.getStuQuestionList(this.currentPage, this.pageSize);
+    },
+    current_changeOpt(currentPage) {
+      //debugger
+      this.currentPage = currentPage;
+      this.getOpinionsSuggestions(this.currentPage, this.pageSize);
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
@@ -192,19 +326,20 @@ export default {
     }
   },
   created() {
-    this.getStuQuestionList(1, 20);
+    this.getStuQuestionList(1, 10);
+    this.getOpinionsSuggestions(1,10);
   },
-  computed:{
+  computed: {
     //已解答的
-    filtersReplied(){
+    filtersReplied() {
       return this.tableData.filter(function(item) {
         //debugger
-        return item.explanation ;
+        return item.explanation;
       });
     },
     //未解答的
-    filtersNoReply(){
-     // debugger
+    filtersNoReply() {
+      // debugger
       return this.tableData.filter(function(item) {
         return !item.explanation;
       });
@@ -274,6 +409,7 @@ export default {
 }
 .ask_content {
   padding: 0px 20px;
+  margin-bottom: 50px;
 }
 .ask_content > div {
   font-size: 14px;
@@ -288,14 +424,14 @@ export default {
 .text_box > div {
   height: auto !important;
 }
-.dialog span{
-  display: inline-block
+.dialog span {
+  display: inline-block;
 }
-.dialog h4{
+.dialog h4 {
   padding: 10px 0;
   margin: 5px 0;
 }
-.span1{
+.span1 {
   width: 80px;
   text-align: right;
 }
