@@ -4,9 +4,7 @@ import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
 import request from './ajax.js';
-import store from './store';
 import { Message } from "element-ui"
-import { MessageBox } from 'element-ui';
 import moment from 'moment'
 import 'video.js/dist/video-js.css'
 
@@ -48,7 +46,6 @@ router.beforeEach((to, from, next) => {
 new Vue({
   el: '#app',
   router,
-  store,
   components: { App },
   template: '<App/>'
 })
