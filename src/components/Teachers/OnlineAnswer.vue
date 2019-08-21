@@ -112,7 +112,7 @@
             layout="prev, pager, next"
             :total="totalLen"
             :page-size="pageSize"
-            :current-page="1"
+            :current-page.sync="currentPage"
             @current-change="current_changeOpt"
           ></el-pagination>
         </el-tabs>
@@ -273,8 +273,9 @@ export default {
     },
     //提交答案
     submitAnswer(id, explanation) {
-      this.dialogVisible = false;
-      //debugger
+
+      //this.dialogVisible = false;
+      debugger
       var app = this;
       this.$http
         .post("/business/studentQuestion/explainQuestion", { id, explanation })
@@ -308,6 +309,7 @@ export default {
     },
     //意见处理提交
     submitOptions(id,handleResult){
+      debugger
         var app=this;
         if(handleResult){
           this.$http.post("/business/opinionsSuggestions/examineComments",{id,handleResult}).then(res => {
@@ -316,7 +318,7 @@ export default {
             app.$message.success("提交反馈成功");
             app.textareaOpt="";
             app.drawer=false;
-            app.getOpinionsSuggestions(1,10)
+            app.getOpinionsSuggestions(app.currentPage,10)
           }else{
             app.$message.error("提交失败，请重试！")
           }
@@ -332,7 +334,7 @@ export default {
       this.getStuQuestionList(this.currentPage, this.pageSize);
     },
     current_changeOpt(currentPage) {
-      //debugger
+   //   debugger
       this.currentPage = currentPage;
       this.getOpinionsSuggestions(this.currentPage, this.pageSize);
     },

@@ -53,7 +53,7 @@
                   <el-timeline-item
                     v-for="item in greaterGBlist"
                     :key="item.id"
-                    :timestamp="item.createTime"
+                    :timestamp="$moment(item.rewardPenaltyTime).format('YYYY-MM-DD')"
                     placement="top"
                     color="rgb(52, 164, 55)"
                   >
@@ -72,7 +72,7 @@
                       </h4>
                       <p>
                         <em>提交人：{{item.userName}}</em>
-                        <em>提交于： {{item.rewardPenaltyTime}}</em>
+                        <em>提交于： {{item.createTime}}</em>
                       </p>
                     </el-card>
                   </el-timeline-item>
@@ -94,7 +94,7 @@
                   <el-timeline-item
                     v-for="item in lessGBlist"
                     :key="item.id"
-                    :timestamp="item.createTime"
+                    :timestamp="$moment(item.rewardPenaltyTime).format('YYYY-MM-DD')"
                     placement="top"
                     color="rgb(198, 39, 29)"
                   >
@@ -113,7 +113,7 @@
                       </h4>
                       <p>
                         <em>提交人：{{item.userName}}</em>
-                        <em>提交于：{{item.rewardPenaltyTime}}</em>
+                        <em>提交于：{{item.createTime}}</em>
                       </p>
                     </el-card>
                   </el-timeline-item>

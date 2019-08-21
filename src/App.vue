@@ -154,7 +154,13 @@ ul {
  #myGrowup .el-card__body{
     padding: 0 20px;
 }
-
+#myGrowup .el-timeline-item__timestamp{
+  font-size: 16px ;
+  font-weight: 700;
+}
+#myGrowup .el-timeline-item__timestamp.is-top{
+  padding-top: 2px;
+}
 
 #students .el-dialog__header{
   border: 1px solid #f2f2f2;

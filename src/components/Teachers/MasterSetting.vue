@@ -386,10 +386,12 @@ export default {
     },
     //属性详情
     editSourseDetail(id) {
+     // debugger
       this.detailId = id;
       this.detailVisible = true;
       var app = this;
       this.$http.get(`/product/customMaterial/detail/${id}`).then(res => {
+        app.fileName=res.data.fileName;
         app.fileAuthor = res.data.fileAuthor;
         app.shortDescVal = res.data.shortDescribe;
         app.content = res.data.content;
@@ -401,6 +403,7 @@ export default {
     },
     //修改属性详情
     updateDetail() {
+      
       var app = this;
       var formData = new window.FormData();
       let config = { headers: { "Content-Type": "multipart/form-data" } };
