@@ -8,6 +8,10 @@ import { Message } from "element-ui"
 import moment from 'moment'
 import 'video.js/dist/video-js.css'
 
+import VideoPlayer from 'vue-video-player'
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+Vue.use(VideoPlayer)
 
 Vue.prototype.$message = Message;
 Vue.prototype.$moment = moment;

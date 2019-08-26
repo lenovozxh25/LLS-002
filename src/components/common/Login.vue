@@ -131,7 +131,7 @@ export default {
               window.localStorage.setItem("userName", app.userName);
               app.$http
                 .get(
-                  "http://10.119.167.182:9090/v2.0/lls/permit/user/currentUserRoleFlag"
+                  "/permit/user/currentUserRoleFlag"
                 )
                 .then(res => {
                   console.log(res.data);

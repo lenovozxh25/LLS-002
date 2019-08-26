@@ -153,7 +153,7 @@ export default {
 		width: 1100px;
 		margin: auto;
 	}
-    .courseTest li{
+    #MyCourseList .courseTest li{
         background: #F5F4F9;
         color: #606060;
         height: 32px;
@@ -162,7 +162,7 @@ export default {
         text-indent: 20px;
         line-height: 32px;
     }
-    .courseTest li>a {
+    #MyCourseList .courseTest li>a {
         color: #606060;
         width: 270px;
         display: inline-block;
