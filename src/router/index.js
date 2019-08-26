@@ -39,7 +39,6 @@ import MyStudentMygrowup from '@/components/Students/Mygrowup.vue'
 import OnlineAsk from '@/components/Students/OnlineAsk.vue'
 import myStudentStartTest from '@/components/students/myStartTest.vue'
 import myStudentCheckTest from '@/components/students/MyCheckTest.vue'
-
 import Logined from '@/components/common/Login.vue'
 
 
@@ -156,7 +155,7 @@ const routes = [
 				path: 'MyStudentMajor',
 				component: MyStudentMajor,
 				name: '学生我的专业',
-				meta: { requiresAuth: true }
+				meta: { requiresAuth: true },
 			},
 			{
 				path: 'myStudentCourseList/:itemId',

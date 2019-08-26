@@ -1,5 +1,5 @@
 <template>
-    <div id='MyCourseList'>
+    <div id='MyStuCourseList'>
         <div class="courseTitle">
 			<div>
 				<div class="title1">
@@ -40,7 +40,7 @@
 
 <script>
 export default {
-	name: 'myCourseList',
+	name: 'myStuCourseList',
     data(){
         return{
 			MyMaterialData:[], //课程资料列表数据
@@ -60,7 +60,7 @@ export default {
         //获取对应课程
         getMyCourse(courseId,typeId,name,itemName){
             this.$router.push({  
-					 name:'myCourse',
+					 name:'myStudentCourse',
 					 params:{
 							 courseId:courseId,
 							 typeId:typeId?typeId:1,
@@ -153,7 +153,7 @@ export default {
 		width: 1100px;
 		margin: auto;
 	}
-    .courseTest li{
+    #MyStuCourseList .courseTest li{
         background: #F5F4F9;
         color: #606060;
         height: 32px;
@@ -162,7 +162,7 @@ export default {
         text-indent: 20px;
         line-height: 32px;
     }
-    .courseTest li>a {
+     #MyStuCourseList .courseTest li>a {
         color: #606060;
         width: 270px;
         display: inline-block;

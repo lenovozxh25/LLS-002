@@ -122,7 +122,18 @@
                   </div>
                 </div>
               </div>
-
+              <template v-else-if="item.id==2">
+                <div class="outer-container">
+                  <div class="demo-image__lazy inner-container">
+                    <el-image
+                      v-for="url in urls"
+                      :key="url.id"
+                      :src="url.fileWebUrl"
+                      scroll-container="auto"
+                    ></el-image>
+                  </div>
+                </div>
+              </template>
               <template v-else>
                 <el-table :data="MyMaterialDetailsData" style="width: 100%">
                   <el-table-column prop="index" label="序号" width="130"></el-table-column>
@@ -131,9 +142,6 @@
                   <el-table-column prop="fileWebUrl" label="文件地址"></el-table-column>
                 </el-table>
               </template>
-
-              <!-- {{MyMaterialDetailsData}} -->
-              <!-- <video :src="item.fileUrl"></video>	 -->
             </el-tab-pane>
           </el-tabs>
         </template>
@@ -143,7 +151,6 @@
 </template>
 
 <script>
-
 export default {
   name: "myCourse",
   data() {
@@ -165,7 +172,7 @@ export default {
         sources: [
           {
             type: "", //这里的种类支持很多种：基本视频格式、直播、流媒体等，具体可以参看git网址项目
-            src:"" //url地址
+            src: "" //url地址
           }
         ],
         poster: "../../static/images/vue.jpg", //你的封面地址
@@ -177,15 +184,16 @@ export default {
           remainingTimeDisplay: false,
           fullscreenToggle: true //全屏按钮
         }
-      }
+      },
+      urls: []
     };
   },
   methods: {
     //视频切换，仿照选项卡事件
-    tab(index,fileWebUrl) {
+    tab(index, fileWebUrl) {
       this.curId = index;
-      console.log(fileWebUrl)
-      this.playerOptions.sources[0].src=fileWebUrl
+      console.log(fileWebUrl);
+      this.playerOptions.sources[0].src = fileWebUrl;
     },
     // element自带的点击事件，可以用来获取到底点击的哪一个
     handleClick(tab, event) {
@@ -218,12 +226,14 @@ export default {
         )
         .then(function(res) {
           app.MyMaterialDetailsData = res.data;
-          app.activeName = typeId?typeId.toString():"1";
+          app.activeName = typeId ? typeId.toString() : "1";
           console.log(res.data);
-          if(typeId==1){
-            app.playerOptions.sources[0].src=res.data[0].fileWebUrl
+          if (typeId == 1) {
+            app.playerOptions.sources[0].src = res.data[0].fileWebUrl;
           }
-           
+          if (typeId == 2) {
+            app.urls = res.data;
+          }
         });
     }
   },
@@ -302,7 +312,7 @@ export default {
 .session .videoList {
   margin-left: 30px;
   float: left;
-      width: 300px;
+  width: 300px;
 }
 .session .videoListItem {
   box-sizing: border-box;
@@ -329,5 +339,22 @@ export default {
   width: 100%;
   height: 100%;
   display: block;
+}
+
+.outer-container {
+  width: 100%;
+  height: 785px;
+  position: relative;
+  overflow: hidden;
+ 
+}
+.inner-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: -17px;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 </style>
