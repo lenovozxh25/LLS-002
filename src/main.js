@@ -20,14 +20,13 @@ Vue.prototype.$http = request;
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {  //路由切换时触发（！）
   // debugger
-  console.log(this.$http)
   if (to.meta.requiresAuth) {
     //这里判断用户是否登录
     request.get(`/permit/isSessionEffective`).then(res => {
       if (!res.data) {
-        Vue.prototype.$alert('登录状态已失效,请重新登录！', {
+        Vue.prototype.$alert('登录状态已失效,请重新登录！', {   //Vue.prototype 调用组件alert方法
           confirmButtonText: '知道啦',
           type: 'warning',
           callback: () => {
