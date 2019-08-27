@@ -60,17 +60,12 @@
               
                 <div class="session" v-if='item.id==1'>
                   <div class="videoPlay">
-                     <video id='my-video'
-                      muted
-                      controls
-                      preload="auto"
-                      width="610"
-                      height="304"
-                      autoplay="autoplay"
-                    >
-                    <source v-show="index===curId" type="application/x-mpegURL" v-for="(item,index) in MyMaterialDetailsData" :key='index' :src="item.fileUrl" >
-                       <!-- <source src="http://edusys.lenovo.com/lls-web//files/videos/1556517588673/1556517588673.m3u8"> -->
-                    </video>
+                     <video-player
+                    class="video-player vjs-custom-skin"
+                    ref="videoPlayer"
+                    :playsinline="true"
+                    :options="playerOptions"
+                  ></video-player>
                   </div>
                   <div class="videoList">
                     <div>
@@ -101,15 +96,25 @@
                         </svg>视频播放列表
                       </h3>
                       <ul class="videoListItem" style="cursor: pointer;">
-                        <li @click="tab(index)"  :class="{active : index===curId}" v-for="(item,index) in MyMaterialDetailsData" :key='index'>
+                        <li @click="tab(index,item.fileWebUrl)"  :class="{active : index===curId}" v-for="(item,index) in MyMaterialDetailsData" :key='index'>
                           <a>{{item.fileName}}</a>
                         </li>
-          
                       </ul>
                     </div>
                   </div>
                 </div>
-        
+                <template v-else-if="item.id==2">
+                <div class="outer-container">
+                  <div class="demo-image__lazy inner-container">
+                    <el-image
+                      v-for="url in urls"
+                      :key="url.id"
+                      :src="url.fileWebUrl"
+                      scroll-container="auto"
+                    ></el-image>
+                  </div>
+                </div>
+              </template>
                 <template v-else>
                   <el-table
                     :data="MyMaterialDetailsData"
@@ -130,14 +135,16 @@
                       width="180">
                     </el-table-column>
                     <el-table-column
-                      prop="fileUrl"
-                      label="文件地址">
+                      label="操作">
+                        <template slot-scope="scope">
+                          <div>
+                            <el-link type="primary" @click="downloadFile(scope.row.id)">下载资源</el-link>
+                          </div>
+                        </template>
                     </el-table-column>
                   </el-table>
                 </template>
               
-              
-              {{MyMaterialDetailsData}}
               <!-- <video :src="item.fileUrl"></video>	 -->
             </el-tab-pane>
           </el-tabs>
@@ -157,13 +164,39 @@ export default {
       MyMaterialDetailsData: [],  //教学视频 精品课件 课堂案例 企业问答 其它资料跳转获取的相应资料
       MyMaterialData: [],     //课程资料列表
       tabPosition: "left",    //tab对应方向
-      
+      playerOptions: {
+        playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
+        autoplay: false, //如果true,浏览器准备好时开始回放。
+        muted: false, // 默认情况下将会消除任何音频。
+        loop: false, // 导致视频一结束就重新开始。
+        preload: "auto", // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+        language: "zh-CN",
+        aspectRatio: "16:9", // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+        fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+        sources: [
+          {
+            type: "", //这里的种类支持很多种：基本视频格式、直播、流媒体等，具体可以参看git网址项目
+            src: "" //url地址
+          }
+        ],
+        poster: "../../static/images/vue.jpg", //你的封面地址
+        // width: document.documentElement.clientWidth, //播放器宽度
+        notSupportedMessage: "此视频暂无法播放，请稍后再试", //允许覆盖Video.js无法播放媒体源时显示的默认信息。
+        controlBar: {
+          timeDivider: true,
+          durationDisplay: true,
+          remainingTimeDisplay: false,
+          fullscreenToggle: true //全屏按钮
+        }
+      },
+      urls:[]
     };
   },
   methods: {
      //视频切换，仿照选项卡事件
-     tab (index) {
+     tab (index,fileWebUrl) {
         this.curId = index;
+        this.playerOptions.sources[0].src = fileWebUrl;
       },
     handleClick(tab, event) {
       console.log(tab.name);
@@ -200,10 +233,19 @@ export default {
         )
         .then(function(res) {
           app.MyMaterialDetailsData = res.data;
-          app.activeName = typeId.toString();
-          // console.log(res.data);
+          app.activeName = typeId?typeId.toString():"1";
+          if (typeId == 1) {
+            app.playerOptions.sources[0].src = res.data[0].fileWebUrl;
+          }
+          if (typeId == 2) {
+            app.urls = res.data;
+          }
         });
-    }
+    },
+    //下载资源
+    downloadFile(id) {
+      window.location.href = `http://10.119.129.135:9090/zuul/v2.0/lls/product/customMaterial/downLoadFile/${id}`;
+    },
   },
   created() {
     // console.log(this.$route.params.itemName);
@@ -272,12 +314,15 @@ export default {
   overflow: hidden;
 }
 .session .videoPlay {
+  width: 600px;
   height: 360px;
   float: left;
+  margin-top: 30px;
 }
 .session .videoList {
-  margin-left: 20px;
+  margin-left: 30px;
   float: left;
+  width: 300px;
 }
 .session .videoListItem {
   box-sizing: border-box;
@@ -294,8 +339,30 @@ export default {
 .session .videoListItem li {
   padding: 16px;
   background: #fff;
+  border-bottom: 1px solid #e9e9e9;
 }
 .videoListItem li.active a{
     color: red;
   }
+  .video-js .vjs-icon-placeholder {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.outer-container {
+  width: 100%;
+  height: 785px;
+  position: relative;
+  overflow: hidden;
+ 
+}
+.inner-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: -17px;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
 </style>
