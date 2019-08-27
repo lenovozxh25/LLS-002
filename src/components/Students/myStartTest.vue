@@ -165,7 +165,7 @@ export default {
         this.$http.post(`/business/examResult/submit`,this.postData).then(function(res){
           // console.log(res);
           alert("试卷提交成功");
-          app.$router.push("/student/Mytest");
+        //   app.$router.push("/student/Mytest");
         })
       },
       // 单选框发生改变时

@@ -31,15 +31,15 @@
                         <el-button style="width:15%;" type="info">{{item.startTime}}</el-button>
                         <el-button style="width:9%;" type="info">{{item.duration}}</el-button>
                         <el-button style="width:15%;" type="info" >{{item.endTime}}</el-button>
-                        <el-button :data-testId="item.id" v-if="item.isTimeOut"  style="width:16%;" type="warning" >
+                        <el-button :data-testId="item.id" v-if="item.isTimeOut"  style="width:16%;" type="warning">
                             <el-tag v-if="item.isStart">考试还未开始</el-tag>
-                            <el-tag  type="warning" v-else v-on:click="startTest(item.id)">考试已经开始啦</el-tag>
+                            <el-tag v-else-if="item.isMissExam" type="danger">缺考</el-tag>                                                       
+                            <el-tag v-else v-on:click="startTest(item.id)">考试已经开始啦</el-tag>
                         </el-button>
                         <el-button :data-testId="item.id" v-else style="width:16%;" type="primary" v-on:click="checkTest(item.examResultList[0].id,item.examResultList[0].score,item.endTime)">
                             <!-- 将试卷id与试卷名称传过去 -->
                             查看试卷
-                        </el-button>
-                        
+                        </el-button>                       
                     </el-row>
                      <!-- 分页效果 -->
                         <el-pagination :current-page="page" style="margin-top:30px;" :page-size="pageSize" background layout="prev, pager, next" :total="nums" @current-change="pageClick" @prev-click="prevClick" @next-click="nextClick"></el-pagination>
@@ -101,8 +101,20 @@
                        
                         // app.testData[i].examResultList === null 没有答案  说明没有开始考试
                         // 否则说明已经提交试卷了 有答案了 
-                        if(app.testData[i].examResultList.length === 0){
+                        // isMissExam===true 属性代表缺考
+                        if(app.testData[i].examResultList === null || app.testData[i].examResultList.length === 0){
                             app.testData[i].isTimeOut = true;   //答案为空 说明考试没有开始
+                            var endTime = app.testData[i].endTime;
+                            endTime = endTime.substring(0,19);    
+                            endTime = endTime.replace(/-/g,'/'); 
+                            var endTime = new Date(endTime).getTime();
+                            if(Number(app.nDate) > endTime){
+                              app.testData[i].isMissExam =true;    //如果当前时间超过考试结束时间说明缺考
+                            }else{
+                              app.testData[i].isMissExam = false;
+                            }
+                            
+
                         }else{
                             app.testData[i].isTimeOut = false;   //答案不为空  说明学生已经提交了试卷
                         }
