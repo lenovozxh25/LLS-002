@@ -72,10 +72,12 @@ export default {
           return;
         }
       }
+     question=question.replace(/<[^>]+>|&[^>]+;/g, "")
       typeName = arr.join(",");
       var app = this;
       if (!question || !subject) {
-        this.$message.error("请填写你的疑问？");
+        debugger
+        this.$message.error("请完整填写你的疑问？");
       } else {
         this.$http
           .post("/business/studentQuestion/submitQuestion", {
@@ -98,6 +100,7 @@ export default {
   },
   mounted() {
     //富文本编辑器设置
+    debugger
     this.editor = new E(this.$refs.editor);
     this.editor.customConfig.onchange = html => {
       this.editorContent = html;

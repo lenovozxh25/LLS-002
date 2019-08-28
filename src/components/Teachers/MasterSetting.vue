@@ -103,7 +103,7 @@
       style="margin:0"
     >
       <template>
-        <el-table :data="customCourseList" style="width: 100%">
+        <el-table :data="customCourseList" style="width: 100%" height="350">
           <el-table-column label="序号" width="60" type="index" :index="indexMethod"></el-table-column>
           <el-table-column prop="typeId" label="文件类型" width="120"></el-table-column>
           <el-table-column prop="fileName" label="文件名称" width="220">
