@@ -192,10 +192,8 @@ export default {
                 }
                 // console.log(app.arr);
                 app.getTimeExam();
-        });
-        
-        // timer =  setInterval(this.getTimeExam,1000);
-        
+        });     
+        // timer =  setInterval(this.getTimeExam,1000);     
 }
 };
 </script>
