@@ -100,7 +100,6 @@ export default {
   },
   mounted() {
     //富文本编辑器设置
-    debugger
     this.editor = new E(this.$refs.editor);
     this.editor.customConfig.onchange = html => {
       this.editorContent = html;
